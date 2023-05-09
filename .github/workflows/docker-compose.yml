@@ -16,9 +16,9 @@ jobs:
           username: ${{ secrets.DOCKER_USER_DEV }}
           password: ${{ secrets.DOCKER_PASSWORD_DEV }}
       - name: Build Docker image
-        run: docker build -t romanproger/pet-project:latest .
+        run: docker build -t ${{secrets.DOCKER_REPO_DEV}} .
       - name: Push Docker image
-        run: docker push romanproger/pet-project:latest
+        run: docker push ${{secrets.DOCKER_REPO_DEV}}
 
   deploy:
     runs-on: ubuntu-latest
