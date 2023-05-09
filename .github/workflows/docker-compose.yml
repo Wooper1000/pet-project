@@ -10,8 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: docker login
-        run: echo ${{ secrets.DOCKER_PASSWORD_DEV }} | docker login -u ${{ secrets.DOCKER_USER_DEV }} --password-stdin docker.io
+      - name: Log in to Docker Hub
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          username: ${{ secrets.DOCKER_USER_DEV }}
+          password: ${{ secrets.DOCKER_PASSWORD_DEV }}
         
       - name: docker build
         run: |
