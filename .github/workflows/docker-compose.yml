@@ -11,8 +11,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: docker login
-        run: docker login --username RomanProger --password Wopper-10 docker.io
-
+        run: echo ${{ secrets.DOCKER_PASSWORD_DEV }} | docker login -u ${{ secrets.DOCKER_USER_DEV }} --password-stdin
+        
       - name: docker build
         run: |
           ls
