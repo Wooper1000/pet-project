@@ -211,7 +211,7 @@ export default {
       if(this.$refs.password2.modelValue)this.$refs.password2.validate()
     },
     async registerUser() {
-      let promise = await api.registerUser({
+        await api.registerUser({
         fullname:this.lastName + ' ' + this.firstName,
         birthday:this.birthday,
         gender:this.gender.selected === 'Мужской' ? 'MALE' : 'FEMALE',
