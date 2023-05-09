@@ -9,4 +9,4 @@ export default function(phoneNumber) {
         phoneNumber = '+7' + phoneNumber;
     }
     return phoneNumber;
-}
+} 

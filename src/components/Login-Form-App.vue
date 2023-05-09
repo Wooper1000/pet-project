@@ -72,7 +72,7 @@
 <script>
 import * as validators from '../utils/validators'
 import isFormValid from "@/utils/isFormValid";
-// import api from "@/api";
+import api from "@/api";
 export default {
   data() {
     return {
@@ -94,8 +94,8 @@ export default {
     async login() {
       if (await isFormValid(this.$refs.form)) {
         // все поля формы валидны, выполняем вход
-        // let promise = await api.loginUser({email:this.email,password:this.password})
-        // console.log(promise)
+        let promise = await api.loginUser({email:this.email,password:this.password})
+        console.log(promise)
         this.$router.push('/profile');
       }
     }

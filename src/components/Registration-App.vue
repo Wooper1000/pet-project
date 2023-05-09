@@ -212,14 +212,14 @@ export default {
     },
     async registerUser() {
       let promise = await api.registerUser({
-        firstname:this.firstName,
+        fullname:this.lastName + ' ' + this.firstName,
         birthday:this.birthday,
         gender:this.gender.selected === 'Мужской' ? 'MALE' : 'FEMALE',
         email:this.email,
         phone:this.phone,
         password:this.password1
       })
-      console.log(promise.data)
+
       this.$router.push('/login');
     },
     onPhoneInput() {
