@@ -94,7 +94,7 @@ export default {
     async login() {
       if (await isFormValid(this.$refs.form)) {
         // все поля формы валидны, выполняем вход
-        let promise = await api.loginUser({email:this.email,password:this.password})
+       await api.loginUser({email:this.email,password:this.password})
         this.$router.push('/profile');
       }
     }
