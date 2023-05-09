@@ -1,14 +1,16 @@
-export const emailRules = [
+export const email = [
     v => !!v || 'E-mail необходим.',
     v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Неверный формат.'
 ];
-
-export const phoneRules = [
+export const text =[
+    v=> !!v  && v.length > 1 || 'Поле не должно быть пустым',
+]
+export const phone = [
     v => !!v || 'Телефон необходим.',
     v => /^(\+7|8)[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/.test(v) || 'Неверный формат телефона.'
 ];
 
-export const passwordRules = [
+export const password = [
     v => !!v || 'Введите пароль',
     v => /[a-z]/.test(v) || 'Нужна маленькая буква',
     v => /[A-Z]/.test(v) || 'Нужна заглавная буква',
@@ -16,14 +18,14 @@ export const passwordRules = [
     v => v.length >= 8 || 'Не короче  символов',
 ];
 
-export const firstNameRules = [
+export const firstName = [
     v => !!v || 'Введите имя',
     v => (v && v.length <= 30) || 'Слишком длинное имя',
     v => (v && v.length >= 2) || 'Слишком короткое имя',
     v => (/^\D+$/i.test(v)) || 'Имя не может содержать цифры',
 ];
 
-export const confirmCodeRules = [
+export const confirmCode = [
     v => !!v || 'Введите код',
     v => {
         if (!v ) return true;
@@ -32,14 +34,14 @@ export const confirmCodeRules = [
     }
 ];
 
-export const lastNameRules = [
+export const lastName = [
     v => !!v || 'Введите фамилию',
     v => (v && v.length <= 30) || 'Слишком длинная фамилия',
     v => (v && v.length >= 2) || 'Слишком короткая фамилия',
     v => (/^\D+$/i.test(v)) || 'Фамилия не может содержать цифры',
 ];
 
-export const birthdayRules = [
+export const birthday = [
     v => !!v || 'Введите дату рождения',
 
     v => {
@@ -56,18 +58,11 @@ export const birthdayRules = [
     }
 ];
 
-export const genderSelectedRules = [
+export const genderSelected = [
     v => !!v || 'Выберите пол',
     v => v==='Мужской' || 'Вы должны быть мужчиной'
 ];
-export const agreementCheckRules = [
+export const agreementCheck = [
     v => v!=='checked' || 'Вы должны согласиться с правилами'
 ];
-export const watcher = {
-    'form.items': {
-        handler() {
-            this.isFormDisabled=this.form.items.some(item => !item.isValid)
-        },
-        deep: true
-    },
-}
+

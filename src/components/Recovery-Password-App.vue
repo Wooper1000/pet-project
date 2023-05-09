@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-container class="container">
+  <v-app class="px-2">
+    <v-container class="container" >
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
@@ -21,9 +21,9 @@
               clear-icon="mdi-close"
               variant="solo"
               rounded
-              validate-on="input"
+              validate-on="submit"
               v-model.lazy="email"
-              :rules="rules.emailRules"
+              :rules="rules.email"
               label="E-mail"
               required
               type="email"
@@ -38,7 +38,6 @@
             variant="elevated"
             color="primary"
             @click="getCode"
-            :disabled="isFormDisabled"
         >
           Получить код
         </v-btn>
@@ -48,30 +47,28 @@
 </template>
 
 <script>
-import * as validators from './validators'
+import * as validators from '../utils/validators'
+import isFormValid from "@/utils/isFormValid";
 export default {
   data() {
     return {
       email: '',
-      form: null,
       rules:{...validators},
-      isFormDisabled:true
     }
-  },mounted() {
-    this.form = this.$refs.form;
   },
   methods: {
-    getCode() {
-      this.$router.push('/recovery/enter-code');
+   async getCode() {
+      if(await isFormValid(this.$refs.form)){
+        localStorage.setItem('email',this.email)
+        this.$router.push('/recovery/enter-code');
+
+      }
     },
   },
-  watch:validators.watcher
 
 };
 </script>
 
 <style>
-.container {
-  max-width: 90%;
-}
+
 </style>

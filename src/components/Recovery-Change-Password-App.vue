@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-container class="container">
+  <v-app class="px-2">
+    <v-container class="container" >
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
@@ -12,10 +12,10 @@
           <span class="text-subtitle-1">Введите новый пароль</span>
         </div>
       </v-row>
-
       <v-form @submit.prevent="changePassword" ref="form">
         <v-row class="d-flex justify-start">
           <v-text-field
+              autofocus
               persistent-hint
               hint="от 8 символов, только латинские буквы и цифры"
               rounded
@@ -28,7 +28,8 @@
               :type="showPassword1 ? 'text' : 'password'"
               @click:appendInner="showPassword1 = !showPassword1"
               validate-on="input"
-              :rules="rules.passwordRules"
+              :rules="rules.password"
+              @keydown.enter="changePassword"
           ></v-text-field>
         </v-row>
         <v-row class="d-flex justify-start">
@@ -43,11 +44,10 @@
               @click:appendInner="showPassword2 = !showPassword2"
               validate-on="input"
               :rules="[v=>v===password1 || 'Пароли не совпадают']"
+              @keydown.enter="changePassword"
               ref="password2"
           ></v-text-field>
         </v-row>
-
-
         <v-btn
             class="my-3 font-weight-bold"
             block
@@ -56,21 +56,18 @@
             variant="elevated"
             color="primary"
             @click="changePassword"
-            :disabled="isFormDisabled"
         >
           Изменить пароль
         </v-btn>
       </v-form>
-
-
-
     </v-container>
   </v-app>
 
 </template>
 
 <script>
-import * as validators from './validators'
+import * as validators from '../utils/validators'
+import isFormValid from "@/utils/isFormValid";
 export default {
   data() {
     return {
@@ -79,33 +76,20 @@ export default {
     rules:{...validators},
       showPassword1: false,
       showPassword2: false,
-      form: null,
-      isFormDisabled:true
     };
   },
   methods: {
-    changePassword() {
-      this.$router.push('/login');
+    async changePassword() {
+      if(await isFormValid(this.$refs.form)){
+        localStorage.setItem('password', this.password1);
+        this.$router.push('/login');
+      }
     },
     onPassword1Change() {
       if(this.$refs.password2.modelValue)this.$refs.password2.validate()
     },
   },
-  mounted() {
-    this.form = this.$refs.form;
-  },
-  watch: validators.watcher,
-
 };
 </script>
 <style>
-.container {
-  max-width: 90%;
-}
-
-@media (min-width: 700px) {
-  .container {
-    max-width: 700px;
-  }
-}
 </style>

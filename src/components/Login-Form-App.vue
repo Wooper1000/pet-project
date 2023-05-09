@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-container class="container">
+  <v-app class="px-2">
+    <v-container class="container" >
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
@@ -13,7 +13,7 @@
         </div>
       </v-row>
 
-      <v-form @submit.prevent="login" ref="form">
+      <v-form ref="form">
         <v-row class="d-flex justify-start mb-1">
           <v-text-field
               autofocus
@@ -23,7 +23,7 @@
               rounded
               validate-on="blur"
               v-model="email"
-              :rules="rules.emailRules"
+              :rules="rules.email"
               label="E-mail"
               required
               type="email"
@@ -40,15 +40,15 @@
               :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
               :type="showPassword ? 'text' : 'password'"
               @click:appendInner="showPassword = !showPassword"
-              validate-on="input"
-              :rules="rules.passwordRules"
+              validate-on="blur"
+              :rules="[v=>v.length>=6 || 'Короткий пароль']"
               @keydown.enter="login"
           ></v-text-field>
         </v-row>
+      </v-form>
         <div class="mb-4 text-end">
           <a href="/recovery">Забыли пароль?</a>
         </div>
-
         <v-btn
             class="my-3 font-weight-bold"
             block
@@ -57,12 +57,9 @@
             variant="elevated"
             color="primary"
             @click="login"
-            :disabled="isFormDisabled"
         >
           Войти
         </v-btn>
-      </v-form>
-
       <div class="mt-4 text-center">
         <span class="subtitle-1">У вас нет профиля? </span>
         <a href="/registration">Зарегистрироваться</a>
@@ -73,7 +70,8 @@
 </template>
 
 <script>
-import * as validators from './validators'
+import * as validators from '../utils/validators'
+import isFormValid from "@/utils/isFormValid";
 // import api from "@/api";
 export default {
   data() {
@@ -82,21 +80,26 @@ export default {
       password: '',
       showPassword: false,
       rules:{...validators},
-      isFormDisabled:true,
-      form:null
     };
   },
   mounted() {
-    this.form = this.$refs.form;
+    const email = localStorage.getItem('email');
+    const password = localStorage.getItem('password');
+    if (email && password) {
+      this.email = email;
+      this.password = password;
+    }
   },
   methods: {
     async login() {
-// let promise = await api.loginUser({email:this.email,password:this.password})
-//       console.log(promise)
-      this.$router.push('/profile')
-    },
+      if (await isFormValid(this.$refs.form)) {
+        // все поля формы валидны, выполняем вход
+        // let promise = await api.loginUser({email:this.email,password:this.password})
+        // console.log(promise)
+        this.$router.push('/profile');
+      }
+    }
   },
-  watch: validators.watcher,
 };
 </script>
 <style>

@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <v-container class="container">
+  <v-app class="px-2">
+    <v-container class="container" >
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
@@ -29,7 +29,7 @@
               type="text"
               maxlength="4"
               @keydown.enter="recover"
-              :rules="confirmCodeRules"
+              :rules="rules.confirmCode"
           ></v-text-field>
         </v-row>
         <v-btn
@@ -40,52 +40,42 @@
             variant="elevated"
             color="primary"
             @click="recover"
-            :disabled="isFormDisabled"
         >
           Готово
         </v-btn>
       </v-form>
       <div class="mt-4 text-center">
         <span class="subtitle-1">Не пришёл код? </span>
-        <a href="#" @click="retrySendCode">Отправить повторно</a>
+        <span class="text-decoration-underline text-blue" @click="retrySendCode">Отправить повторно</span>
       </div>
     </v-container>
   </v-app>
 </template>
 
 <script>
-import {confirmCodeRules,watcher} from './validators'
+import * as rules from '../utils/validators'
+import isFormValid from "@/utils/isFormValid";
 export default {
   data() {
     return {
       code: '',
-      confirmCodeRules,
-      isFormDisabled:true,
-      form: null,
+      rules:{...rules},
     };
   },
-mounted() {
-    this.form = this.$refs.form;
-  },
+
   methods: {
-    recover() {
+    async recover() {
+      if(await isFormValid(this.$refs.form)){
       this.$router.push('/recovery/change-password');
+        }
     },
     retrySendCode(){
       //Логика эмита события повторения отправки кода
     }
 
   },
-  computed:{
-    codeError() {
-     return this.$refs.form?.items.some(item=>!item.isValid)
-    }
-  },
-  watch: watcher,
+
 };
 </script>
 <style>
-.container {
-  max-width: 90%;
-}
 </style>

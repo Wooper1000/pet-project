@@ -1,8 +1,6 @@
 <template>
-
-  <v-app>
-    <v-container class="container">
-
+  <v-app class="px-2">
+    <v-container class="container" >
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
@@ -27,7 +25,7 @@
               validate-on="input"
               label="Имя"
               required
-              :rules="rules.firstNameRules"
+              :rules="rules.firstName"
               type="text"
           ></v-text-field>
         </v-row>
@@ -40,7 +38,7 @@
               rounded
               validate-on="blur"
               v-model.lazy="lastName"
-              :rules="rules.lastNameRules"
+              :rules="rules.lastName"
               label="Фамилия"
               required
               type="text"
@@ -64,7 +62,7 @@
                 variant="solo"
                 v-model="gender.selected"
                 :items="gender.genders"
-                :rules="rules.genderSelectedRules"
+                :rules="rules.genderSelected"
                 validate-on="input"
                 required
             ></v-combobox>
@@ -82,7 +80,7 @@
               v-model="phone"
               persistent-hint
               hint="Номер с кодом города, например +7 999 432 32 32"
-              :rules="rules.phoneRules"
+              :rules="rules.phone"
               @input="onPhoneInput"
           ></v-text-field>
         </v-row>
@@ -96,7 +94,7 @@
               variant="solo"
               rounded
               validate-on="blur"
-              :rules="rules.emailRules"
+              :rules="rules.email"
               v-model.lazy="email"
               label="E-mail"
               required
@@ -117,7 +115,7 @@
               :type="showPassword1 ? 'text' : 'password'"
               @click:appendInner="showPassword1 = !showPassword1"
               validate-on="input"
-              :rules="rules.passwordRules"
+              :rules="rules.password"
           ></v-text-field>
         </v-row>
         <v-row class="d-flex justify-start">
@@ -143,7 +141,7 @@
         ></v-checkbox>
         <v-checkbox v-model="isAgreementChecked"
                     required
-                    :rules="rules.agreementCheckRules"
+                    :rules="rules.agreementCheck"
         >
           <template v-slot:label>
             <div>
@@ -165,7 +163,6 @@
             variant="elevated"
             color="primary"
             @click="registerUser"
-            :disabled="isFormDisabled"
         >
           Зарегистрироваться
         </v-btn>
@@ -182,8 +179,9 @@
 </template>
 
 <script>
-import * as validators from './validators';
+import * as validators from '../utils/validators';
 import api from '../api'
+import phoneEditor from "@/utils/phoneEditor";
 export default {
   data() {
     return {
@@ -204,14 +202,9 @@ export default {
         ...validators,
       },
       isAgreementChecked:false,
-      form: null,
-      isFormDisabled: true,
     };
   },
 
-  mounted() {
-    this.form = this.$refs.form;
-  },
 
   methods: {
     onPassword1Change() {
@@ -230,19 +223,10 @@ export default {
       this.$router.push('/login');
     },
     onPhoneInput() {
-      if (this.phone.startsWith('8')) {
-        this.phone = '+7' + this.phone.slice(1);
-      }
-      if (this.phone.startsWith('7')) {
-        this.phone = '+' + this.phone;
-      }
-      if (this.phone.startsWith('9')) {
-        this.phone = '+7' + this.phone;
-      }
-    },
+      this.phone = phoneEditor(this.phone);
+    }
   },
 
-  watch: validators.watcher,
 
   computed: {
     is18YearsOld() {
@@ -260,7 +244,5 @@ export default {
 }
 </script>
 <style>
-.container {
-  max-width: 90%;
-}
+
 </style>
