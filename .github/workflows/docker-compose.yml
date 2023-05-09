@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: docker login
-        run: docker login --password-stdin docker.io
+        run: docker login --password-stdin --username RomanProger --password "Wopper-10" docker.io
 
       - name: docker build
         run: |
