@@ -1,0 +1,41 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: docker login
+        run: docker login -u ${{secrets.DOCKER_USER_DEV}} -p ${{secrets.DOCKER_PASSWORD_DEV}} docker.io
+
+      - name: docker build
+        run: |
+          ls
+          docker build --buil -t ${{secrets.DOCKER_REPO_DEV}}:latest .
+
+      - name: docker push
+        run: docker push ${{secrets.DOCKER_REPO_DEV}}:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    needs: [build]
+
+    steps:
+      - name: deploying
+        run: |
+          which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
+          mkdir -p ~/.ssh
+          echo "${{secrets.SSH_PRIVATE_KEY}}" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 700 ~/.ssh/id_rsa
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan -t rsa ${{ secrets.SERVER }} > ~/.ssh/known_hosts
+          echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+          chmod 644 ~/.ssh/known_hosts
+          ssh ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER}} "docker login -u ${{secrets.DOCKER_USER_DEV}} -p ${{secrets.DOCKER_PASSWORD_DEV}} docker.io; docker stop ${{secrets.DEV_APP_NAME}}; docker system prune -a -f; docker pull ${{secrets.DOCKER_REPO_DEV}}:latest; docker-compose -f ~/apps/reports/docker-compose.yml up -d; docker logout"
