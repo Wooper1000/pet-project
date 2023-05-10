@@ -11,13 +11,11 @@ COPY package*.json ./
 
 # install project dependencies
 RUN npm install
-RUN npm install http-server
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
 # build app for production with minification
-RUN npm run build
 
 EXPOSE 5000
-CMD [ "http-server","./dist"]
+CMD [ "npm" , "run" , "serve"]
