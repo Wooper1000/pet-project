@@ -20,7 +20,7 @@ RUN npm run build
 FROM nginx
 
 # copy production build from previous stage
-COPY nginx_config/default.conf /etc/nginx/conf.d/default.conf
+COPY nginx-config/default.conf /etc/nginx/conf.d/default.conf
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 # expose port 80
