@@ -1,6 +1,6 @@
 <template>
   <v-app class="px-2">
-    <v-container class="container" >
+    <v-container class="container">
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
@@ -142,16 +142,17 @@
         <v-checkbox v-model="isAgreementChecked"
                     required
                     :rules="rules.agreementCheck"
+                    validate-on="submit"
         >
           <template v-slot:label>
             <div>
               Я согласен
-                  <a
-                      target="_blank"
-                      href="https://m.obit.ru/upload/iblock/ea8/Pravila%20po%20okazanii%20uslug%20svyazi%20po%20peredachi%20dannih.pdf"
-                  >
-                    с условиями обработки персональных данных
-                  </a>
+              <a
+                  target="_blank"
+                  href="https://m.obit.ru/upload/iblock/ea8/Pravila%20po%20okazanii%20uslug%20svyazi%20po%20peredachi%20dannih.pdf"
+              >
+                с условиями обработки персональных данных
+              </a>
             </div>
           </template>
         </v-checkbox>
@@ -175,13 +176,24 @@
 
     </v-container>
   </v-app>
-
+  <v-snackbar
+      ref="snackbar"
+      v-model="snackbar.visible"
+      :color="snackbar.color"
+      top
+      timeout="5000"
+      @click:close="closeSnackbar"
+  >
+    {{ snackbar.text }}
+  </v-snackbar>
 </template>
 
 <script>
 import * as validators from '../utils/validators';
 import api from '../api'
 import phoneEditor from "@/utils/phoneEditor";
+import isFormValid from "@/utils/isFormValid";
+
 export default {
   data() {
     return {
@@ -201,26 +213,45 @@ export default {
       rules: {
         ...validators,
       },
-      isAgreementChecked:false,
+      isAgreementChecked: false,
     };
   },
 
 
   methods: {
+    closeSnackbar() {
+      this.$store.commit('hideSnackbar');
+    },
     onPassword1Change() {
-      if(this.$refs.password2.modelValue)this.$refs.password2.validate()
+      if (this.$refs.password2.modelValue) this.$refs.password2.validate()
     },
     async registerUser() {
-        await api.registerUser({
-        fullname:this.lastName + ' ' + this.firstName,
-        birthday:this.birthday,
-        gender:this.gender.selected === 'Мужской' ? 'MALE' : 'FEMALE',
-        email:this.email,
-        phone:this.phone,
-        password:this.password1
-      })
-
-      this.$router.push('/login');
+      console.log(this.$refs.form)
+      if (await isFormValid(this.$refs.form)) {
+        try {
+          let response = await api.registerUser({
+            fullname: this.lastName + ' ' + this.firstName,
+            birthday: this.birthday,
+            gender: this.gender.selected === 'Мужской' ? 'MALE' : 'FEMALE',
+            email: this.email,
+            phone: this.phone,
+            password: this.password1
+          });
+          this.$store.commit('showSnackbar', {text: this.$t(response.data, {email: this.email}), color: 'success'});
+          localStorage.setItem('email', this.email)
+          localStorage.setItem('password', this.password1)
+          this.$router.push('/login')
+        } catch (error) {
+          if (error.response && error.response.status === 409) {
+            this.$store.commit('showSnackbar', {
+              text: this.$t('User with email {email} is already exists', {email: this.email}),
+              color: 'error'
+            });
+          } else {
+            this.$store.commit('showSnackbar', {text: 'Произошла ошибка при регистрации', color: 'error'});
+          }
+        }
+      }
     },
     onPhoneInput() {
       this.phone = phoneEditor(this.phone);
@@ -229,6 +260,9 @@ export default {
 
 
   computed: {
+    snackbar() {
+      return this.$store.state.snackbar
+    },
     is18YearsOld() {
       if (this.birthday) {
         const birthday = new Date(this.birthday)

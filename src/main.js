@@ -17,6 +17,10 @@ import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
 
+import store from './store'
+
+import i18n from "@/i18n";
+
 const vuetify = createVuetify({
     components,
     directives,
@@ -43,6 +47,8 @@ const vuetify = createVuetify({
 
 createApp(App)
     .use(router)
+    .use(store)
+    .use(i18n)
     .use(vuetify)
     .component('VueDatePicker', VueDatePicker)
     .mount('#app')

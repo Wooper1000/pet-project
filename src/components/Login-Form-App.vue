@@ -66,7 +66,16 @@
       </div>
     </v-container>
   </v-app>
-
+  <v-snackbar
+      ref="snackbar"
+      v-model="snackbar.visible"
+      :color="snackbar.color"
+      top
+      timeout="3000"
+      @click:close="closeSnackbar"
+  >
+    {{ snackbar.text }}
+  </v-snackbar>
 </template>
 
 <script>
@@ -91,13 +100,56 @@ export default {
     }
   },
   methods: {
+    resetFields() {
+      this.email = '';
+      this.password = '';
+    },
+    closeSnackbar() {
+      this.$store.commit('hideSnackbar');
+    },
+
     async login() {
       if (await isFormValid(this.$refs.form)) {
         // все поля формы валидны, выполняем вход
-       await api.loginUser({email:this.email,password:this.password})
-        this.$router.push('/profile');
+        try {
+          const response = await api.loginUser({ email: this.email, password: this.password });
+            // если ответ 200, то выводим snackbar "Вход выполнен" и переходим на страницу профиля
+            this.$store.commit('showSnackbar', { text: 'Вход выполнен', color: 'success' });
+            this.$store.commit('setUser', {
+              email: this.email,
+              token: response.data.token,
+            });
+            localStorage.clear()
+          console.log(response.status)
+           setTimeout(()=>{
+             this.closeSnackbar();
+           this.$router.push('/profile')}
+               ,1000)
+            // если ответ не 200, то выводим сообщение из ответа в snackbar
+            if(response.status !== 200){
+              this.$store.commit('showSnackbar', { text: response.data.message, color: 'error' });
+              return this.resetFields()
+            }
+        } catch (error) {
+          if(error.response.data.status === "NOT_FOUND"){
+            this.$store.commit('showSnackbar', { text: this.$t('User with email {email} is not found',{email:this.email}), color: 'error' });
+          return   this.resetFields()
+          }
+          else if(error.response.data.status === "CONFLICT"){
+           return  this.$store.commit('showSnackbar', { text: this.$t('User is not approve his email {email}',{email:this.email}), color: 'error' });
+          }
+          // если возникла ошибка при выполнении запроса, то выводим сообщение в snackbar
+          else this.$store.commit('showSnackbar', { text: error.response.data.message, color: 'error' });
+          console.log('Зачем то зашёл')
+          this.resetFields()
+        }
       }
     }
+  },
+  computed: {
+    snackbar() {
+      return this.$store.state.snackbar;
+    },
   },
 };
 </script>

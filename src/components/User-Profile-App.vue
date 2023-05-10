@@ -71,7 +71,6 @@
 
                 >
                 </v-text-field>
-
               </v-card-text>
               <v-card-actions>
                 <v-btn color="primary" @click="saveField">Сохранить</v-btn>

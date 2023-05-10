@@ -15,7 +15,7 @@ export const password = [
     v => /[a-z]/.test(v) || 'Нужна маленькая буква',
     v => /[A-Z]/.test(v) || 'Нужна заглавная буква',
     v => /\d/.test(v) || 'Нужна цифра',
-    v => v.length >= 8 || 'Не короче  символов',
+    v => v.length >= 8 || 'Не короче 8 символов',
 ];
 
 export const firstName = [
@@ -63,6 +63,6 @@ export const genderSelected = [
     v => v==='Мужской' || 'Вы должны быть мужчиной'
 ];
 export const agreementCheck = [
-    v => v!=='checked' || 'Вы должны согласиться с правилами'
+    v => v || 'Вы должны согласиться с правилами'
 ];
 
