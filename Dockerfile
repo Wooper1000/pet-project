@@ -1,8 +1,5 @@
-FROM node:lts-alpine
-FROM nginx
-
-# install simple http server for serving static content
-# RUN npm install -g http-server
+# Этап сборки
+FROM node:lts-alpine AS build-stage
 
 # make the 'app' folder the current working directory
 WORKDIR /app
@@ -19,6 +16,11 @@ COPY . .
 # build app for production with minification
 RUN npm run build
 
-COPY dist/ /usr/share/nginx/html
+# Этап продакшн
+FROM nginx
 
+# copy production build from previous stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+# expose port 80
 EXPOSE 80
