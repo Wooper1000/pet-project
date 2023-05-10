@@ -1,4 +1,5 @@
 FROM node:lts-alpine
+FROM nginx
 
 # install simple http server for serving static content
 # RUN npm install -g http-server
@@ -16,6 +17,8 @@ RUN npm install
 COPY . .
 
 # build app for production with minification
+RUN npm run build
 
-EXPOSE 5000
-CMD [ "npm" , "run" , "serve"]
+COPY dist/ /usr/share/nginx/html
+
+EXPOSE 80
