@@ -131,8 +131,13 @@ export default {
               return this.resetFields()
             }
         } catch (error) {
+
           if(error.response.data.status === "NOT_FOUND"){
             this.$store.commit('showSnackbar', { text: this.$t('User with email {email} is not found',{email:this.email}), color: 'error' });
+          return   this.resetFields()
+          }
+          if(error.response.data.status === "FORBIDDEN"){
+            this.$store.commit('showSnackbar', { text: this.$t('Username or password is not correct'), color: 'error' });
           return   this.resetFields()
           }
           else if(error.response.data.status === "CONFLICT"){

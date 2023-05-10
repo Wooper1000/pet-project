@@ -195,6 +195,31 @@ import phoneEditor from "@/utils/phoneEditor";
 import isFormValid from "@/utils/isFormValid";
 
 export default {
+  mounted() {
+    // Восстановление значений полей из localStorage
+    const savedData = JSON.parse(localStorage.getItem('registrationFormData'));
+    if (savedData) {
+      this.firstName = savedData.firstName
+      this.lastName = savedData.lastName
+      this.birthday = savedData.birthday
+      this.gender=JSON.parse(savedData.gender)
+      this.phone = savedData.phone
+      this.email = savedData.email
+      this.password1 = savedData.password1
+      this.password2 = savedData.password2
+      this.showPassword1 = savedData.showPassword1
+      this.showPassword2 = savedData.showPassword2
+      this.isAgreementChecked = savedData.isAgreementChecked
+    }
+
+    // Добавление обработчика события beforeunload
+    window.addEventListener('beforeunload', this.saveFormData);
+  },
+
+  beforeUnmount() {
+    // Удаление обработчика события beforeunload
+    window.removeEventListener('beforeunload', this.saveFormData);
+  },
   data() {
     return {
       birthday: new Date().toISOString().substr(0, 10),
@@ -219,6 +244,24 @@ export default {
 
 
   methods: {
+    saveFormData() {
+      // Сохранение значений полей в localStorage
+      const formData = {
+        firstName: this.firstName,
+        lastName: this.lastName,
+        birthday: this.birthday,
+        gender:JSON.stringify(this.gender),
+        phone: this.phone,
+        email: this.email,
+        password1: this.password1,
+        password2: this.password2,
+        showPassword1: this.showPassword1,
+        showPassword2: this.showPassword2,
+        isAgreementChecked: this.isAgreementChecked,
+
+      };
+      localStorage.setItem('registrationFormData', JSON.stringify(formData));
+    },
     closeSnackbar() {
       this.$store.commit('hideSnackbar');
     },
@@ -231,7 +274,7 @@ export default {
           let response = await api.registerUser({
             fullname: this.lastName + ' ' + this.firstName,
             birthday: this.birthday,
-            gender: this.gender.selected === 'Мужской' ? 'MALE' : 'FEMALE',
+            gender: this.gender?.selected === 'Мужской' ? 'MALE' : 'FEMALE',
             email: this.email,
             phone: this.phone,
             password: this.password1
@@ -239,6 +282,7 @@ export default {
           this.$store.commit('showSnackbar', {text: this.$t(response.data, {email: this.email}), color: 'success'});
           localStorage.setItem('email', this.email)
           localStorage.setItem('password', this.password1)
+          localStorage.removeItem('registrationFormData');
           this.$router.push('/login')
         } catch (error) {
           if (error.response && error.response.status === 409) {
