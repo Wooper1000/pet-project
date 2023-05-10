@@ -226,7 +226,6 @@ export default {
       if (this.$refs.password2.modelValue) this.$refs.password2.validate()
     },
     async registerUser() {
-      console.log(this.$refs.form)
       if (await isFormValid(this.$refs.form)) {
         try {
           let response = await api.registerUser({
@@ -257,8 +256,6 @@ export default {
       this.phone = phoneEditor(this.phone);
     }
   },
-
-
   computed: {
     snackbar() {
       return this.$store.state.snackbar
