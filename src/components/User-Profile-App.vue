@@ -23,10 +23,10 @@
       </v-card>
       <v-divider/>
       <v-row class="align-self-center mt-6">
-        <v-chip variant="text" class="text-subtitle-1 text-decoration-underline">Персональные данные
+        <v-chip variant="text" class="text-subtitle-1 text-decoration-underline">Персональные
         </v-chip>
         <v-badge color="red" :content="21" floating>
-          <v-icon icon="mdi-bell-outline"></v-icon>
+         <v-chip variant="text" style="color:#908F8F">Уведомления</v-chip>
         </v-badge>
       </v-row>
       <v-row class="d-flex justify-center">
@@ -34,7 +34,6 @@
         <v-sheet width="100%"
                  rounded
                  class="mt-4"
-                 color="#EEEEEE"
                  style="border-radius: 28px">
           <v-card-text :class="index===0 ? 'px-3 pt-7 pb-2':'px-3 pt-1 pb-2'" v-for="(field,index) in fields" :key="field.key" :type="field.type">
             <v-row class="ma-0 pa-0">

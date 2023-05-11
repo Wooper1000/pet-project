@@ -29,12 +29,12 @@ const vuetify = createVuetify({
         VTextField: {
             variant: "solo",
             color: "primary",
-            class: "pet-input mb-5"
+            class: "pet-input "
         },
         VCombobox: {
             variant: "solo",
             color: "primary",
-            class: "pet-input mb-5"
+            class: "pet-input "
         }
     },
     icons: {

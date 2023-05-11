@@ -46,7 +46,7 @@
                 type="date"
                 label="Дата рождения"
                 v-model="birthday"
-                :rules="rules.birthdayRules"
+                :rules="rules.birthday"
                 validate-on="input"
             ></v-text-field>
           </v-col>
@@ -104,7 +104,7 @@
               :rules="rules.password"
           ></v-text-field>
         </v-row>
-        <v-row class="d-flex justify-start" style="height:50px;">
+        <v-row class="d-flex justify-start">
           <v-text-field
               v-model="password2"
               label="Ещё раз пароль"
@@ -113,28 +113,29 @@
               :type="showPassword2 ? 'text' : 'password'"
               @click:appendInner="showPassword2 = !showPassword2"
               validate-on="input"
-              :rules="[v=>v===password1 || 'Пароли не совпадают']"
+              :rules="[v=>!!v||'Введите пароль',v=>v===password1 || 'Пароли не совпадают']"
               ref="password2"
           ></v-text-field>
         </v-row>
 
-        <v-row class="d-flex justify-start" :style="'height:50px'">
+        <v-row class="d-flex justify-start" style="height: 50px">
         <v-checkbox
             readonly
             v-model="is18YearsOld"
             label="Мне есть 18 лет"
         ></v-checkbox>
         </v-row>
-        <v-row class="d-flex justify-start" :style="'height:50px'">
+        <v-row class="d-flex justify-start" >
         <v-checkbox v-model="isAgreementChecked"
                     required
                     :rules="rules.agreementCheck"
                     validate-on="submit"
         >
           <template v-slot:label>
-            <div>
+            <div style="line-height: 18px">
               Я согласен
               <a
+                  class="text-decoration-none"
                   target="_blank"
                   href="https://m.obit.ru/upload/iblock/ea8/Pravila%20po%20okazanii%20uslug%20svyazi%20po%20peredachi%20dannih.pdf"
               >
@@ -159,7 +160,9 @@
 
       <div class="mt-4 text-center">
         <span class="subtitle-1">У вас уже есть профиль? </span>
-        <a href="/login">Войти</a>
+        <a
+            class="text-decoration-none"
+            href="/login">Войти</a>
       </div>
 
     </v-container>

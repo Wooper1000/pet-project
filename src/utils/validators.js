@@ -59,8 +59,7 @@ export const birthday = [
 ];
 
 export const genderSelected = [
-    v => !!v || 'Выберите пол',
-    v => v==='Мужской' || 'Вы должны быть мужчиной'
+    v => v!=='Пол' || 'Выберите пол',
 ];
 export const agreementCheck = [
     v => v || 'Вы должны согласиться с правилами'
