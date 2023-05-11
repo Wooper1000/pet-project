@@ -19,8 +19,6 @@
               autofocus
               clearable
               clear-icon="mdi-close"
-              variant="solo"
-              rounded
               validate-on="blur"
               v-model="email"
               :rules="rules.email"
@@ -32,8 +30,6 @@
         </v-row>
         <v-row class="d-flex justify-start">
           <v-text-field
-              rounded
-              variant="solo"
               v-model="password"
               label="Пароль"
               required

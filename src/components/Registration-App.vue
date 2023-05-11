@@ -19,8 +19,6 @@
               persistent-clear
               clearable
               clear-icon="mdi-close"
-              variant="solo"
-              rounded
               v-model.lazy="firstName"
               validate-on="input"
               label="Имя"
@@ -34,8 +32,6 @@
               persistent-clear
               clearable
               clear-icon="mdi-close"
-              variant="solo"
-              rounded
               validate-on="blur"
               v-model.lazy="lastName"
               :rules="rules.lastName"
@@ -52,14 +48,10 @@
                 v-model="birthday"
                 :rules="rules.birthdayRules"
                 validate-on="input"
-                rounded
-                variant="solo"
             ></v-text-field>
           </v-col>
           <v-col class="pr-0 py-0">
             <v-combobox
-                rounded
-                variant="solo"
                 v-model="gender.selected"
                 :items="gender.genders"
                 :rules="rules.genderSelected"
@@ -75,8 +67,6 @@
               type="tel"
               inputmode="numeric"
               validate-on="blur"
-              variant="solo"
-              rounded
               v-model="phone"
               persistent-hint
               hint="Номер с кодом города, например +7 999 432 32 32"
@@ -91,8 +81,6 @@
               persistent-clear
               clearable
               clear-icon="mdi-close"
-              variant="solo"
-              rounded
               validate-on="blur"
               :rules="rules.email"
               v-model.lazy="email"
@@ -105,8 +93,6 @@
           <v-text-field
               persistent-hint
               hint="от 8 символов, только латинские буквы и цифры"
-              rounded
-              variant="solo"
               v-model="password1"
               label="Пароль"
               required
@@ -118,10 +104,8 @@
               :rules="rules.password"
           ></v-text-field>
         </v-row>
-        <v-row class="d-flex justify-start">
+        <v-row class="d-flex justify-start" style="height:50px;">
           <v-text-field
-              rounded
-              variant="solo"
               v-model="password2"
               label="Ещё раз пароль"
               required
@@ -134,11 +118,14 @@
           ></v-text-field>
         </v-row>
 
+        <v-row class="d-flex justify-start" :style="'height:50px'">
         <v-checkbox
             readonly
             v-model="is18YearsOld"
             label="Мне есть 18 лет"
         ></v-checkbox>
+        </v-row>
+        <v-row class="d-flex justify-start" :style="'height:50px'">
         <v-checkbox v-model="isAgreementChecked"
                     required
                     :rules="rules.agreementCheck"
@@ -156,6 +143,7 @@
             </div>
           </template>
         </v-checkbox>
+      </v-row>
         <v-btn
             class="my-3 font-weight-bold"
             block

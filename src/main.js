@@ -1,3 +1,4 @@
+import './assets/css/main.css'
 import { createApp } from 'vue'
 import App from './App.vue'
 
@@ -24,6 +25,18 @@ import i18n from "@/i18n";
 const vuetify = createVuetify({
     components,
     directives,
+    defaults: {
+        VTextField: {
+            variant: "outlined",
+            color: "primary",
+            class: "pet-input mb-5"
+        },
+        VCombobox: {
+            variant: "outlined",
+            color: "primary",
+            class: "pet-input mb-5"
+        }
+    },
     icons: {
         defaultSet: 'mdi',
         aliases,

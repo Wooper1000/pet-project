@@ -1,0 +1,11 @@
+.pet-input.v-input .v-field__outline .v-field__outline__start {
+    border-radius: 16px 0 0 16px;
+}
+
+.pet-input.v-input .v-field__outline .v-field__outline__end {
+    border-radius: 0 16px 16px 0px;
+}
+
+.pet-input .v-field--error {
+    background-color: rgba(238, 93, 79, 0.1);
+}
