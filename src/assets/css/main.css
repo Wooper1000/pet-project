@@ -29,3 +29,7 @@
     border: 1.5px solid gray;
     border-radius: 16px;
 }
+
+.pet-btn.v-btn{
+    border-radius: 16px;
+}

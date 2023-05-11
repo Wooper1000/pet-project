@@ -18,7 +18,6 @@
               autofocus
               persistent-hint
               hint="от 8 символов, только латинские буквы и цифры"
-              rounded
               variant="solo"
               v-model="password1"
               label="Пароль"
@@ -34,7 +33,6 @@
         </v-row>
         <v-row class="d-flex justify-start">
           <v-text-field
-              rounded
               variant="solo"
               v-model="password2"
               label="Ещё раз пароль"
@@ -48,10 +46,10 @@
               ref="password2"
           ></v-text-field>
         </v-row>
+        <v-row>
         <v-btn
             class="my-3 font-weight-bold"
             block
-            rounded="xl"
             size="x-large"
             variant="elevated"
             color="primary"
@@ -59,6 +57,7 @@
         >
           Изменить пароль
         </v-btn>
+        </v-row>
       </v-form>
     </v-container>
   </v-app>

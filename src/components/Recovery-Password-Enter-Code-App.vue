@@ -21,7 +21,6 @@
               clear-icon="mdi-close"
               v-model.lazy="code"
               variant="solo"
-              rounded
               validate-on="input"
               label="Код"
               required
@@ -32,17 +31,18 @@
               :rules="rules.confirmCode"
           ></v-text-field>
         </v-row>
-        <v-btn
-            class="my-3 font-weight-bold"
-            block
-            rounded="xl"
-            size="x-large"
-            variant="elevated"
-            color="primary"
-            @click="recover"
-        >
-          Готово
-        </v-btn>
+        <v-row>
+          <v-btn
+              class="my-3 font-weight-bold"
+              block
+              size="x-large"
+              variant="elevated"
+              color="primary"
+              @click="recover"
+          >
+            Готово
+          </v-btn>
+        </v-row>
       </v-form>
       <div class="mt-4 text-center">
         <span class="subtitle-1">Не пришёл код? </span>

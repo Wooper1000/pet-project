@@ -145,10 +145,10 @@
           </template>
         </v-checkbox>
       </v-row>
+        <v-row>
         <v-btn
             class="my-3 font-weight-bold"
             block
-            rounded="xl"
             size="x-large"
             variant="elevated"
             color="primary"
@@ -156,6 +156,7 @@
         >
           Зарегистрироваться
         </v-btn>
+        </v-row>
       </v-form>
 
       <div class="mt-4 text-center">

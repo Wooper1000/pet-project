@@ -10,8 +10,8 @@
     </v-main>
     <v-footer app>
       <v-container>
-            <v-btn class="my-3 font-weight-bold" block rounded="xl" size="x-large" variant="elevated" color="primary" @click="$router.push('/registration')">Зарегистрироваться</v-btn>
-            <v-btn class="my-3 font-weight-bold" block  rounded="xl" size="x-large" variant="outlined" color="primary" @click="$router.push('/login')">Вход</v-btn>
+            <v-btn class="my-3 font-weight-bold" block size="x-large" variant="elevated" color="primary" @click="$router.push('/registration')">Зарегистрироваться</v-btn>
+            <v-btn class="my-3 font-weight-bold" block size="x-large" variant="outlined" color="primary" @click="$router.push('/login')">Вход</v-btn>
       </v-container>
     </v-footer>
   </v-app>

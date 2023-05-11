@@ -20,7 +20,6 @@
               clearable
               clear-icon="mdi-close"
               variant="solo"
-              rounded
               validate-on="submit"
               v-model.lazy="email"
               :rules="rules.email"
@@ -30,17 +29,18 @@
               @keydown.enter="getCode"
           ></v-text-field>
         </v-row>
-        <v-btn
-            class="my-3 font-weight-bold"
-            block
-            rounded="xl"
-            size="x-large"
-            variant="elevated"
-            color="primary"
-            @click="getCode"
-        >
-          Получить код
-        </v-btn>
+        <v-row>
+          <v-btn
+              class="my-3 font-weight-bold"
+              block
+              size="x-large"
+              variant="elevated"
+              color="primary"
+              @click="getCode"
+          >
+            Получить код
+          </v-btn>
+        </v-row>
       </v-form>
     </v-container>
   </v-app>

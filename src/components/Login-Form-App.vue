@@ -45,10 +45,10 @@
         <div class="mb-4 text-end">
           <a href="/recovery">Забыли пароль?</a>
         </div>
+      <v-row>
         <v-btn
             class="my-3 font-weight-bold"
             block
-            rounded="xl"
             size="x-large"
             variant="elevated"
             color="primary"
@@ -56,6 +56,7 @@
         >
           Войти
         </v-btn>
+      </v-row>
       <div class="mt-4 text-center">
         <span class="subtitle-1">У вас нет профиля? </span>
         <a href="/registration">Зарегистрироваться</a>
