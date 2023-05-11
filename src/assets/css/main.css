@@ -3,9 +3,29 @@
 }
 
 .pet-input.v-input .v-field__outline .v-field__outline__end {
-    border-radius: 0 16px 16px 0px;
+    border-radius: 0 16px 16px 0;
 }
 
-.pet-input .v-field--error {
+.pet-input .v-field.v-field--error {
     background-color: rgba(238, 93, 79, 0.1);
+    border: 1.5px solid red;
+    border-radius: 16px;
+}
+
+.pet-input .v-field.v-field--disabled {
+    border: 1.5px solid black;
+    background: lightgray;
+}
+
+.pet-input .v-field.v-field--disabled label {
+    color: black;
+}
+
+.pet-input .v-field.v-field--focused:not(.v-field--error) {
+    border: 1.5px solid #70B2E2;
+}
+
+.pet-input .v-field {
+    border: 1.5px solid gray;
+    border-radius: 16px;
 }

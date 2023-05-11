@@ -27,12 +27,12 @@ const vuetify = createVuetify({
     directives,
     defaults: {
         VTextField: {
-            variant: "outlined",
+            variant: "solo",
             color: "primary",
             class: "pet-input mb-5"
         },
         VCombobox: {
-            variant: "outlined",
+            variant: "solo",
             color: "primary",
             class: "pet-input mb-5"
         }
