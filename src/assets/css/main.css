@@ -33,3 +33,8 @@
 .pet-btn.v-btn{
     border-radius: 16px;
 }
+
+a,a:visited {
+  text-decoration: none;
+    color: #15499F;
+}

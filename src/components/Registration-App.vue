@@ -122,18 +122,19 @@
           ></v-text-field>
         </v-row>
 
-        <v-row class="d-flex justify-start" style="height: 50px">
+        <v-row class="d-flex justify-start" style="height: 35px">
         <v-checkbox
             readonly
             v-model="is18YearsOld"
             label="Мне есть 18 лет"
         ></v-checkbox>
         </v-row>
-        <v-row class="d-flex justify-start" >
-        <v-checkbox v-model="isAgreementChecked"
+        <v-row class="d-flex justify-start">
+        <v-checkbox
+            v-model="isAgreementChecked"
                     required
                     :rules="rules.agreementCheck"
-                    validate-on="submit"
+                    validate-on="input"
         >
           <template v-slot:label>
             <div style="line-height: 18px">
@@ -269,7 +270,7 @@ export default {
         try {
           let response = await api.registerUser({
             fullname: this.lastName + ' ' + this.firstName,
-            birthday: this.birthday,
+            birthday: this.birthday.split('.').reverse().join('-'),
             gender: this.gender?.selected === 'Мужской' ? 'MALE' : 'FEMALE',
             email: this.email,
             phone: this.phone,

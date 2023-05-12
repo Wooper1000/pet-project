@@ -1,13 +1,13 @@
 export const email = [
-    v => !!v || 'E-mail необходим.',
-    v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Неверный формат.'
+    v => !!v || 'E-mail необходим',
+    v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || 'Неверный формат'
 ];
 export const text =[
     v=> !!v  && v.length > 1 || 'Поле не должно быть пустым',
 ]
 export const phone = [
     v => !!v || 'Телефон необходим.',
-    v => /^(\+7|8)[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/.test(v) || 'Неверный формат телефона.'
+    v => /^(\+7|8)[\s-]?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/.test(v) || 'Неверный формат телефона'
 ];
 
 export const password = [
@@ -30,7 +30,7 @@ export const confirmCode = [
     v => {
         if (!v ) return true;
         const pattern = /^\d{4}$/;
-        return pattern.test(v) || 'Введите 4 цифры.';
+        return pattern.test(v) || 'Введите 4 цифры';
     }
 ];
 
@@ -45,8 +45,12 @@ export const birthday = [
     v => !!v || 'Введите дату рождения',
 
     v => {
+        if(v.length < 10) return  true;
+        let dateParts = v.split('.');
+        let dateFormated = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
         const today = new Date()
-        const birthDate = new Date(v)
+        const birthDate = new Date(dateFormated)
+        console.log(birthDate)
         let age = today.getFullYear() - birthDate.getFullYear()
         const month = today.getMonth() - birthDate.getMonth()
 
