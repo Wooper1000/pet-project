@@ -50,7 +50,6 @@ export const birthday = [
         let dateFormated = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
         const today = new Date()
         const birthDate = new Date(dateFormated)
-        console.log(birthDate)
         let age = today.getFullYear() - birthDate.getFullYear()
         const month = today.getMonth() - birthDate.getMonth()
 

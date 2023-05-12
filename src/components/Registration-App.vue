@@ -48,7 +48,7 @@
                 v-model="birthday"
                 :rules="rules.birthday"
                 maxlength="10"
-                validate-on="input"
+                validate-on="blur"
                 @input="formatDate"
             ><template v-slot:append-inner>
               <input
@@ -190,7 +190,6 @@
     {{ snackbar.text }}
   </v-snackbar>
 </template>
-
 <script>
 import * as validators from '../utils/validators';
 import api from '../api'
@@ -214,7 +213,6 @@ export default {
       this.showPassword2 = savedData.showPassword2
       this.isAgreementChecked = savedData.isAgreementChecked
     }
-
     // Добавление обработчика события beforeunload
     window.addEventListener('beforeunload', this.saveFormData);
   },
@@ -245,8 +243,6 @@ export default {
       isAgreementChecked: false,
     };
   },
-
-
   methods: {
     openDatePicker() {
       this.$refs.datePicker.showPicker();
@@ -329,7 +325,7 @@ export default {
     },
     is18YearsOld() {
       if (this.birthday) {
-        const birthday = new Date(this.birthday)
+        const birthday = new Date(this.birthday.split('.').reverse().join('-'))
         const now = new Date()
         const ageInMs = now.getTime() - birthday.getTime()
         const ageInYears = ageInMs / 1000 / 60 / 60 / 24 / 365
