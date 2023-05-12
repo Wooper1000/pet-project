@@ -49,10 +49,16 @@
                 :rules="rules.birthday"
                 maxlength="10"
                 validate-on="input"
-                inputmode="numeric"
                 @input="formatDate"
-                append-inner-icon="mdi-calendar"
-            ></v-text-field>
+            ><template v-slot:append-inner>
+              <input
+                  ref="datePicker"
+                  type="date"
+                  hidden
+                  v-model="selectedDate"
+              >
+              <v-icon @click="openDatePicker">mdi-calendar</v-icon>
+            </template></v-text-field>
           </v-col>
           <v-col cols="5" class="pr-0 py-0">
             <v-combobox
@@ -219,6 +225,7 @@ export default {
   },
   data() {
     return {
+      selectedDate: null,
       birthday: '',
       firstName: '',
       lastName: '',
@@ -241,6 +248,9 @@ export default {
 
 
   methods: {
+    openDatePicker() {
+      this.$refs.datePicker.showPicker();
+    },
     saveFormData() {
       // Сохранение значений полей в localStorage
       const formData = {
@@ -306,6 +316,11 @@ export default {
       if(date.length === 5){
         this.birthday = this.birthday + '.';
       }
+    }
+  },
+  watch:{
+    selectedDate(v){
+       this.birthday = v;
     }
   },
   computed: {
