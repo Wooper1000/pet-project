@@ -41,16 +41,20 @@
           ></v-text-field>
         </v-row>
         <v-row class="d-flex justify-start">
-          <v-col class="pl-0 py-0">
+          <v-col cols="7" class="pl-0 py-0">
             <v-text-field
-                type="date"
+                type="text"
                 label="Дата рождения"
                 v-model="birthday"
                 :rules="rules.birthday"
+                maxlength="10"
                 validate-on="input"
+                inputmode="numeric"
+                @input="formatDate"
+                append-inner-icon="mdi-calendar"
             ></v-text-field>
           </v-col>
-          <v-col class="pr-0 py-0">
+          <v-col cols="5" class="pr-0 py-0">
             <v-combobox
                 v-model="gender.selected"
                 :items="gender.genders"
@@ -214,7 +218,7 @@ export default {
   },
   data() {
     return {
-      birthday: new Date().toISOString().substr(0, 10),
+      birthday: '',
       firstName: '',
       lastName: '',
       gender: {
@@ -290,6 +294,17 @@ export default {
     },
     onPhoneInput() {
       this.phone = phoneEditor(this.phone);
+    },
+    formatDate() {
+      let date = this.birthday;
+
+      if(date.length === 2){
+        this.birthday = this.birthday + '.';
+      }
+
+      if(date.length === 5){
+        this.birthday = this.birthday + '.';
+      }
     }
   },
   computed: {
@@ -306,7 +321,7 @@ export default {
       } else {
         return false
       }
-    }
+    },
   }
 }
 </script>
