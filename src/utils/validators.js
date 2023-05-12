@@ -56,7 +56,8 @@ export const birthday = [
         if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
             age--
         }
-
+        console.log(age)
+    if(isNaN(age)) return 'Неверный формат даты'
     return age>=18 || 'Вы должны быть старше 18'
     }
 ];
@@ -66,5 +67,8 @@ export const genderSelected = [
 ];
 export const agreementCheck = [
     v => v || 'Вы должны согласиться с правилами'
+];
+export const ageCheck = [
+    v => v || ''
 ];
 

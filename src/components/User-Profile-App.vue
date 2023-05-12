@@ -10,8 +10,8 @@
             <v-card-text class="text-h5 font-weight-bold pl-0 " :style="{ lineHeight: '28.8px' }">
               Иннокентий Пупырчатый
             </v-card-text>
-            <v-card-text class="text-subtitle-1 pl-0 py-0">Пользователь</v-card-text>
-            <v-card-text class="text-subtitle-1 pl-0 py-0">ID: 123456789</v-card-text>
+            <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">Пользователь</v-card-text>
+            <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">ID: 123456789</v-card-text>
           </v-col>
           <v-col cols="4" class="align-self-center">
             <v-avatar
@@ -21,16 +21,14 @@
           </v-col>
         </v-row>
       </v-card>
-      <v-divider/>
       <v-row class="align-self-center mt-6">
         <v-chip variant="text" class="text-subtitle-1 text-decoration-underline">Персональные
         </v-chip>
-        <v-badge color="red" :content="21" floating>
+
          <v-chip variant="text" style="color:#908F8F">Уведомления</v-chip>
-        </v-badge>
+        <v-badge color="red" :content="21" floating/>
       </v-row>
       <v-row class="d-flex justify-center">
-
         <v-sheet width="100%"
 
                  class="mt-4"
@@ -38,7 +36,7 @@
           <v-card-text :class="index===0 ? 'px-3 pt-7 pb-2':'px-3 pt-1 pb-2'" v-for="(field,index) in fields" :key="field.key" :type="field.type">
             <v-row class="ma-0 pa-0">
               <v-col cols="12 pa-0">
-                <div class="text-subtitle-2 font-weight-regular">
+                <div class="text-subtitle-2 font-weight-regular"  style="color:#908F8F">
                   {{ field.label }}
                 </div>
               </v-col>

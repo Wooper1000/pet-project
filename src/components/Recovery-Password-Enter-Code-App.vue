@@ -16,7 +16,6 @@
       <v-form @submit.prevent="recover" ref="form">
         <v-row class="d-flex justify-start">
           <v-text-field
-              autofocus
               clearable
               clear-icon="mdi-close"
               v-model.lazy="code"

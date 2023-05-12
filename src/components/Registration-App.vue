@@ -14,7 +14,7 @@
       </v-row>
 
       <v-form @submit.prevent="registerUser" ref="form" autocomplete="off">
-        <v-row class="d-flex justify-start">
+        <v-row class="d-flex justify-start" >
           <v-text-field
               persistent-clear
               clearable
@@ -45,7 +45,7 @@
             <v-text-field
                 type="text"
                 label="Дата рождения"
-                v-model="birthday"
+                v-model.lazy="birthday"
                 :rules="rules.birthday"
                 maxlength="10"
                 validate-on="blur"
@@ -70,7 +70,7 @@
             ></v-combobox>
           </v-col>
         </v-row>
-        <v-row class="d-flex justify-start">
+        <v-row class="d-flex justify-start mb-5">
           <v-text-field
               label="Телефон"
               required
@@ -84,7 +84,7 @@
               @input="onPhoneInput"
           ></v-text-field>
         </v-row>
-        <v-row class="d-flex justify-start">
+        <v-row class="d-flex justify-start mb-7">
           <v-text-field
               hint="На почту придет ссылка для подтверждения аккаунта"
               persistent-hint
@@ -99,7 +99,7 @@
               type="email"
           ></v-text-field>
         </v-row>
-        <v-row class="d-flex justify-start">
+        <v-row class="d-flex justify-start mb-3 ">
           <v-text-field
               persistent-hint
               hint="от 8 символов, только латинские буквы и цифры"
@@ -129,11 +129,13 @@
         </v-row>
 
         <v-row class="d-flex justify-start" style="height: 35px">
-        <v-checkbox
-            readonly
-            v-model="is18YearsOld"
+          <v-checkbox
             label="Мне есть 18 лет"
-        ></v-checkbox>
+            validate-on="blur"
+            :rules="rules.ageCheck"
+            false-value="red"
+        >
+        </v-checkbox>
         </v-row>
         <v-row class="d-flex justify-start">
         <v-checkbox
@@ -146,7 +148,6 @@
             <div style="line-height: 18px">
               Я согласен
               <a
-                  class="text-decoration-none"
                   target="_blank"
                   href="https://m.obit.ru/upload/iblock/ea8/Pravila%20po%20okazanii%20uslug%20svyazi%20po%20peredachi%20dannih.pdf"
               >
@@ -173,7 +174,6 @@
       <div class="mt-4 text-center">
         <span class="subtitle-1">У вас уже есть профиль? </span>
         <a
-            class="text-decoration-none"
             href="/login">Войти</a>
       </div>
 
@@ -253,7 +253,7 @@ export default {
         firstName: this.firstName,
         lastName: this.lastName,
         birthday: this.birthday,
-        gender:JSON.stringify(this.gender),
+        gender: JSON.stringify(this.gender),
         phone: this.phone,
         email: this.email,
         password1: this.password1,
@@ -303,17 +303,23 @@ export default {
       this.phone = phoneEditor(this.phone);
     },
     formatDate() {
-      let date = this.birthday;
+      let date = this.birthday.replace(/\./g, ''); // Удаляем все точки из введенной даты
+      let formattedDate = '';
 
-      if(date.length === 2){
-        this.birthday = this.birthday + '.';
+      if (date.length > 2) {
+        formattedDate += date.substr(0, 2) + '.';
+        date = date.substr(2);
       }
 
-      if(date.length === 5){
-        this.birthday = this.birthday + '.';
+      if (date.length > 2) {
+        formattedDate += date.substr(0, 2) + '.';
+        date = date.substr(2);
       }
+
+      this.birthday = formattedDate + date;
     }
-  },
+    },
+
   watch:{
     selectedDate(v){
        this.birthday = v;

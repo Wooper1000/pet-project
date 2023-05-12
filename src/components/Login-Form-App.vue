@@ -16,7 +16,6 @@
       <v-form ref="form">
         <v-row class="d-flex justify-start mb-1">
           <v-text-field
-              autofocus
               clearable
               clear-icon="mdi-close"
               validate-on="blur"
