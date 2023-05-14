@@ -24,7 +24,7 @@
        <v-row class="align-self-center mt-7">
         <v-chip variant="text" class="text-subtitle-1 text-decoration-underline pr-2">Персональные
         </v-chip>
-		<v-chip variant="text" style="color:#908F8F" class="pl-1">Уведомления</v-chip>
+		<v-chip variant="text" style="color:#908F8F" class="pl-1" @click="$router.push('/profile/notifications')">Уведомления</v-chip>
         <v-badge color="red" :content="21" floating/>
       </v-row>
       <v-row class="d-flex justify-center">

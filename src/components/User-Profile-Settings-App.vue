@@ -12,7 +12,7 @@
                     Задачи
                 </v-btn>
 
-                <v-btn value="nearby">
+                <v-btn value="nearby" @click="$router.push('/profile/information')">
                     <v-icon>mdi-account-outline</v-icon>
                     Профиль
                 </v-btn>

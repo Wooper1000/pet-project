@@ -11,6 +11,7 @@ import SettingsLanguageApp from "@/components/Settings-Language-App";
 import SettingsInfoApp from "@/components/Settings-Info-App";
 import SettingsGeoApp from "@/components/Settings-Geo-App";
 import SettingsGeoPermissionsApp from "@/components/Settings-Geo-Permissions-App";
+import UserProfileNotificationsApp from "@/components/User-Profile-Notifications-App";
 
 const routes = [
     { path: '/', name: 'WelcomeScreen', component: WelcomeScreenApp },
@@ -25,6 +26,7 @@ const routes = [
     { path: '/settings/info', name: 'User-Profile-Settings-Info', component: SettingsInfoApp },
     { path: '/settings/geo', name: 'User-Profile-Settings-Geo', component: SettingsGeoApp },
     { path: '/settings/geo/permissions', name: 'User-Profile-Settings-Geo-Permission', component: SettingsGeoPermissionsApp },
+    { path: '/profile/notifications', name: 'User-Profile-Notifications', component: UserProfileNotificationsApp },
 ]
 
 const router = createRouter({

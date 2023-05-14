@@ -22,7 +22,10 @@ const i18n = new createI18n({
             'accept-geo': 'Доступ к геопозиции устройства',
             'share-geo': 'Передача геоданных исполнителям задач',
             'share-geo-admin': 'Передача геоданных администратору',
-            'share-geo-external': 'Доступ геоданных внешним приложениям и агрегаторам'
+            'share-geo-external': 'Доступ геоданных внешним приложениям и агрегаторам',
+            'notifications': 'Уведомления',
+            'new-notifications': 'Новые',
+            'old-notifications': 'Прочитанные'
         },
         en: {
             'btn-sign-in': 'Sign In',
@@ -42,7 +45,10 @@ const i18n = new createI18n({
             'accept-geo': 'Access to device location',
             'share-geo': 'Transferring geodata to task performers',
             'share-geo-admin': 'Transferring geodata to the administrator',
-            'share-geo-external': 'Geodata access to external applications and aggregators'
+            'share-geo-external': 'Geodata access to external applications and aggregators',
+            'notifications': 'Notifications',
+            'new-notifications': 'New',
+            'old-notifications': 'Readed'
         }
     },
 })
