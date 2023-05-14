@@ -48,33 +48,11 @@
                 </div>
               </v-col>
               <v-col v-if="field.editable" cols="3" class="text-end pa-0">
-                <v-icon @click="openModal(field)">mdi-pencil-outline</v-icon>
+                <v-icon @click="field.dialog.open = true">mdi-pencil-outline</v-icon>
               </v-col>
             </v-row>
             <v-divider v-if="++index!==fields.length"/>
           </v-card-text>
-          <v-dialog v-model="modal" persistent>
-            <v-card>
-              <v-card-title v-text="'Изменить ' + fieldToEdit.label.toLowerCase()"></v-card-title>
-              <v-card-text>
-
-                <v-text-field
-                    clearable
-                    autofocus
-                    @keydown.enter="saveField"
-                    v-model="fieldToEdit.value"
-                    :label="fieldToEdit.label"
-                    @input="fieldToEdit.key==='phone' ? onPhoneInput():null"
-
-                >
-                </v-text-field>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="primary" @click="saveField">Сохранить</v-btn>
-                <v-btn color="red-lighten-1" @click="modal=false">Отмена</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
         </v-sheet>
       </v-row>
       <v-bottom-navigation grow :elevation="16" class="mb-2">
@@ -91,7 +69,115 @@
           Настройки
         </v-btn>
       </v-bottom-navigation>
-
+      <v-dialog v-model="fields[0].dialog.open">
+        <v-card class="rounded-xl">
+         
+          <v-card-title class="text-center">
+            <span class="text-h5" v-if="fields[0].dialog.data.step != 1">Ваша должность</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+            <v-row>
+            <h1  class="text-center" v-if="fields[0].dialog.data.step == 1">Ваша должность изменена</h1>
+          </v-row>
+          <v-row>
+          <v-text-field v-if="fields[0].dialog.data.step == 0" label="Текст" v-model="fields[0].dialog.data.position"></v-text-field>
+        </v-row>
+        <v-row>
+            <v-btn color="primary" block  size="x-large" @click="fields[0].dialog.data.step == 1 ? (fields[1].dialog.data.step = 0,fields[0].dialog.open = false) : fields[0].dialog.data.step++">
+            {{ fields[0].dialog.data.step === 0 ? 'Сохранить' : 'Продолжить' }}
+          </v-btn>
+        </v-row>
+      </v-container>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="fields[1].dialog.open">
+          <v-card height="250px" class="rounded-xl">
+          <v-card-title class="text-center">
+            <span class="text-h5" v-if="fields[1].dialog.data.step != 2">Ваш телефон</span>
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <div style="height: 55px; width: 100%;" v-if="fields[1].dialog.data.step != 2">
+              <p class="mb-2" v-if="fields[1].dialog.data.step == 0">Введите Ваш актуальный номер. На него мы отправим код для подтверждения</p>
+            <p class="mb-2" v-if="fields[1].dialog.data.step == 1">Введите код, отправленный на номер {{ fields[1].dialog.data.phone }}</p>
+            
+          </div>
+          <div style="height: 168px; padding-top: 35px;" v-if="fields[1].dialog.data.step == 2">
+            <h1  class="text-center">Ваш номер телефона изменен</h1>
+          </div>
+          </v-row>
+          <v-row>
+          <v-text-field v-if="fields[1].dialog.data.step == 0" label="Телефон" v-model="fields[1].dialog.data.phone"></v-text-field>
+          <v-text-field v-if="fields[1].dialog.data.step == 1" label="Код" v-model="fields[1].dialog.data.code"></v-text-field>
+        </v-row>
+        <v-row>
+            <v-btn color="primary" block  size="x-large" @click="fields[1].dialog.data.step == 2 ? (fields[1].dialog.data.step = 0,fields[1].dialog.open = false) : fields[1].dialog.data.step++">
+            {{ fields[1].dialog.data.step === 0 ? 'Сохранить' : 'Продолжить' }}
+          </v-btn>
+        </v-row>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="fields[2].dialog.open">
+        <v-card height="250px" class="rounded-xl">
+          <v-card-title class="text-center">
+            <span class="text-h5" v-if="fields[2].dialog.data.step != 2">Ваша почта</span>
+          </v-card-title>
+          <v-card-text>
+            <v-row>
+              <div style="height: 55px; width: 100%;" v-if="fields[2].dialog.data.step != 2">
+              <p class="mb-2" v-if="fields[2].dialog.data.step == 0">Введите Ваш актуальный e-mail. На него мы отправим код для подтверждения</p>
+            <p class="mb-2" v-if="fields[2].dialog.data.step == 1">Введите код, отправленный на e-mail  {{ fields[2].dialog.data.phone }}</p>
+            
+          </div>
+          <div style="height: 168px; padding-top: 35px;" v-if="fields[2].dialog.data.step == 2">
+            <h1  class="text-center">Ваш e-mail изменен</h1>
+          </div>
+          </v-row>
+          <v-row>
+          <v-text-field v-if="fields[2].dialog.data.step == 0" label="Текст" v-model="fields[2].dialog.data.email"></v-text-field>
+          <v-text-field v-if="fields[2].dialog.data.step == 1" label="Код" v-model="fields[2].dialog.data.code"></v-text-field>
+        </v-row>
+        <v-row>
+            <v-btn color="primary" block  size="x-large" @click="fields[2].dialog.data.step == 2 ? (fields[2].dialog.data.step = 0,fields[2].dialog.open = false) : fields[2].dialog.data.step++">
+            {{ fields[2].dialog.data.step === 0 ? 'Сохранить' : 'Продолжить' }}
+          </v-btn>
+        </v-row>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+      <v-dialog v-model="fields[3].dialog.open">
+        <v-card class="rounded-xl">
+          <v-card-title class="text-center">
+            <span class="text-h5" v-if="fields[3].dialog.data.step != 2">Ваш пароль</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+            <v-row>
+              <p class="mb-2" v-if="fields[3].dialog.data.step == 0">Чтобы продолжить введите Ваш актуальный пароль</p>
+              <p class="mb-2" v-if="fields[3].dialog.data.step == 1">Введите новый пароль</p>
+              <h1 class="text-center mb-6" v-if="fields[3].dialog.data.step == 2">Ваш пароль изменен</h1>
+          </v-row>
+          <v-row v-if="fields[3].dialog.data.step == 0">
+          <v-text-field  label="Пароль" v-model="fields[3].dialog.data.oldPassword" type="password"></v-text-field>
+        </v-row>
+          <v-row v-if="fields[3].dialog.data.step == 1">
+            <v-text-field label="Пароль" v-model="fields[3].dialog.data.password1" type="password"></v-text-field>
+          </v-row>
+          <v-row v-if="fields[3].dialog.data.step == 1">
+            <v-text-field label="Еще раз пароль" v-model="fields[3].dialog.data.password2" type="password"></v-text-field>
+          </v-row>
+        <v-row>
+            <v-btn color="primary" block  size="x-large" @click="fields[3].dialog.data.step == 2 ? (fields[3].dialog.data.step = 0,fields[3].dialog.open = false) : fields[3].dialog.data.step++">
+            {{ fields[3].dialog.data.step === 0 ? 'Сохранить' : 'Продолжить' }}
+          </v-btn>
+        </v-row>
+      </v-container>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-app>
 
@@ -106,10 +192,10 @@ export default {
       form:null,
       rules:{...rules},
       fields: [
-        { key: 'position', label: 'Должность', value: 'Мастер', type: 'text',editable:true,rules:rules.text },
-        { key: 'phone', label: 'Телефон', value: '+79110144266', type: 'tel',editable:true,rules:rules.phone },
-        { key: 'email', label: 'Email', value: 'example@gmail.com', type: 'email',editable:true,rules:rules.email },
-        { key: 'password', label: 'Пароль', value: 'Wooperloozer10', type: 'password',editable:true,rules:rules.password },
+        { key: 'position', label: 'Должность', value: 'Мастер', type: 'text',editable:true,rules:rules.text, dialog: {open: false, data: {position: '',step:0}} },
+        { key: 'phone', label: 'Телефон', value: '+79110144266', type: 'tel',editable:true,rules:rules.phone, dialog: {open: false, data: {phone: '', code: '',step:0}} },
+        { key: 'email', label: 'Email', value: 'example@gmail.com', type: 'email',editable:true,rules:rules.email, dialog: {open: false, data: {email: '', code: '',step:0}} },
+        { key: 'password', label: 'Пароль', value: 'Wooperloozer10', type: 'password',editable:true,rules:rules.password, dialog: {open: false, data: {oldPassword: '', password1: '',password2:'',step:0}} },
         { key: 'company', label: 'Компания', value: 'ООО "ОБИТ"', type: 'text',editable: false,rules:rules.text }
       ],
       modal: false,
