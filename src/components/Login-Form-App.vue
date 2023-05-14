@@ -35,7 +35,7 @@
               :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
               :type="showPassword ? 'text' : 'password'"
               @click:appendInner="showPassword = !showPassword"
-              validate-on="blur"
+              validate-on="input"
               :rules="[v=>v.length>=6 || 'Короткий пароль']"
               @keydown.enter="login"
           ></v-text-field>

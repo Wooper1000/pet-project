@@ -5,7 +5,7 @@ import RecoveryPasswordApp from "@/components/Recovery-Password-App";
 import RecoveryPasswordEnterCodeApp from "@/components/Recovery-Password-Enter-Code-App";
 import RecoveryChangePasswordApp from "@/components/Recovery-Change-Password-App";
 import RegistrationApp from "@/components/Registration-App";
-import UserProfileApp from "@/components/User-Profile-App";
+import UserInformationApp from "@/components/User-Information-App";
 import UserProfileSettingsApp from "@/components/User-Profile-Settings-App";
 
 const routes = [
@@ -15,9 +15,9 @@ const routes = [
     { path: '/recovery', name: 'Recovery', component: RecoveryPasswordApp },
     { path: '/recovery/enter-code', name: 'Recovery-Enter-Code', component: RecoveryPasswordEnterCodeApp },
     { path: '/recovery/change-password', name: 'Recovery-Change-Password', component: RecoveryChangePasswordApp },
-    { path: '/profile', name: 'User-Profile', component: UserProfileApp },
+    { path: '/profile/information', name: 'UserInformation', component: UserInformationApp },
     { path: '/profile/settings', name: 'User-Profile-Settings', component: UserProfileSettingsApp },
-] 
+]
 
 const router = createRouter({
     history: createWebHistory(),
