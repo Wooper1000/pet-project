@@ -7,6 +7,7 @@ import RecoveryChangePasswordApp from "@/components/Recovery-Change-Password-App
 import RegistrationApp from "@/components/Registration-App";
 import UserInformationApp from "@/components/User-Information-App";
 import UserProfileSettingsApp from "@/components/User-Profile-Settings-App";
+import SettingsLanguageApp from "@/components/Settings-Language-App";
 
 const routes = [
     { path: '/', name: 'WelcomeScreen', component: WelcomeScreenApp },
@@ -17,6 +18,7 @@ const routes = [
     { path: '/recovery/change-password', name: 'Recovery-Change-Password', component: RecoveryChangePasswordApp },
     { path: '/profile/information', name: 'UserInformation', component: UserInformationApp },
     { path: '/profile/settings', name: 'User-Profile-Settings', component: UserProfileSettingsApp },
+    { path: '/settings/language', name: 'User-Profile-Settings-Language', component: SettingsLanguageApp },
 ]
 
 const router = createRouter({

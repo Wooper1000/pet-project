@@ -30,7 +30,7 @@
                         <v-btn variant="text" icon="mdi-chevron-right" color="grey-lighten-1"></v-btn>
                     </template>
                 </v-list-item>
-                <v-list-item title="Язык">
+                <v-list-item :title="$t('language')" @click="$router.push('/settings/language')">
                     <template v-slot:prepend>
                         <v-icon color="primary" class="settings-icon">mdi-web</v-icon>
                     </template>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+
 export default {
     data() {
         return {
@@ -79,7 +80,6 @@ export default {
         };
     },
     mounted() {
-
     },
     methods: {
     }

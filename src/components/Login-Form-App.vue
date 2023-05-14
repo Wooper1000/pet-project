@@ -5,11 +5,11 @@
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
-        <h3>Вход в личный кабинет</h3>
+        <h3>{{ $t('sign-in-title') }}</h3>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
         <div class="mb-4">
-          <span class="text-subtitle-1">Войдите в личный кабинет, если у вас уже есть аккаунт</span>
+          <span class="text-subtitle-1">{{ $t('log-if-u-can') }}</span>
         </div>
       </v-row>
 
@@ -30,7 +30,7 @@
         <v-row class="d-flex justify-start">
           <v-text-field
               v-model="password"
-              label="Пароль"
+              :label="$t('password')"
               required
               :append-inner-icon="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
               :type="showPassword ? 'text' : 'password'"
@@ -42,7 +42,7 @@
         </v-row>
       </v-form>
         <div class="mb-4 text-end">
-          <a href="/recovery">Забыли пароль?</a>
+          <a href="/recovery">{{$t('forgot-password')}}</a>
         </div>
       <v-row>
         <v-btn
@@ -53,12 +53,12 @@
             color="primary"
             @click="login"
         >
-          Войти
+          {{$t('btn-sign-in')}}
         </v-btn>
       </v-row>
       <div class="mt-4 text-center">
-        <span class="subtitle-1">У вас нет профиля? </span>
-        <a href="/registration">Зарегистрироваться</a>
+        <span class="subtitle-1">{{$t('no-profile')}}</span>
+        <a href="/registration">{{$t('signup')}}</a>
       </div>
     </v-container>
   </v-app>
