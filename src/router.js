@@ -6,6 +6,7 @@ import RecoveryPasswordEnterCodeApp from "@/components/Recovery-Password-Enter-C
 import RecoveryChangePasswordApp from "@/components/Recovery-Change-Password-App";
 import RegistrationApp from "@/components/Registration-App";
 import UserProfileApp from "@/components/User-Profile-App";
+import UserProfileSettingsApp from "@/components/User-Profile-Settings-App";
 
 const routes = [
     { path: '/', name: 'WelcomeScreen', component: WelcomeScreenApp },
@@ -15,6 +16,7 @@ const routes = [
     { path: '/recovery/enter-code', name: 'Recovery-Enter-Code', component: RecoveryPasswordEnterCodeApp },
     { path: '/recovery/change-password', name: 'Recovery-Change-Password', component: RecoveryChangePasswordApp },
     { path: '/profile', name: 'User-Profile', component: UserProfileApp },
+    { path: '/profile/settings', name: 'User-Profile-Settings', component: UserProfileSettingsApp },
 ] 
 
 const router = createRouter({
