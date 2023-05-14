@@ -12,7 +12,12 @@ const i18n = new createI18n({
             'forgot-password': 'Забыли пароль?',
             'no-profile': 'У вас нет профиля?',
             'signup': 'Зарегистрироваться',
-            'language': 'Язык'
+            'language': 'Язык',
+            'about-app': 'О приложении',
+            'feedback': 'Обратная связь',
+            'privacy-police': 'Политика конфиденциальности',
+            'terms-of-use': 'Условия использования',
+            'version': 'Версия'
         },
         en: {
             'btn-sign-in': 'Sign In',
@@ -22,7 +27,12 @@ const i18n = new createI18n({
             'forgot-password': 'Forgot your password?',
             'no-profile': 'Don\'t have a profile?',
             'signup': 'Sign up',
-            'language': 'Language'
+            'language': 'Language',
+            'about-app': 'О About app',
+            'feedback': 'Feedback',
+            'privacy-police': 'Privacy police',
+            'terms-of-use': 'Terms-of-use',
+            'version': 'Version'
         }
     },
 })

@@ -48,7 +48,7 @@
                         <v-btn color="grey-lighten-1" icon="mdi-chevron-right" variant="text"></v-btn>
                     </template>
                 </v-list-item>
-                <v-list-item title="О приложении">
+                <v-list-item :title="$t('about-app')" @click="$router.push('/settings/info')">
                     <template v-slot:prepend>
                         <v-icon color="primary">mdi-information-outline</v-icon>
                     </template>
