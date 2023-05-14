@@ -19,7 +19,7 @@
             </v-bottom-navigation>
             <v-divider class="over-driver"></v-divider>
             <v-list>
-                <v-list-item class="avatar-item" title="Иннокентий Пупырчатый" subtitle="ivanov@mail.ru" variant="tonal">
+                <v-list-item class="avatar-item" title="Иннокентий Пупырчатый" subtitle="ivanov@mail.ru" variant="tonal" @click="$router.push('/profile/information')">
                     <template v-slot:prepend>
                         <v-avatar
                             image="https://sun9-36.userapi.com/impg/9EGAXV98mSehy5617zZTg5Xw176v7I0Yd4xpXw/Hhtf-62aVL8.jpg?size=2560x1701&quality=95&sign=e9084093657bd7ec3c472da12da7ca23&type=album"
