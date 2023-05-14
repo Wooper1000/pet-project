@@ -39,7 +39,7 @@
                         <v-btn color="grey-lighten-1" icon="mdi-chevron-right" variant="text"></v-btn>
                     </template>
                 </v-list-item>
-                <v-list-item title="Геолокация">
+                <v-list-item :title="$t('geo')" @click="$router.push('/settings/geo')">
                     <template v-slot:prepend>
                         <v-icon color="primary">mdi-compass-outline</v-icon>
                     </template>

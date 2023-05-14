@@ -9,6 +9,8 @@ import UserInformationApp from "@/components/User-Information-App";
 import UserProfileSettingsApp from "@/components/User-Profile-Settings-App";
 import SettingsLanguageApp from "@/components/Settings-Language-App";
 import SettingsInfoApp from "@/components/Settings-Info-App";
+import SettingsGeoApp from "@/components/Settings-Geo-App";
+import SettingsGeoPermissionsApp from "@/components/Settings-Geo-Permissions-App";
 
 const routes = [
     { path: '/', name: 'WelcomeScreen', component: WelcomeScreenApp },
@@ -21,6 +23,8 @@ const routes = [
     { path: '/profile/settings', name: 'User-Profile-Settings', component: UserProfileSettingsApp },
     { path: '/settings/language', name: 'User-Profile-Settings-Language', component: SettingsLanguageApp },
     { path: '/settings/info', name: 'User-Profile-Settings-Info', component: SettingsInfoApp },
+    { path: '/settings/geo', name: 'User-Profile-Settings-Geo', component: SettingsGeoApp },
+    { path: '/settings/geo/permissions', name: 'User-Profile-Settings-Geo-Permission', component: SettingsGeoPermissionsApp },
 ]
 
 const router = createRouter({

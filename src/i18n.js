@@ -17,7 +17,12 @@ const i18n = new createI18n({
             'feedback': 'Обратная связь',
             'privacy-police': 'Политика конфиденциальности',
             'terms-of-use': 'Условия использования',
-            'version': 'Версия'
+            'version': 'Версия',
+            'geo': 'Геолокация',
+            'accept-geo': 'Доступ к геопозиции устройства',
+            'share-geo': 'Передача геоданных исполнителям задач',
+            'share-geo-admin': 'Передача геоданных администратору',
+            'share-geo-external': 'Доступ геоданных внешним приложениям и агрегаторам'
         },
         en: {
             'btn-sign-in': 'Sign In',
@@ -32,7 +37,12 @@ const i18n = new createI18n({
             'feedback': 'Feedback',
             'privacy-police': 'Privacy police',
             'terms-of-use': 'Terms-of-use',
-            'version': 'Version'
+            'version': 'Version',
+            'geo': 'Gelocation',
+            'accept-geo': 'Access to device location',
+            'share-geo': 'Transferring geodata to task performers',
+            'share-geo-admin': 'Transferring geodata to the administrator',
+            'share-geo-external': 'Geodata access to external applications and aggregators'
         }
     },
 })
