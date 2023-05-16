@@ -4,6 +4,7 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import colors from 'vuetify/lib/util/colors'
 import locale from '../i18n'
+import petIcons from "@/assets/pet-icons/icons";
 
 const vuetify = createVuetify({
     components,
@@ -29,6 +30,7 @@ const vuetify = createVuetify({
         aliases,
         sets: {
             mdi,
+            pet: petIcons
         }
     },
     theme: {
