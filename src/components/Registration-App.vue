@@ -130,6 +130,7 @@
 
         <v-row class="d-flex justify-start" style="height: 35px">
           <v-checkbox
+            v-model="isAgeAccepted"
             label="Мне есть 18 лет"
             validate-on="blur"
             :rules="rules.ageCheck"
@@ -211,6 +212,7 @@ export default {
       this.password2 = savedData.password2
       this.showPassword1 = savedData.showPassword1
       this.showPassword2 = savedData.showPassword2
+      this.isAgeAccepted = savedData.isAgeAccepted
       this.isAgreementChecked = savedData.isAgreementChecked
     }
     // Добавление обработчика события beforeunload
@@ -240,6 +242,7 @@ export default {
       rules: {
         ...validators,
       },
+      isAgeAccepted: false,
       isAgreementChecked: false,
     };
   },
@@ -260,6 +263,7 @@ export default {
         password2: this.password2,
         showPassword1: this.showPassword1,
         showPassword2: this.showPassword2,
+        isAgeAccepted: this.isAgeAccepted,
         isAgreementChecked: this.isAgreementChecked,
 
       };
@@ -290,7 +294,7 @@ export default {
         } catch (error) {
           if (error.response && error.response.status === 409) {
             this.$store.commit('showSnackbar', {
-              text: this.$t('User with email {email} is already exists', {email: this.email}),
+              text: `User with email ${this.email} is already exists`,
               color: 'error'
             });
           } else {
