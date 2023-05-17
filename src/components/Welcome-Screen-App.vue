@@ -10,7 +10,7 @@
     <v-footer app>
       <v-container>
             <v-btn class="my-3 font-weight-bold" block size="x-large" variant="elevated" color="primary" @click="$router.push('/registration')">{{ $t('signup') }}</v-btn>
-            <v-btn class="my-3 font-weight-bold" block size="x-large" variant="outlined" color="primary" @click="$router.push('/login')">{{ $('btn-sign-in') }}</v-btn>
+            <v-btn class="my-3 font-weight-bold" block size="x-large" variant="outlined" color="primary" @click="$router.push('/login')">{{ $t('btn-sign-in') }}</v-btn>
       </v-container>
     </v-footer>
 </template>

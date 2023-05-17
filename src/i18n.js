@@ -1,7 +1,7 @@
 import { createI18n } from 'vue-i18n'
 
 const i18n = new createI18n({
-    locale: 'en',
+    locale: 'ru',
     legacy: false,
     messages: {
         ru: {
