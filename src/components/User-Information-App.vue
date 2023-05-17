@@ -8,10 +8,10 @@
         <v-row class="d-flex align-center">
           <v-col cols="8">
             <v-card-text class="text-h5 font-weight-bold pl-0 pb-1" :style="{ lineHeight: '28.8px' }">
-              Иннокентий Пупырчатый
+              {{ this.fullname }}
             </v-card-text>
             <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">Пользователь</v-card-text>
-            <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">ID: 123456789</v-card-text>
+            <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">ID: {{ this.userid }}</v-card-text>
           </v-col>
           <v-col cols="4" class="align-self-center">
             <v-avatar
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import api from '../api'
 import * as rules from '../utils/validators'
 import phoneEditor from "@/utils/phoneEditor"
 import PositionEditorDialogApp from './dialogs/Position-Edit-Dialog-App'
@@ -72,7 +73,6 @@ import PasswordEditorDialogApp from './dialogs/Password-Edit-Dialog-App'
 export default {
   data() {
     return {
-      testPhone: { open: false },
       form: null,
       rules: { ...rules },
       fields: [
@@ -82,20 +82,27 @@ export default {
         { key: 'password', label: 'Пароль', value: 'Wooperloozer10', type: 'password', editable: true, rules: rules.password, dialog: 'passwrodDialog' },
         { key: 'company', label: 'Компания', value: 'ООО "ОБИТ"', type: 'text', editable: false, rules: rules.text }
       ],
-      modal: false,
       fieldToEdit: null,
-      notificationsCount: 20
+      notificationsCount: 20,
+      fullname: '',
+      userid: ''
     }
   },
+  created() {
+    this.updateUser();    
+  },
   methods: {
+    async updateUser(){
+      let user = await api.getUser();
 
+      this.fields.forEach(_field => {
+        _field.value = user[_field.key];
+      });
+      this.userid = user.userId;
+      this.fullname = user.fullname;
+    },
     openModal(field) {
       this.$refs[field.dialog].openDialog();
-    },
-    saveField() {
-      const index = this.fields.findIndex(f => f.key === this.fieldToEdit.key);
-      this.fields[index].value = this.fieldToEdit.value;
-      this.modal = false;
     },
     onPhoneInput() {
       this.fieldToEdit.value = phoneEditor(this.fieldToEdit.value);

@@ -17,9 +17,9 @@
                     </v-col>
                 </v-row>
             </div>
-            <v-divider class="over-driver mb-4"></v-divider>
+            <v-divider :thickness="2" class="over-driver mb-4"></v-divider>
             <v-list>
-                <v-list-item class="avatar-item" title="Иннокентий Пупырчатый" subtitle="ivanov@mail.ru" variant="tonal"
+                <v-list-item class="avatar-item" :title="user.fullname" :subtitle="user.email" variant="tonal"
                     @click="$router.push('/profile/information')">
                     <template v-slot:prepend>
                         <v-avatar
@@ -73,16 +73,37 @@
 </template>
 
 <script>
+import api from '../api';
 
 export default {
     data() {
         return {
-            test: '',
+            user: {
+                birthday: "",
+                email: "",
+                fullname: "",
+                gender: "",
+                phone: "",
+                userId: 0
+            },
         };
     },
-    mounted() {
+    created() {
+        this.updateUser();    
     },
     methods: {
+        async updateUser(){
+            let userData = await this.getUser();
+
+            for(let field in userData){
+                this.user[field] = userData[field];
+            }
+        },
+        async getUser(){
+            let user = await api.getUser();
+
+            return user;
+        }
     }
 };
 </script>

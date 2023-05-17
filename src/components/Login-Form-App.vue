@@ -119,7 +119,7 @@ export default {
           console.log(response.status)
            setTimeout(()=>{
              this.closeSnackbar();
-           this.$router.push('/profile')}
+           this.$router.push('/profile/settings')}
                ,1000)
             // если ответ не 200, то выводим сообщение из ответа в snackbar
             if(response.status !== 200){
