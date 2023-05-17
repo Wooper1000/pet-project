@@ -62,8 +62,10 @@
           </v-col>
           <v-col cols="5" class="pr-0 py-0">
             <v-combobox
-                v-model="gender.selected"
-                :items="gender.genders"
+                label="Пол"
+                :return-object="false"
+                v-model="gender"
+                :items="gendersList"
                 :rules="rules.genderSelected"
                 validate-on="input"
                 required
@@ -205,7 +207,7 @@ export default {
       this.firstName = savedData.firstName
       this.lastName = savedData.lastName
       this.birthday = savedData.birthday
-      this.gender=JSON.parse(savedData.gender)
+      this.gender = savedData.gender
       this.phone = savedData.phone
       this.email = savedData.email
       this.password1 = savedData.password1
@@ -229,10 +231,8 @@ export default {
       birthday: '',
       firstName: '',
       lastName: '',
-      gender: {
-        selected: 'Пол',
-        genders: ['Мужской', 'Женский'],
-      },
+      gendersList: [{title: 'Мужской',value:'MALE'}, {title:'Женский',value:'FEMALE'}],
+      gender: null,
       phone: null,
       email: '',
       password1: '',
@@ -256,7 +256,7 @@ export default {
         firstName: this.firstName,
         lastName: this.lastName,
         birthday: this.birthday,
-        gender: JSON.stringify(this.gender),
+        gender: this.gender,
         phone: this.phone,
         email: this.email,
         password1: this.password1,
@@ -281,7 +281,7 @@ export default {
           let response = await api.registerUser({
             fullname: this.lastName + ' ' + this.firstName,
             birthday: this.birthday.split('.').reverse().join('-'),
-            gender: this.gender?.selected === 'Мужской' ? 'MALE' : 'FEMALE',
+            gender: this.gender,
             email: this.email,
             phone: this.phone,
             password: this.password1
@@ -289,7 +289,7 @@ export default {
           this.$store.commit('showSnackbar', {text: this.$t(response.data, {email: this.email}), color: 'success'});
           localStorage.setItem('email', this.email)
           localStorage.setItem('password', this.password1)
-          localStorage.removeItem('registrationFormData');
+          localStorage.setItem('registrationFormData', JSON.stringify({}));
           this.$router.push('/login')
         } catch (error) {
           if (error.response && error.response.status === 409) {
