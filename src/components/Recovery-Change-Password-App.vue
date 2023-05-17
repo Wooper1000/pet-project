@@ -52,7 +52,7 @@
             block
             size="x-large"
             variant="elevated"
-            color="primary"
+            color="blue"
             @click="changePassword"
         >
           Изменить пароль
