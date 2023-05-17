@@ -49,8 +49,54 @@ const i18n = new createI18n({
             'notifications': 'Notifications',
             'new-notifications': 'New',
             'old-notifications': 'Readed'
+        },
+        by: {
+            'btn-sign-in': 'Увайсці',
+            'log-if-u-can': 'Увайдзіце ў асабісты кабінет, калі ў вас ужо ёсць рахунак',
+            'sign-in-title': 'Уваход у асабісты кабінет',
+            'password': 'Пароль',
+            'forgot-password': 'Забылі пароль?',
+            'no-profile': 'У вас няма профіля?',
+            'signup': 'Зарэгістравацца',
+            'language': 'Мова',
+            'about-app': 'Пра прыкладанне',
+            'feedback': 'Зваротная сувязь',
+            'privacy-police': 'Палітыка канфідэнцыйнасці',
+            'terms-of-use': 'Умовы выкарыстання',
+            'version': 'Версія',
+            'geo': 'Геалакацыя',
+            'accept-geo': 'Доступ да геапазіцыі прылады',
+            'share-geo': 'Перадача геададзеных выканаўцам задач',
+            'share-geo-admin': 'Перадача геададзеных адміністратару',
+            'share-geo-external': 'Доступ геададзеных вонкавым прыкладанням і агрэгатарам',
+            'notifications': 'Апавяшчэнні',
+            'new-notifications': 'Новыя',
+            'old-notifications': 'Прачытаныя'
+        },
+        ua:{
+            'btn-sign-in': 'Увійти',
+            'log-if-u-can': 'Увійдіть до особистого кабінету, якщо у вас вже є обліковий запис',
+            'sign-in-title': 'Вхід до особистого кабінету',
+            'password': 'Пароль',
+            'forgot-password': 'Забули пароль?',
+            'no-profile': 'У вас немає профілю?',
+            'signup': 'Зареєструватися',
+            'language': 'Мова',
+            'about-app': 'Про програму',
+            'feedback': 'Зворотний зв\'язок',
+            'privacy-police': 'Політика конфіденційності',
+            'terms-of-use': 'Умови використання',
+            'version': 'Версія',
+            'geo': 'Геолокація',
+            'accept-geo': 'Доступ до геопозиції пристрою',
+            'share-geo': 'Передача геоданих виконавцям завдань',
+            'share-geo-admin': 'Передача геоданих адміністратору',
+            'share-geo-external': 'Доступ геоданих зовнішніх додатків та агрегаторів',
+            'notifications': 'Сповіщення',
+            'new-notifications': 'Нові',
+            'old-notifications': 'Прочитані'
         }
-    },
+    }
 })
 
 export default i18n

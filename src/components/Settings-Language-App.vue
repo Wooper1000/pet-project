@@ -12,11 +12,11 @@
             <v-row>
                 <v-col cols="12">
                     <v-list>
-                        <v-list-item v-for="lang in languages" :key="lang.title" :title="lang.title" @click="changeLocale(lang.value)">
+                        <v-list-item v-for="(lang, key) in $i18n.availableLocales" :key="key" :title="languageMap[lang]" @click="changeLocale(lang)">
                             <template v-slot:append>
                             <v-btn
                                 color="primary"
-                                :icon="($vuetify.locale.current === lang.value) ? 'mdi-check' : ''"
+                                :icon="($i18n.locale === lang) ? 'mdi-check' : ''"
                                 variant="text"
                             ></v-btn>
                             </template>
@@ -30,27 +30,21 @@
 </template>
 
 <script>
-import { useLocale } from 'vuetify'
 
 export default {
-    setup () {
-      const { current } = useLocale()
-
-      return {
-        changeLocale: locale => current.value = locale
-      }
-    },
     data: () => ({
-        languages: [
-        {
-          title: 'Русский',
-          value: 'ru',
+        languageMap: {
+          en: 'English',
+          ru: 'Русский',
+          by: 'Беларуская',
+          ua:'Українська'
         },
-        {
-          title: 'English',
-          value: 'en',
-        }
-      ],
     }),
+  methods: {
+      changeLocale(locale){
+        console.log(this.$vuetify.locale)
+        this.$i18n.locale = locale
+      }
+  }
   }
 </script>
