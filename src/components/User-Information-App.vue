@@ -10,7 +10,7 @@
             <v-card-text class="text-h5 font-weight-bold pl-0 pb-1" :style="{ lineHeight: '28.8px' }">
               {{ this.fullname }}
             </v-card-text>
-            <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">Пользователь</v-card-text>
+            <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">{{ $t('user') }}</v-card-text>
             <v-card-text class="text-subtitle-2 pl-0 py-0" style="color:#908F8F">ID: {{ this.userid }}</v-card-text>
           </v-col>
           <v-col cols="4" class="align-self-center">
@@ -25,7 +25,7 @@
         <v-chip variant="text" class="text-subtitle-1 text-decoration-underline pr-2">Персональные
         </v-chip>
         <v-chip variant="text" style="color:#908F8F" class="pl-1"
-          @click="$router.push('/profile/notifications')">Уведомления</v-chip>
+          @click="$router.push('/profile/notifications')">{{ $t('notifications') }}</v-chip>
         <v-badge color="red" :content="21" floating />
       </v-row>
       <v-row class="d-flex justify-center">
@@ -75,11 +75,11 @@ export default {
       form: null,
       rules: { ...rules },
       fields: [
-        { key: 'position', label: 'Должность', value: 'Мастер', type: 'text', editable: true, rules: rules.text, dialog: 'positionDialog' },
-        { key: 'phone', label: 'Телефон', value: '+79110144266', type: 'tel', editable: true, rules: rules.phone, dialog: 'phoneDialog' },
+        { key: 'position', label: this.$t('position'), value: 'Мастер', type: 'text', editable: true, rules: rules.text, dialog: 'positionDialog' },
+        { key: 'phone', label: this.$t('phone'), value: '+79110144266', type: 'tel', editable: true, rules: rules.phone, dialog: 'phoneDialog' },
         { key: 'email', label: 'Email', value: 'example@gmail.com', type: 'email', editable: true, rules: rules.email, dialog: 'emailDialog' },
-        { key: 'password', label: 'Пароль', value: 'Wooperloozer10', type: 'password', editable: true, rules: rules.password, dialog: 'passwrodDialog' },
-        { key: 'company', label: 'Компания', value: 'ООО "ОБИТ"', type: 'text', editable: false, rules: rules.text }
+        { key: 'password', label: this.$t('password'), value: 'Wooperloozer10', type: 'password', editable: true, rules: rules.password, dialog: 'passwrodDialog' },
+        { key: 'company', label: this.$t('company'), value: 'ООО "ОБИТ"', type: 'text', editable: false, rules: rules.text }
       ],
       fieldToEdit: null,
       notificationsCount: 20,

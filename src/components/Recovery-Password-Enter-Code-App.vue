@@ -4,11 +4,11 @@
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
-        <h3>Восстановление пароля</h3>
+        <h3>{{ $t('password-recovery') }}</h3>
       </v-row>
       <v-row class="d-flex justify-start mb-2 ">
         <div class="mb-4">
-          <span class="text-subtitle-1">Введите код, отправленный на e-mail</span>
+          <span class="text-subtitle-1">{{ $t('enter-email-code') }}</span>
         </div>
       </v-row>
 
@@ -20,7 +20,7 @@
               v-model.lazy="code"
               variant="solo"
               validate-on="input"
-              label="Код"
+              :label="$t('code')"
               required
               inputmode="numeric"
               type="text"
@@ -38,13 +38,13 @@
               color="primary"
               @click="recover"
           >
-            Готово
+            {{ $t('ready') }}
           </v-btn>
         </v-row>
       </v-form>
       <div class="mt-4 text-center">
-        <span class="subtitle-1">Не пришёл код? </span>
-        <span class="text-decoration-underline text-blue" @click="retrySendCode">Отправить повторно</span>
+        <span class="subtitle-1">{{ $t('u-didnt-receive-a-code') }} </span>
+        <span class="text-decoration-underline text-blue" @click="retrySendCode">{{ $t('send-again') }}</span>
       </div>
     </v-container>
 </template>

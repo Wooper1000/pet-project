@@ -4,11 +4,11 @@
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
-        <h3>Регистрация</h3>
+        <h3>{{ $t('registration-title') }}</h3>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
         <div class="mb-4">
-          <span class="text-subtitle-1">Зарегистрируйтесь, чтобы рабочий процесс стал комфортным</span>
+          <span class="text-subtitle-1">{{ $t('registration-subtitle') }}</span>
         </div>
       </v-row>
 
@@ -20,7 +20,7 @@
               clear-icon="mdi-close"
               v-model.lazy="firstName"
               validate-on="input"
-              label="Имя"
+              :label="$t('first-name')"
               required
               :rules="rules.firstName"
               type="text"
@@ -34,7 +34,7 @@
               validate-on="blur"
               v-model.lazy="lastName"
               :rules="rules.lastName"
-              label="Фамилия"
+              :label="$t('last-name')"
               required
               type="text"
           ></v-text-field>
@@ -43,7 +43,7 @@
           <v-col cols="7" class="pl-0 py-0">
             <v-text-field
                 type="text"
-                label="Дата рождения"
+                :label="$t('birthday')"
                 v-model.lazy="birthday"
                 :rules="rules.birthday"
                 maxlength="10"
@@ -61,7 +61,7 @@
           </v-col>
           <v-col cols="5" class="pr-0 py-0">
             <v-combobox
-                label="Пол"
+                :label="$t('gender')"
                 :return-object="false"
                 v-model="gender"
                 :items="gendersList"
@@ -73,21 +73,21 @@
         </v-row>
         <v-row class="d-flex justify-start mb-5">
           <v-text-field
-              label="Телефон"
+              :label="$t('phone')"
               required
               type="tel"
               inputmode="numeric"
               validate-on="blur"
               v-model="phone"
               persistent-hint
-              hint="Номер с кодом города, например +7 999 432 32 32"
+              :hint="$t('phone-hint')"
               :rules="rules.phone"
               @input="onPhoneInput"
           ></v-text-field>
         </v-row>
         <v-row class="d-flex justify-start mb-7">
           <v-text-field
-              hint="На почту придет ссылка для подтверждения аккаунта"
+              :hint="$t('email-hint')"
               persistent-hint
               persistent-clear
               clearable
@@ -103,9 +103,9 @@
         <v-row class="d-flex justify-start mb-3 ">
           <v-text-field
               persistent-hint
-              hint="от 8 символов, только латинские буквы и цифры"
+              :hint="$t('password-hint')"
               v-model="password1"
-              label="Пароль"
+              :label="$t('password')"
               required
               @input="onPassword1Change()"
               :append-inner-icon="showPassword1 ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
@@ -118,13 +118,13 @@
         <v-row class="d-flex justify-start">
           <v-text-field
               v-model="password2"
-              label="Ещё раз пароль"
+              :label="$t('password-again')"
               required
               :append-inner-icon="showPassword2 ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
               :type="showPassword2 ? 'text' : 'password'"
               @click:appendInner="showPassword2 = !showPassword2"
               validate-on="input"
-              :rules="[v=>!!v||'Введите пароль',v=>v===password1 || 'Пароли не совпадают']"
+              :rules="[v=>!!v||$t('enter-password'),v=>v===password1 || $('passwords-match-reject')]"
               ref="password2"
           ></v-text-field>
         </v-row>
@@ -134,7 +134,7 @@
             v-model="isAgeAccepted"
             false-icon="mdi-checkbox-blank-outline"
             true-icon="mdi-checkbox-marked-outline"
-            label="Мне есть 18 лет"
+            :label="$t('im-18-years-old')"
             validate-on="blur"
             :rules="rules.ageCheck"
             false-value="red"
@@ -152,12 +152,12 @@
         >
           <template v-slot:label>
             <div style="line-height: 18px">
-              Я согласен
+              {{ $t('i-agree') }}
               <a
                   target="_blank"
                   href="https://m.obit.ru/upload/iblock/ea8/Pravila%20po%20okazanii%20uslug%20svyazi%20po%20peredachi%20dannih.pdf"
               >
-                с условиями обработки персональных данных
+                {{ $t('with-conditions') }}
               </a>
             </div>
           </template>
@@ -172,14 +172,14 @@
             color="primary"
             @click="registerUser"
         >
-          Зарегистрироваться
+          {{ $t('signup') }}
         </v-btn>
         </v-row>
       </v-form>
       <div class="mt-4 text-center">
-        <span class="subtitle-1">У вас уже есть профиль? </span>
+        <span class="subtitle-1">{{ $t('profile-exist') }}</span>
         <a
-            href="/login">Войти</a>
+            href="/login">{{ $t('btn-sign-in') }}</a>
       </div>
     </v-container>
   <v-snackbar
@@ -231,7 +231,7 @@ export default {
       birthday: '',
       firstName: '',
       lastName: '',
-      gendersList: [{title: 'Мужской',value:'MALE'}, {title:'Женский',value:'FEMALE'}],
+      gendersList: [{title: this.$t('gender-male'),value:'MALE'}, {title:this.$t('gender-female'),value:'FEMALE'}],
       gender: null,
       phone: null,
       email: '',
@@ -298,7 +298,7 @@ export default {
               color: 'error'
             });
           } else {
-            this.$store.commit('showSnackbar', {text: 'Произошла ошибка при регистрации', color: 'error'});
+            this.$store.commit('showSnackbar', {text: this.$t('registration-error'), color: 'error'});
           }
         }
       }
