@@ -1,5 +1,5 @@
 <template>
-    <v-app class="px-2">
+
         <v-container class="container">
             <TopBarApp></TopBarApp>
             <v-divider class="over-driver mb-5"></v-divider>
@@ -54,7 +54,6 @@
                 </v-list-item>
             </v-list>
         </v-container>
-    </v-app>
 </template>
 
 <script>

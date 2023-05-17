@@ -11,6 +11,9 @@ const vuetify = createVuetify({
     directives,
     locale,
     defaults: {
+        VApp:{
+            class:'px-2'
+        },
         VTextField: {
             variant: "solo",
             color: "primary",

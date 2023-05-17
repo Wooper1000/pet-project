@@ -1,5 +1,5 @@
 <template>
-  <v-app class="px-2">
+
     <v-container class="container">
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left" />
@@ -58,7 +58,6 @@
       <EmailEditorDialogApp ref="emailDialog"></EmailEditorDialogApp>
       <PasswordEditorDialogApp ref="passwrodDialog"></PasswordEditorDialogApp>
     </v-container>
-  </v-app>
 </template>
 
 <script>

@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-main class="d-flex align-center mb-6">
       <v-container  class="text-center" >
         <h1 class="text-primary">Добро пожаловать в [название]</h1>
@@ -14,7 +13,6 @@
             <v-btn class="my-3 font-weight-bold" block size="x-large" variant="outlined" color="primary" @click="$router.push('/login')">Вход</v-btn>
       </v-container>
     </v-footer>
-  </v-app>
 </template>
 <script>
 export default {

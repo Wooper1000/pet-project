@@ -1,5 +1,4 @@
 <template>
-  <v-app class="px-2">
     <v-container class="container">
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
@@ -177,15 +176,12 @@
         </v-btn>
         </v-row>
       </v-form>
-
       <div class="mt-4 text-center">
         <span class="subtitle-1">У вас уже есть профиль? </span>
         <a
             href="/login">Войти</a>
       </div>
-
     </v-container>
-  </v-app>
   <v-snackbar
       ref="snackbar"
       v-model="snackbar.visible"

@@ -1,5 +1,4 @@
 <template>
-  <v-app class="px-2">
     <v-container class="container" >
       <v-row class="d-flex justify-start mb-2">
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
@@ -61,7 +60,6 @@
         <a href="/registration">{{$t('signup')}}</a>
       </div>
     </v-container>
-  </v-app>
   <v-snackbar
       ref="snackbar"
       v-model="snackbar.visible"
