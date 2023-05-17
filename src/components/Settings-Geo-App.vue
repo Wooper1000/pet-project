@@ -25,7 +25,7 @@
             <v-list-item :title="$t('accept-geo')">
 
               <template v-slot:append>
-                <v-switch inset color="primary" :model-value="true"></v-switch>
+                <v-switch inset color="primary" v-model="isGeoEnabled" @change="handleGeoToggle"></v-switch>
               </template>
             </v-list-item>
             <v-list-item :title="$t('share-geo')" @click="$router.push('/settings/geo/permissions')">
@@ -58,6 +58,37 @@
 
 export default {
   data: () => ({
+    isGeoEnabled:false
   }),
+  methods: {
+    handleGeoToggle() {
+      alert('Заработает когда SSL сертификаты добавим')
+      this.isGeoEnabled=false
+      //после запуска сервера на SSL
+      // if (!this.isGeoEnabled) {
+      //   this.requestGeoData();
+      // }
+    },
+    requestGeoData() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            this.onSuccess,
+            this.onError
+        );
+      } else {
+        console.log("Геолокация не поддерживается в этом браузере");
+      }
+    },
+    onSuccess(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      console.log("Широта:", latitude);
+      console.log("Долгота:", longitude);
+      alert(`${latitude+' '+longitude}`)
+    },
+    onError(error) {
+      console.log("Ошибка получения геоданных:", error);
+    },
+  },
 }
 </script>
