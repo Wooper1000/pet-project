@@ -12,14 +12,14 @@
                         <div class="text-body-2">Задачи</div>
                     </v-col>
                     <v-col cols="4">
-                        <v-icon icon="pet:user" color="primary"></v-icon>
-                        <div class="text-body-2 text-primary">Профиль</div>
+                        <v-icon icon="pet:user" color="blue"></v-icon>
+                        <div class="text-body-2 text-blue">Профиль</div>
                     </v-col>
                 </v-row>
             </div>
-            <v-divider :thickness="2" class="over-driver mb-4"></v-divider>
+            <v-divider :thickness="0.5" class="over-driver mb-5"></v-divider>
             <v-list>
-                <v-list-item class="avatar-item" :title="user.fullname" :subtitle="user.email" variant="tonal"
+                <v-list-item class="avatar-item bg-gray-light mb-4" :title="user.fullname" :subtitle="user.email"
                     @click="$router.push('/profile/information')">
                     <template v-slot:prepend>
                         <v-avatar
@@ -33,7 +33,7 @@
                 </v-list-item>
                 <v-list-item :title="$t('language')" @click="$router.push('/settings/language')">
                     <template v-slot:prepend>
-                        <v-icon icon="pet:globe" class="settings-icon" color="primary"></v-icon>
+                        <v-icon icon="pet:globe" class="settings-icon" color="blue"></v-icon>
                     </template>
 
                     <template v-slot:append>
@@ -42,7 +42,7 @@
                 </v-list-item>
                 <v-list-item :title="$t('geo')" @click="$router.push('/settings/geo')">
                     <template v-slot:prepend>
-                        <v-icon icon="pet:compass" class="settings-icon" color="primary"></v-icon>
+                        <v-icon icon="pet:compass" class="settings-icon" color="blue"></v-icon>
                     </template>
 
                     <template v-slot:append>
@@ -51,7 +51,7 @@
                 </v-list-item>
                 <v-list-item :title="$t('about-app')" @click="$router.push('/settings/info')">
                     <template v-slot:prepend>
-                        <v-icon icon="pet:alert-circle" class="settings-icon" color="primary"> </v-icon>
+                        <v-icon icon="pet:alert-circle" class="settings-icon" color="blue"> </v-icon>
                     </template>
 
                     <template v-slot:append>
@@ -60,7 +60,7 @@
                 </v-list-item>
                 <v-list-item title="Выйти">
                     <template v-slot:prepend>
-                        <v-icon icon="pet:log-out" class="settings-icon" color="primary"></v-icon>
+                        <v-icon icon="pet:log-out" class="settings-icon" color="blue"></v-icon>
                     </template>
 
                     <template v-slot:append>
