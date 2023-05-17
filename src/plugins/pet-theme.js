@@ -1,6 +1,7 @@
 export default {
     dark: false,
     colors: {
+        primary: '#15499F',
         blue: '#15499F',
         'blue-jeans': '#2B74B9',
         'blue-dark': '#478ECC',
