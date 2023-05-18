@@ -5,6 +5,14 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'kv': 'кв',
+            'today': 'Сегодня',
+            'new-task-create-title': 'Создание нового адреса',
+            'enter-address': 'Введите адрес ',
+            'address': 'Адрес',
+            'enter-apartment': 'Введите количество квартир',
+            'from': 'От',
+            'to': 'До',
             'add-task': 'Добавьте первую задачу',
             'add-task-description': 'Сюда нужен текст на 2-3 строки',
             'search': 'Поиск',
@@ -112,6 +120,13 @@ const i18n = new createI18n({
             'old-notifications': 'Прочитанные'
         },
         en: {
+            'today': 'Today',
+            'new-task-create-title': 'Creating a new address',
+            'enter-address': 'Enter an address ',
+            'address': 'Address',
+            'enter-apartment': 'Enter number of apartments',
+            'from': 'From',
+            'to': 'To',
             'add-task': 'Add first task',
             'add-task-description': 'We need 2-3 lines of text here',
             'search': 'Search',
@@ -219,6 +234,13 @@ const i18n = new createI18n({
             'old-notifications': 'Read'
         },
         by: {
+            'today': 'Сёння',
+            'new-task-create-title': 'Стварэнне новага адраса',
+            'enter-address': 'Увядзіце адрас ',
+            'address': 'Адрас',
+            'enter-apartment': 'Увядзіце колькасць кватэр',
+            'from': 'Ад',
+            'to': 'Да',
             'add-task': 'Дадайце першую задачу',
             'add-task-description': 'Сюды патрэбен тэкст на 2-3 радкі',
             'search': 'Пошук',
@@ -326,6 +348,13 @@ const i18n = new createI18n({
             'old-notifications': 'Прачытаныя'
         },
         ua:{
+            'today': 'Сьогодні',
+            'new-task-create-title': 'Створення нової адреси',
+            'enter-address': 'Введіть адресу',
+            'address': 'Адреса',
+            'enter-apartment': 'Введіть кількість квартир',
+            'from': 'Від',
+            'to': 'До',
             'add-task': 'Додайте перше завдання',
             'add-task-description': 'Сюди потрібен текст на 2-3 рядки',
             'search': 'Пошук',

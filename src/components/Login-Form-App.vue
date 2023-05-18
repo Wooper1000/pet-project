@@ -112,11 +112,13 @@ export default {
               email: this.email,
               token: response.data.token,
             });
-            localStorage.clear()
-          console.log(response.status)
+            localStorage.removeItem('email');
+            localStorage.removeItem('password');
+
+
            setTimeout(()=>{
              this.closeSnackbar();
-           this.$router.push('/profile/settings')}
+              this.$router.push('/task-manager')}
                ,1000)
             // если ответ не 200, то выводим сообщение из ответа в snackbar
             if(response.status !== 200){
