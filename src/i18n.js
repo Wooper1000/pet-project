@@ -5,6 +5,11 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'add-task': 'Добавьте первую задачу',
+            'add-task-description': 'Сюда нужен текст на 2-3 строки',
+            'search': 'Поиск',
+            'create': 'Создать',
+            'select': 'Выделить',
             'personal': 'Персональные',
             'your-position': 'Ваша должность',
             'your-position-changed': 'Ваша должность изменена',
@@ -107,6 +112,11 @@ const i18n = new createI18n({
             'old-notifications': 'Прочитанные'
         },
         en: {
+            'add-task': 'Add first task',
+            'add-task-description': 'We need 2-3 lines of text here',
+            'search': 'Search',
+            'create': 'Create',
+            'select': 'Select',
             'personal': 'Personal',
             'your-position': 'Your position',
             'your-position-changed': 'Your position has changed',
@@ -209,6 +219,11 @@ const i18n = new createI18n({
             'old-notifications': 'Read'
         },
         by: {
+            'add-task': 'Дадайце першую задачу',
+            'add-task-description': 'Сюды патрэбен тэкст на 2-3 радкі',
+            'search': 'Пошук',
+            'create': 'Стварыць',
+            'select': 'Вылучыць',
             'personal': 'Персанальныя',
             'your-position': 'Ваша пасада',
             'your-position-changed': 'Ваша пасада зменена',
@@ -311,6 +326,11 @@ const i18n = new createI18n({
             'old-notifications': 'Прачытаныя'
         },
         ua:{
+            'add-task': 'Додайте перше завдання',
+            'add-task-description': 'Сюди потрібен текст на 2-3 рядки',
+            'search': 'Пошук',
+            'create': 'Створити',
+            'select': 'Виділити',
             'personal': 'Персональні',
             'your-position': 'Ваша посада',
             'your-position-changed': 'Ваша посада змінена',

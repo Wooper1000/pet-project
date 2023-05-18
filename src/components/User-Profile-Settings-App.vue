@@ -1,8 +1,8 @@
 <template>
-
-        <v-container class="container">
-            <TopBarApp></TopBarApp>
-            <v-divider class="over-driver mb-5"></v-divider>
+<v-layout>
+    <TopBarApp active="profile"></TopBarApp>
+    <v-main>
+        <v-container>
             <v-list>
                 <v-list-item class="avatar-item bg-gray-light mb-4" :title="user.fullname" :subtitle="user.email"
                     @click="$router.push('/profile/information')">
@@ -54,6 +54,8 @@
                 </v-list-item>
             </v-list>
         </v-container>
+    </v-main>
+</v-layout>
 </template>
 
 <script>
@@ -115,22 +117,4 @@ export default {
     margin-right: 14px !important;
     --v-medium-emphasis-opacity: 1;
 }
-
-.top-nav {
-    top: 0px;
-    width: 100%;
-    height: 56px;
-    color: gray;
-}
-
-.v-bottom-navigation i {
-    font-size: 25px;
-}
-
-.over-driver {
-    width: 150%;
-    margin-left: -20%;
-    border-top-width: 0.5px;
-    border-top-color: rgba(60,60,67,0.36);
-    --v-border-opacity: 1;
-}</style>
+</style>

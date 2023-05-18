@@ -39,6 +39,16 @@ export default {
         }else{
             return response.data;
         }
+    },
+    async getUserTasks(){
+        let tasks = [];
+        let response = await apiClient.get('/tasks/user');
+
+        if(response.status !== 200){
+            return tasks;
+        }else{
+            return response.data;
+        }
     }
     // другие методы для работы с API
 };

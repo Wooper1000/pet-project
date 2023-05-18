@@ -12,6 +12,7 @@ import SettingsInfoApp from "@/components/Settings-Info-App";
 import SettingsGeoApp from "@/components/Settings-Geo-App";
 import SettingsGeoPermissionsApp from "@/components/Settings-Geo-Permissions-App";
 import UserProfileNotificationsApp from "@/components/User-Profile-Notifications-App";
+import TaskManagerApp from '@/components/Task-Manager-App';
 
 const routes = [
     { path: '/', name: 'WelcomeScreen', component: WelcomeScreenApp },
@@ -27,6 +28,7 @@ const routes = [
     { path: '/settings/geo', name: 'User-Profile-Settings-Geo', component: SettingsGeoApp },
     { path: '/settings/geo/permissions', name: 'User-Profile-Settings-Geo-Permission', component: SettingsGeoPermissionsApp },
     { path: '/profile/notifications', name: 'User-Profile-Notifications', component: UserProfileNotificationsApp },
+    { path: '/task-manager', name: 'Task-Manager', component: TaskManagerApp },
 ]
 
 const router = createRouter({
