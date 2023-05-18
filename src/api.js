@@ -5,7 +5,7 @@ let headers = {
     'Content-Type': 'application/json'
 };
 let config = {
-    baseURL: 'https://back.pet-project.keenetic.pro/api/v1',
+    baseURL: 'http://188.143.130.20:9090/api/v1',
     headers,
 };
 let apiClient = axios.create(config);
