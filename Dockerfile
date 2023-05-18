@@ -25,3 +25,4 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 # expose port 80
 EXPOSE 80
+EXPOSE 443
