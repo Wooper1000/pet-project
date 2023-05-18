@@ -7,11 +7,11 @@
                     <v-icon icon="pet:settings" :color="(active == 'settings') ? 'blue' : ''"></v-icon>
                     <div class="text-body-2" :class="{'text-blue': active == 'settings'}">{{ $t('settings') }}</div>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="4" @click="$router.push('/task-manager')">
                     <v-icon icon="pet:server" :color="(active == 'tasks') ? 'blue' : ''"></v-icon>
                     <div class="text-body-2" :class="{'text-blue': active == 'tasks'}">{{ $t('tasks') }}</div>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="4" @click="$router.push('/profile/settings')" >
                     <v-icon icon="pet:user" :color="(active == 'profile') ? 'blue' : ''"></v-icon>
                     <div class="text-body-2" :class="{'text-blue': active == 'profile'}">{{ $t('profile') }}</div>
                 </v-col>

@@ -26,10 +26,10 @@
                         <template #title>
                             <v-container>
                                 <v-row>
-                                    <v-col cols="6">
+                                    <v-col cols="7" class="text-truncate">
                                         {{ _task.title }}
                                     </v-col>
-                                    <v-col cols="6">
+                                    <v-col cols="5">
                                         {{ _task.subtasks.from }} - {{ _task.subtasks.to }} {{ $t('kv') }} 
                                         <v-divider></v-divider>
                                     </v-col>
