@@ -15,13 +15,13 @@
                 </v-sheet>
             </div>
 
-            <div v-if="tasks.length">
-                <span class="text-h2"> {{ $t('today') }} </span>
+            <div v-if="tasks.length" class="pa-4">
+                <span class="text-h4"> {{ $t('today') }} </span>
                 <v-list lines="two">
                     <v-list-item
                         v-for="_task in tasks"
                         :key="_task.title"
-                        class="rounded-xl bg-gray-light"
+                        class="rounded-xl bg-gray-light mb-4"
                     >
                         <template #title>
                             <v-container>
@@ -50,7 +50,7 @@
                 </v-list>
             </div>
         </v-main>
-        <BottomBarApp></BottomBarApp>
+        <BottomBarApp @item-clicked="onMenuClicked"></BottomBarApp>
     </v-layout>
 
     <V-dialog v-model="addTaskDialogShow">
@@ -125,6 +125,11 @@ export default {
         }
     },
     methods: {
+        onMenuClicked(item){
+            if(item == 'create'){
+                this.addTaskDialogShow = true;
+            }
+        },
         async addTask(task){
             await api.addTask(task);
             this.addTaskDialogShow = false;

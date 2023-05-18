@@ -3,15 +3,15 @@
         <v-divider class="split-divider"></v-divider>
         <v-container class="text-center">
             <v-row class="main-row">
-                <v-col cols="4">
+                <v-col cols="4" @click="onClcikMenuItem('search')">
                     <v-icon icon="pet:search" :color="(active == 'search') ? 'blue' : ''"></v-icon>
                     <div class="text-body-2" :class="{'text-blue': active == 'search'}">{{ $t('search') }}</div>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="4" @click="onClcikMenuItem('create')">
                     <v-icon icon="pet:plus" :color="(active == 'create') ? 'blue' : ''"></v-icon>
                     <div class="text-body-2" :class="{'text-blue': active == 'create'}">{{ $t('create') }}</div>
                 </v-col>
-                <v-col cols="4">
+                <v-col cols="4" @click="onClcikMenuItem('select')">
                     <v-icon icon="pet:more-horizontal" :color="(active == 'select') ? 'blue' : ''"></v-icon>
                     <div class="text-body-2" :class="{'text-blue': active == 'select'}">{{ $t('select') }}</div>
                 </v-col>
@@ -26,6 +26,11 @@ export default {
         active: {
             type: String,
             default: 'settings'
+        }
+    },
+    methods: {
+        onClcikMenuItem(item){
+            this.$emit('item-clicked',item);
         }
     }
 }
