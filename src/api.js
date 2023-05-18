@@ -8,19 +8,29 @@ let config = {
     baseURL: 'http://188.143.130.20:9090/api/v1',
     headers,
 };
-let apiClient = axios.create(config);
+let token = localStorage.getItem('token');
 
+if(token){
+    config.headers['Authorization'] = `Bearer ${token}`;
+}
+
+let apiClient = axios.create(config);
 
 export default {
     registerUser(user) {
         return apiClient.post('/auth/register', user);
     },
     async loginUser(user) {
-        let response = await apiClient.post('/auth', user);
+        let response = null;
+
+        delete config.headers['Authorization'];
+        apiClient = axios.create(config);
+        response = await apiClient.post('/auth', user)
 
         try{
             let token = response.data.token;
 
+            localStorage.setItem('token',token);
             config.headers['Authorization'] = `Bearer ${token}`;
             apiClient = axios.create(config);
         }catch(e){
@@ -46,6 +56,16 @@ export default {
 
         if(response.status !== 200){
             return tasks;
+        }else{
+            return response.data;
+        }
+    },
+    async addTask(task){
+        let result = {};
+        let response = await apiClient.post('/tasks', task);
+
+        if(response.status !== 200){
+            return result;
         }else{
             return response.data;
         }
