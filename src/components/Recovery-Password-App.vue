@@ -4,11 +4,11 @@
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
-        <h3>Восстановление пароля</h3>
+        <h3>{{ $t('password-recovery') }}</h3>
       </v-row>
       <v-row class="d-flex justify-start mb-2 ">
         <div class="mb-4">
-          <span class="text-subtitle-1">Введите e-mail, указанный при регистрации. На почту придет код для восстановления пароля</span>
+          <span class="text-subtitle-1">{{ $t('enter-registration-email') }}</span>
         </div>
       </v-row>
 
@@ -37,7 +37,7 @@
               color="primary"
               @click="getCode"
           >
-            Получить код
+          {{ $t('get-code') }}
           </v-btn>
         </v-row>
       </v-form>

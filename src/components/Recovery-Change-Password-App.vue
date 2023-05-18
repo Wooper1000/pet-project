@@ -4,11 +4,11 @@
         <v-icon @click="$router.go(-1)" icon="mdi-chevron-left"/>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
-        <h3>Новый пароль</h3>
+        <h3>{{ $t('new-password') }}</h3>
       </v-row>
       <v-row class="d-flex justify-start mb-2">
         <div class="mb-4">
-          <span class="text-subtitle-1">Введите новый пароль</span>
+          <span class="text-subtitle-1">{{ $t('enter-new-password') }}</span>
         </div>
       </v-row>
       <v-form @submit.prevent="changePassword" ref="form">
@@ -16,10 +16,10 @@
           <v-text-field
               autofocus
               persistent-hint
-              hint="от 8 символов, только латинские буквы и цифры"
+              :hint="$t('password-hint')"
               variant="solo"
               v-model="password1"
-              label="Пароль"
+              :label="$t('password')"
               required
               @input="onPassword1Change()"
               :append-inner-icon="showPassword1 ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
@@ -34,13 +34,13 @@
           <v-text-field
               variant="solo"
               v-model="password2"
-              label="Ещё раз пароль"
+              :label="$t('password-again')"
               required
               :append-inner-icon="showPassword2 ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
               :type="showPassword2 ? 'text' : 'password'"
               @click:appendInner="showPassword2 = !showPassword2"
               validate-on="input"
-              :rules="[v=>v===password1 || 'Пароли не совпадают']"
+              :rules="[v=>v===password1 || $t('passwords-match-reject')]"
               @keydown.enter="changePassword"
               ref="password2"
           ></v-text-field>
@@ -54,7 +54,7 @@
             color="blue"
             @click="changePassword"
         >
-          Изменить пароль
+          {{ $t('change-password') }}
         </v-btn>
         </v-row>
       </v-form>

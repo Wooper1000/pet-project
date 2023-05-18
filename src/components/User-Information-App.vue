@@ -22,7 +22,7 @@
         </v-row>
       </v-card>
       <v-row class="align-self-center mt-7">
-        <v-chip variant="text" class="text-subtitle-1 text-decoration-underline pr-2">Персональные
+        <v-chip variant="text" class="text-subtitle-1 text-decoration-underline pr-2">{{ $t('personal') }}
         </v-chip>
         <v-chip variant="text" style="color:#908F8F" class="pl-1"
           @click="$router.push('/profile/notifications')">{{ $t('notifications') }}</v-chip>

@@ -35,7 +35,6 @@
               :type="showPassword ? 'text' : 'password'"
               @click:appendInner="showPassword = !showPassword"
               validate-on="input"
-              :rules="[v=>v.length>=6 || 'Короткий пароль']"
               @keydown.enter="login"
           ></v-text-field>
         </v-row>
@@ -108,7 +107,7 @@ export default {
         try {
           const response = await api.loginUser({ email: this.email, password: this.password });
             // если ответ 200, то выводим snackbar "Вход выполнен" и переходим на страницу профиля
-            this.$store.commit('showSnackbar', { text: 'Вход выполнен', color: 'success' });
+            this.$store.commit('showSnackbar', { text: this.$t('sign-in-success'), color: 'success' });
             this.$store.commit('setUser', {
               email: this.email,
               token: response.data.token,
