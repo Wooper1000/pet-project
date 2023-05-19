@@ -65,8 +65,7 @@
                 :return-object="false"
                 v-model="gender"
                 :items="gendersList"
-                :rules="rules.genderSelected"
-                validate-on="input"
+                validate-on="blur"
                 required
             ></v-combobox>
           </v-col>

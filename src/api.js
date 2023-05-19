@@ -18,13 +18,17 @@ let apiClient = axios.create(config);
 
 export default {
     registerUser(user) {
+        this.resetToken();
         return apiClient.post('/auth/register', user);
+    },
+    resetToken(){
+        delete config.headers['Authorization'];
+        apiClient = axios.create(config);
     },
     async loginUser(user) {
         let response = null;
 
-        delete config.headers['Authorization'];
-        apiClient = axios.create(config);
+        this.resetToken();
         response = await apiClient.post('/auth', user)
 
         try{
