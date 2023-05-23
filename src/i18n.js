@@ -5,6 +5,7 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'floor': 'эт',
             'kv': 'кв',
             'today': 'Сегодня',
             'new-task-create-title': 'Создание нового адреса',

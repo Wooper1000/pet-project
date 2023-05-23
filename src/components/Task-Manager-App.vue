@@ -30,8 +30,9 @@
                                         {{ _task.title }}
                                     </v-col>
                                     <v-col cols="5">
-                                        {{ _task.subtasks.from }} - {{ _task.subtasks.to }} {{ $t('kv') }} 
+                                        {{ _task.subtasksFrom }} - {{ _task.subtasksTo }} {{ $t('kv') }} 
                                         <v-divider></v-divider>
+                                        {{ _task.floorsFrom }} - {{ _task.floorsTo }} {{ $t('floor') }} 
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -118,7 +119,6 @@ export default {
             tasks: [],
             newTask: {
                 title: '',
-                subtasksTitle: '',
                 from: '',
                 to: ''
             }
