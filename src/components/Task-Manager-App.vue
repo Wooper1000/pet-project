@@ -22,6 +22,7 @@
                         v-for="_task in tasks"
                         :key="_task.title"
                         class="rounded-xl bg-gray-light mb-4"
+                        @click="$router.push('/task-manager/tasks/' + _task.taskId)"
                     >
                         <template #title>
                             <v-container>

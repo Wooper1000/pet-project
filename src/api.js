@@ -64,6 +64,16 @@ export default {
             return response.data;
         }
     },
+    async getFullTask(id){
+        let task = {};
+        let response = await apiClient.get('/tasks/' + id);
+
+        if(response.status !== 200){
+            return task;
+        }else{
+            return response.data;
+        }
+    },
     async addTask(task){
         let result = {};
         let response = await apiClient.post('/tasks', task);

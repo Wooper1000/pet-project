@@ -5,6 +5,9 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'lounge-title': 'Подъезд',
+            'floor-title': 'Этаж',
+            'subtask-title': 'Квартира',
             'floor': 'эт',
             'kv': 'кв',
             'today': 'Сегодня',

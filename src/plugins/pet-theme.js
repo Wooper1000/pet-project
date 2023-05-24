@@ -14,7 +14,7 @@ export default {
         'gray-light': '#EEEEEE',
         'white': '#FFFFFF',
         'system-red': '#EE5D4F',
-        'system-red-10': 'rgba(238, 93, 79, 0.1)',
+        'system-red-10': '#EE5D4F',
         'system-green': '#50D33F',
         'system-orange': '#F5B93A'
     }
