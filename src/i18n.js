@@ -5,6 +5,10 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'enter-floor': 'Введите этаж',
+            'enter-lounge': 'Введите подъезд',
+            'join': 'Объединить',
+            'join-floors-lounge': 'Объединить в этаж и подъезд',
             'lounge-title': 'Подъезд',
             'floor-title': 'Этаж',
             'subtask-title': 'Квартира',

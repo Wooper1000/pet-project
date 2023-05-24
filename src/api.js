@@ -74,6 +74,9 @@ export default {
             return response.data;
         }
     },
+    async joinFloorsLounges(){
+
+    },
     async addTask(task){
         let result = {};
         let response = await apiClient.post('/tasks', task);
