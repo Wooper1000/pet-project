@@ -22,7 +22,7 @@
                         v-for="_task in tasks"
                         :key="_task.title"
                         class="rounded-xl bg-gray-light mb-4"
-                        @click="$router.push('/task-manager/tasks/' + _task.taskId)"
+                        @click.stop="$router.push('/task-manager/tasks/' + _task.taskId)"
                     >
                         <template #title>
                             <v-container>
@@ -38,14 +38,14 @@
                                 </v-row>
                             </v-container>
                         </template>
-                        <template #prepend>
+                        <template #prepend >
                             <v-list-item-action start>
-                                <v-checkbox-btn></v-checkbox-btn>
+                                <v-checkbox-btn v-model="_task.selected" @click.stop></v-checkbox-btn>
                             </v-list-item-action>
                         </template>
-                        <template #append>
+                        <template #append >
                             <v-list-item-action end>
-                                <v-checkbox-btn></v-checkbox-btn>
+                                <v-checkbox-btn v-model="_task.selected" @click.stop></v-checkbox-btn>
                             </v-list-item-action>
                         </template>
                     </v-list-item>
