@@ -86,6 +86,23 @@ export default {
         }else{
             return response.data;
         }
+    },
+    async getStructureOnAddress(addr, start, end){
+        let url = "http://188.143.130.20:3000/";
+        let params = `?address=${addr}&start=${start}&end=${end}`;
+        let resp = await axios.get(url + params);
+
+        return resp.data;
+    },
+    async replaceSubTasks(params){
+        let response = apiClient.patch(`/tasks/${params.taskid}/subtasks/replace`, params, {
+            params,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        return response;
     }
     // другие методы для работы с API
 };

@@ -5,6 +5,17 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'add-mark': 'Добавить метку',
+            'change-priority': 'Изменить приоритет',
+            'show-on-map': 'Показать на карте',
+            'set-signal': 'Установить сигнал',
+            'paste': 'Вставить',
+            'copy': 'Копировать',
+            'edit': 'Редактировать',
+            'setup': 'Настроить',
+            'cancel': 'Отмена',
+            'generate-title': 'Генерация',
+            'generate-floors': 'Попататься сформировать этажи и подъезды автоматически',
             'enter-floor': 'Введите этаж',
             'enter-lounge': 'Введите подъезд',
             'join': 'Объединить',
