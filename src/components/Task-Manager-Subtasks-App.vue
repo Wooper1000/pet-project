@@ -11,41 +11,49 @@
                         <p class="h3">{{ fullTask.title }}</p>
                     </v-col>
                 </v-row>
-                <v-row v-for="_lounge in fullTask.lounges" :key="_lounge.number">
-                    <v-col cols="2" class="title-col bg-blue-aqua mb-2">
-                        <p class="lounge-title">{{ _lounge.number }} {{ $t('lounge-title') }}</p>
-                    </v-col>
-                    <v-col cols="10">
-                        <v-container class="sub-cotainer">
-                            <v-row v-for="_floor in _lounge.floors" :key="_floor.number">
-                                <v-col cols="10" class="pa-0">
-                                    <v-list>
-                                        <template v-for="_subtask in _floor.subtasks" :key="_subtask.number">
-                                        <v-list-item class="pa-0">
-                                            <v-list-item-title> {{ $t('subtask-title') }} {{ _subtask.number
-                                            }}</v-list-item-title>
-                                            <template #prepend>
-                                                <v-list-item-action start @change="changeSubTaskSelection(_subtask)">
-                                                    <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
-                                                </v-list-item-action>
-                                            </template>
-                                            <template #append>
-                                                <v-list-item-action end @change="changeSubTaskSelection(_subtask)">
-                                                    <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
-                                                </v-list-item-action>
-                                            </template>
-                                            
-                                        </v-list-item>
-                                        <v-divider :thickness="2"></v-divider>
-                                    </template>
-                                    </v-list>
-                                </v-col>
-                                <v-col cols="2" class="title-col bg-blue-sky mb-2">
-                                    <p class="floor-title">{{ _floor.number }} {{ $t('floor-title') }}</p>
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-col>
+                <v-row>
+                  <v-col>
+                    <div class="container" v-for="_lounge in fullTask.lounges" :key="_lounge.number">
+                      <div class="column1 bg-blue-aqua"> <!-- Первая колонка -->
+                        <div class="lounge-title">
+                          {{ _lounge.number }} {{ $t('lounge-title') }}
+                        </div>
+                      </div>
+                      <div class="column2"> <!-- Вторая колонка -->
+                        <div class="block" v-for="_floor in _lounge.floors" :key="_floor.number">
+                          <div class="container">
+                            <div class="column1-f"> <!-- Вторая колонка -->
+                                <v-list class="block">
+                                  <template v-for="_subtask in _floor.subtasks" :key="_subtask.number">
+                                    <v-list-item class="pa-0">
+                                      <v-list-item-title> {{ $t('subtask-title') }} {{ _subtask.number
+                                        }}</v-list-item-title>
+                                      <template #prepend>
+                                        <v-list-item-action start @change="changeSubTaskSelection(_subtask)">
+                                          <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
+                                        </v-list-item-action>
+                                      </template>
+                                      <template #append>
+                                        <v-list-item-action end @change="changeSubTaskSelection(_subtask)">
+                                          <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
+                                        </v-list-item-action>
+                                      </template>
+                                    </v-list-item>
+                                    <v-divider :thickness="2"></v-divider>
+                                  </template>
+                                </v-list>
+                            </div>
+                            <div class="column2-f bg-blue-sky"> <!-- Первая колонка -->
+                              <div class="floor-title">
+                                {{ _floor.number }} {{ $t('floor-title') }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- Другие блоки -->
+                      </div>
+                    </div>
+                  </v-col>
                 </v-row>
             </v-container>
         </v-main>
@@ -319,17 +327,53 @@ export default {
 .app-container {
     height: calc(100vh - 128px);
     overflow: auto;
+    padding: 16px 8px;
 }
 
 .sub-cotainer {
     padding: 0px;
 }
 
+.lounge-container {
+  width: 100%;
+  display: block;
+  height: fit-content;
+}
+
 .lounge-title,
 .floor-title {
-    writing-mode: tb-rl;
-    transform: rotate(-180deg);
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    text-align: center;
     position: sticky;
     top: 40%;
+}
+
+.container {
+  display: flex;
+}
+
+.column1 {
+  width: 44px;
+  padding-left: 10px;
+}
+
+.column2 {
+  flex-grow: 1;
+}
+
+.column1-f {
+  flex-grow: 1;
+
+}
+
+.column2-f {
+  width: 44px;
+  padding-left: 10px;
+}
+
+.block {
+  margin-bottom: 10px;
 }
 </style>
