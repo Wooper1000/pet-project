@@ -4,8 +4,13 @@
     <v-main>
         <v-container>
             <v-list>
-                <v-list-item class="avatar-item bg-gray-light mb-4" :title="user.fullname" :subtitle="user.email"
-                    @click="$router.push('/profile/information')">
+                <v-list-item class="avatar-item bg-gray-light mb-4" @click="$router.push('/profile/information')">
+                    <v-list-item-title style="font-size: 16px; line-height: 19.2px;">
+                        {{ user.fullname }}
+                    </v-list-item-title>
+                    <v-list-item-subtitle  color="black" style="font-size: 16px; line-height: 19.2px;">
+                        {{ user.email }}
+                    </v-list-item-subtitle>
                     <template v-slot:prepend>
                         <v-avatar
                             image="https://sun9-36.userapi.com/impg/9EGAXV98mSehy5617zZTg5Xw176v7I0Yd4xpXw/Hhtf-62aVL8.jpg?size=2560x1701&quality=95&sign=e9084093657bd7ec3c472da12da7ca23&type=album"

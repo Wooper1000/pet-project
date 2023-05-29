@@ -10,7 +10,7 @@ export default {
         'blue-sky': '#BEDEF5',
         'black': '#0E1D36',
         'gray-dark': '#908F8F',
-        gray: '#CCCCCC',
+        gray: '#908F8F',
         'gray-light': '#EEEEEE',
         'white': '#FFFFFF',
         'system-red': '#EE5D4F',
