@@ -12,15 +12,15 @@
                     </v-col>
                 </v-row>
                 <v-row v-for="_lounge in fullTask.lounges" :key="_lounge.number">
-                    <v-col cols="2" class="title-col bg-blue-aqua">
+                    <v-col cols="2" class="title-col bg-blue-aqua mb-2">
                         <p class="lounge-title">{{ _lounge.number }} {{ $t('lounge-title') }}</p>
                     </v-col>
                     <v-col cols="10">
                         <v-container class="sub-cotainer">
-                            <v-row v-for="_floor in _lounge.floors" :key="_floor.number" v-once>
-                                <v-col cols="10" class="pa-0 mb-2">
+                            <v-row v-for="_floor in _lounge.floors" :key="_floor.number">
+                                <v-col cols="10" class="pa-0">
                                     <v-list>
-                                        <tamplate v-for="_subtask in _floor.subtasks" :key="_subtask.number">
+                                        <template v-for="_subtask in _floor.subtasks" :key="_subtask.number">
                                         <v-list-item class="pa-0">
                                             <v-list-item-title> {{ $t('subtask-title') }} {{ _subtask.number
                                             }}</v-list-item-title>
@@ -37,7 +37,7 @@
                                             
                                         </v-list-item>
                                         <v-divider :thickness="2"></v-divider>
-                                    </tamplate>
+                                    </template>
                                     </v-list>
                                 </v-col>
                                 <v-col cols="2" class="title-col bg-blue-sky mb-2">
@@ -55,11 +55,11 @@
                 <v-card-title class="text-center">{{ $t('select') }}</v-card-title>
                 <v-card-text style="height: 350px;">
                     <v-list>
-                        <!-- <v-list-item>
-                            <v-list-item-title @click="tryGenerateFloors()">
-                                {{ $t('generate-floors') }}
-                            </v-list-item-title>
-                        </v-list-item> -->
+<!--                         <v-list-item>-->
+<!--                            <v-list-item-title @click="tryGenerateFloors()">-->
+<!--                                {{ $t('generate-floors') }}-->
+<!--                            </v-list-item-title>-->
+<!--                        </v-list-item>-->
                         <v-divider></v-divider>
                         <v-list-item>
                             <v-list-item-title @click="showJoinDialog = true">
@@ -78,7 +78,7 @@
                         </v-list-item>
                         <v-list-item>
                             <v-list-item-title>
-                                {{ $t('jshow-on-map') }}
+                                {{ $t('show-on-map') }}
                             </v-list-item-title>
                         </v-list-item>
                         <v-list-item>
@@ -240,7 +240,7 @@ export default {
             structResp = await api.getStructureOnAddress(this.fullTask.title, start, end);
             console.log(structResp);
             this.generate.messages[0].inProgress = false;
-            if(structResp.status == "ok" && structResp.lounges.length){
+            if(structResp.status === "ok" && structResp.lounges.length){
                 this.generate.messages[0].success = true;
                 this.generate.messages[0].info = `Информация получена: для задач ${start} - ${end} надено ${structResp.lounges.length} подъездов`;
             }else{
@@ -249,30 +249,32 @@ export default {
                 return;
             }
 
-            structResp.lounges.forEach(_l => {
-                let joinParams = {taskid: this.fullTask.taskId}
+            for (let _lIdx = 0; _lIdx < structResp.lounges.length; _lIdx++){
+                let _l = structResp[_lIdx]
+                let joinParams = {taskId: this.fullTask.taskId}
                 let msg = {text: '', inProgress: true};
-                let done = 0;
                 let floors = _l.floors.length;
 
-                msg.text = `Группируем этажи по подъезду ${_l.number} [${++done}/${floors}]`;
+                msg.text = `Группируем этажи по подъезду ${_l.number} [1/${floors.length}]`;
                 joinParams.loungeNumber  = _l.number;
-                _l.floors.forEach(_f => {
+                for(let _fIdx = 0; _fIdx < _l.floors.length; _fIdx++){
+                  let _f = _l.floors[_fIdx];
+                  let _arr = _l.floors;
                     joinParams.floorNumber = _f.number;
                     joinParams.subtaskNumFrom = _f.apparts[0];
                     joinParams.subtaskNumTo  = _f.apparts[_f.apparts.length-1];
 
-                    api.replaceSubTasks(joinParams).then(() => {
-                        if(++done < floors){
-                            msg.text = `Группируем этажи по подъезду ${_l.number} [${++done}/${_l.floors.length}]`;
-                        }else{
-                            msg.success = true;
-                        }
-                    });
-                });
+                    msg.text = `Группируем этажи по подъезду ${_l.number} [${_fIdx+1}/${_l.floors.length}]`;
+                    await api.replaceSubTasks(joinParams);
+                    if(_fIdx === _arr.length){
+                      msg.text = `Группируем этажи по подъезду ${_l.number} [${_fIdx+1}/${_l.floors.length}][Готово]`;
+                      msg.inProgress = false;
+                      msg.success = true;
+                    }
+                }
 
                 this.generate.messages.push(msg);
-            });
+            }
 
             console.log(structResp);
         },
@@ -283,30 +285,20 @@ export default {
         },
         async joinFloorsLounges({floor, lounge}){
             let subTasks = this.selectedSubTasks;
-            let from = 0;
-            let to = 0;
+            let from = subTasks[0].number;
+            let to = subTasks.slice(-1)[0].number;
             let joinParams = {taskId : this.fullTask.taskId, loungeNumber: lounge, floorNumber: floor};
-            let request = [];
 
-            subTasks.sort((a,b) => a.number - b.number).forEach((_subTask,_idx,_arr) => {
-                if(_idx == 0){
-                    from = _subTask.number;
-                }else if(_subTask.number == _arr[_idx-1].number - 1){
-                    to = _subTask.number;
-                }else if(from != to && _arr.length != _idx + 1){
-                    joinParams.subtaskNumFrom = from;
-                    joinParams.subtaskNumTo  = to;
-                    request.push( api.replaceSubTasks(joinParams) );
-                    from = _subTask.number;
-                    to = _subTask.number;
-                }
-            });
+            joinParams.subtaskNumFrom = from;
+            joinParams.subtaskNumTo = to;
 
-            await Promise.all(request);
-            this.loadTaskInfo();
+
+            await api.replaceSubTasks(joinParams);
+            await this.loadTaskInfo();
         },  
         async loadTaskInfo() {
-            this.fullTask = await api.getFullTask(this.$route.params.id);
+          let promise = await api.getFullTask(this.$route.params.id);
+          this.fullTask = promise
         }
     },
     components: {

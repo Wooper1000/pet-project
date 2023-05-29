@@ -5,7 +5,7 @@ let headers = {
     'Content-Type': 'application/json'
 };
 let config = {
-    baseURL: 'http://188.143.130.20:9090/api/v1',
+    baseURL: 'http://91.122.48.173:9090/api/v1',
     headers,
 };
 let token = localStorage.getItem('token');
@@ -74,9 +74,6 @@ export default {
             return response.data;
         }
     },
-    async joinFloorsLounges(){
-
-    },
     async addTask(task){
         let result = {};
         let response = await apiClient.post('/tasks', task);
@@ -95,7 +92,7 @@ export default {
         return resp.data;
     },
     async replaceSubTasks(params){
-        let response = apiClient.patch(`/tasks/${params.taskid}/subtasks/replace`, params, {
+        let response = apiClient.patch(`/tasks/${params.taskId}/subtasks/replace`, params, {
             params,
             headers: {
                 Authorization: `Bearer ${token}`
