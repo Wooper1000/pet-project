@@ -1,6 +1,6 @@
 <template>
-    <v-app-bar :elevation="1" flat location="bottom">
-        <v-divider class="split-divider"></v-divider>
+    <v-app-bar :elevation="1" flat location="bottom" :height="71">
+        <v-divider class="split-divider" :thickness="2"></v-divider>
         <v-container class="text-center">
             <v-row class="main-row">
                 <v-col cols="4" @click="onClcikMenuItem('search')">

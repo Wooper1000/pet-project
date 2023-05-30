@@ -1,8 +1,8 @@
 <template>
     <v-layout>
         <TopBarApp active="tasks"></TopBarApp>
-        <v-main>
-            <v-container class="app-container">
+        <v-main scrollable>
+            <v-container>
                 <v-row class="top-row">
                     <v-col cols="2">
                         <v-icon icon="pet:chevron-left" @click="$router.go(-1)" />
@@ -319,17 +319,10 @@ export default {
 <style scoped>
 .top-row {
     position: sticky;
-    top: -16px;
+    top: -1px;
     z-index: 99;
     background: white;
 }
-
-.app-container {
-    height: calc(100vh - 128px);
-    overflow: auto;
-    padding: 16px 8px;
-}
-
 .sub-cotainer {
     padding: 0px;
 }

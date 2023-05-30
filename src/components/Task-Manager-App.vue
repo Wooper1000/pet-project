@@ -1,7 +1,7 @@
 <template>
     <v-layout>
         <TopBarApp active="tasks"></TopBarApp>
-        <v-main>
+        <v-main scrollable class="main-content">
             <div class="text-center d-flex flex-column h-100" v-if="!tasks.length">
                 <v-sheet class="mt-4">
                     <v-img :src="require('@/assets/imgs/no-tasks.png')"></v-img>
