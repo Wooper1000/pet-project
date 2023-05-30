@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <TopBarApp active="tasks"></TopBarApp>
+        <TopBarApp></TopBarApp>
         <v-main scrollable class="main-content">
             <div class="text-center d-flex flex-column h-100" v-if="!tasks.length">
                 <v-sheet class="mt-4">
@@ -16,7 +16,7 @@
             </div>
 
             <div v-if="tasks.length" class="pa-4">
-                <span class="text-h4"> {{ $t('today') }} </span>
+                <span class="text-h5 text-primary font-weight-bold"> {{ $t('tasks-list') }} </span>
                 <v-list lines="two">
                     <v-list-item
                         v-for="_task in tasks"
@@ -52,7 +52,7 @@
                 </v-list>
             </div>
         </v-main>
-        <BottomBarApp @item-clicked="onMenuClicked"></BottomBarApp>
+        <BottomBarApp @item-clicked="onMenuClicked" active="home"></BottomBarApp>
     </v-layout>
 
     <V-dialog v-model="addTaskDialogShow">

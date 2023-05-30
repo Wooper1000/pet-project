@@ -1,6 +1,6 @@
 <template>
     <v-layout>
-        <TopBarApp active="tasks"></TopBarApp>
+        <TopBarApp></TopBarApp>
         <v-main scrollable>
             <v-skeleton-loader
                 v-if="!fullTask.lounges"

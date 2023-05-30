@@ -5,6 +5,7 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'home': 'Главная',
             'add-mark': 'Добавить метку',
             'change-priority': 'Изменить приоритет',
             'show-on-map': 'Показать на карте',
@@ -25,7 +26,7 @@ const i18n = new createI18n({
             'subtask-title': 'Квартира',
             'floor': 'эт',
             'kv': 'кв',
-            'today': 'Сегодня',
+            'tasks-list': 'Список задач',
             'new-task-create-title': 'Создание нового адреса',
             'enter-address': 'Введите адрес ',
             'address': 'Адрес',

@@ -60,12 +60,14 @@
             </v-list>
         </v-container>
     </v-main>
+    <BottomBarApp></BottomBarApp>
 </v-layout>
 </template>
 
 <script>
 import api from '../api';
 import TopBarApp from '@/components/Top-Bar-App.vue';
+import BottomBarApp from '@/components/Bottom-Bar-App.vue';
 
 export default {
     data() {
@@ -98,7 +100,8 @@ export default {
         }
     },
     components: {
-        TopBarApp
+        TopBarApp,
+        BottomBarApp
     }
 };
 </script>
