@@ -15,6 +15,23 @@ const apiClient = axios.create({
     headers,
 });
 
+axios.interceptors.request.use(
+    (config) => {
+        // Получение заголовков запроса
+        const headers = config.headers;
+        console.log('Заголовки запроса:', headers);
+
+        if(token){
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+)
+
 apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -26,6 +43,7 @@ apiClient.interceptors.response.use(
         return Promise.reject(error);
     }
 )
+
 export default {
     registerUser(user) {
         return apiClient.post('/auth/register', user);
