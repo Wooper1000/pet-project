@@ -74,7 +74,7 @@ export default {
 
     async getFullTask(id) {
         try {
-            const response = await apiClient.get(`/tasks/${id}`);
+            const response = await apiClient.get(`/tasks/${id}/subtasks`);
             return response.data;
         } catch (error) {
             return {};
