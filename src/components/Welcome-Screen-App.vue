@@ -33,6 +33,7 @@ export default {
 <style>
 .logo{
   width: 90%;
+  max-width: 800px;
 }
 
 .safari-logo {

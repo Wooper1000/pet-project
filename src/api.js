@@ -8,23 +8,17 @@ const headers = {
 
 const baseURL = 'http://91.122.48.173:9090/api/v1';
 
-let token = localStorage.getItem('token');
-
 const apiClient = axios.create({
     baseURL,
     headers,
 });
 
-axios.interceptors.request.use(
+apiClient.interceptors.request.use(
     (config) => {
-        // Получение заголовков запроса
-        const headers = config.headers;
-        console.log('Заголовки запроса:', headers);
-
-        if(token){
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-
+            let token = localStorage.getItem('token');
+            if(token){
+                config.headers.Authorization = `Bearer ${token}`;
+            }
         return config;
     },
     (error) => {
@@ -111,10 +105,7 @@ export default {
     async replaceSubTasks(params) {
         try {
             const response = await apiClient.patch(`/tasks/${params.taskId}/subtasks/replace`, params, {
-                params,
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                params
             });
             return response.data;
         } catch (error) {

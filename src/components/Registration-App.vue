@@ -123,7 +123,7 @@
               :type="showPassword2 ? 'text' : 'password'"
               @click:appendInner="showPassword2 = !showPassword2"
               validate-on="input"
-              :rules="[v=>!!v||$t('enter-password'),v=>v===password1 || $('passwords-match-reject')]"
+              :rules="[v=>!!v||$t('enter-password'),v=>v===password1 || $t('passwords-match-reject')]"
               ref="password2"
           ></v-text-field>
         </v-row>
