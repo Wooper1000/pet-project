@@ -30,6 +30,14 @@ const vuetify = createVuetify({
         },
         VBtn:{
             class:'pet-btn'
+        },
+        VCheckbox: {
+            falseIcon: "mdi-checkbox-blank-outline",
+            trueIcon: "mdi-checkbox-marked-outline"
+        },
+        VCheckboxBtn: {
+            falseIcon: "mdi-checkbox-blank-outline",
+            trueIcon: "mdi-checkbox-marked-outline"
         }
     },
     icons: {

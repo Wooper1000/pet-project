@@ -131,12 +131,9 @@
         <v-row class="d-flex justify-start" style="height: 35px">
           <v-checkbox
             v-model="isAgeAccepted"
-            false-icon="mdi-checkbox-blank-outline"
-            true-icon="mdi-checkbox-marked-outline"
             :label="$t('im-18-years-old')"
             validate-on="blur"
             :rules="rules.ageCheck"
-            false-value="red"
         >
         </v-checkbox>
         </v-row>
@@ -144,8 +141,6 @@
         <v-checkbox
             v-model="isAgreementChecked"
                     required
-                    false-icon="mdi-checkbox-blank-outline"
-                    true-icon="mdi-checkbox-marked-outline"
                     :rules="rules.agreementCheck"
                     validate-on="input"
         >
