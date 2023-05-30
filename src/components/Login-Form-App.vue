@@ -140,7 +140,6 @@ export default {
           }
           // если возникла ошибка при выполнении запроса, то выводим сообщение в snackbar
           else this.$store.commit('showSnackbar', { text: error.response.data.message, color: 'error' });
-          console.log('Зачем то зашёл')
           this.resetFields()
         }
       }

@@ -13,7 +13,6 @@ let token = localStorage.getItem('token');
 const apiClient = axios.create({
     baseURL,
     headers,
-    ...(token && { headers: { ...headers, Authorization: `Bearer ${token}` } })
 });
 
 apiClient.interceptors.response.use(
@@ -26,15 +25,13 @@ apiClient.interceptors.response.use(
         }
         return Promise.reject(error);
     }
-);
-
+)
 export default {
     registerUser(user) {
         return apiClient.post('/auth/register', user);
     },
-
     async loginUser(user) {
-        const response = await apiClient.post('/auth', user);
+        const response = await apiClient.post('/auth', user)
 
         try {
             const token = response.data.token;
@@ -43,10 +40,8 @@ export default {
         } catch (error) {
             return {}
         }
-
         return response;
     },
-
     async getUser() {
         try {
             const response = await apiClient.get('/users');
