@@ -2,7 +2,11 @@
     <v-layout>
         <TopBarApp active="tasks"></TopBarApp>
         <v-main scrollable>
-            <v-container>
+            <v-skeleton-loader
+                v-if="!fullTask.lounges"
+                type="heading,list-item-three-line@20"
+            ></v-skeleton-loader>
+            <v-container v-else>
                 <v-row class="top-row">
                     <v-col cols="2">
                         <v-icon icon="pet:chevron-left" @click="$router.go(-1)" />
@@ -340,7 +344,8 @@ export default {
     transform: rotate(180deg);
     text-align: center;
     position: sticky;
-    top: 40%;
+    top: calc(50% - 40px);
+    margin: 15px 0px;
 }
 
 .container {

@@ -5,9 +5,13 @@ import * as directives from 'vuetify/directives'
 import locale from '../i18n'
 import petIcons from "@/assets/pet-icons/icons";
 import petTheme from './pet-theme';
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 
 const vuetify = createVuetify({
-    components,
+    components: {
+        ...components,
+        VSkeletonLoader
+    },
     directives,
     locale,
     defaults: {
