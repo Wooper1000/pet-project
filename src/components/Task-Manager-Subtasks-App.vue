@@ -18,15 +18,15 @@
                 <v-row>
                   <v-col>
                     <div class="container" v-for="_lounge in fullTask.lounges" :key="_lounge.number">
-                      <div class="column1 bg-blue-aqua"> <!-- Первая колонка -->
+                      <div class="column1 bg-blue-aqua mb-2"> 
                         <div class="lounge-title">
                           {{ _lounge.number }} {{ $t('lounge-title') }}
                         </div>
                       </div>
-                      <div class="column2"> <!-- Вторая колонка -->
-                        <div class="block" v-for="_floor in _lounge.floors" :key="_floor.number">
+                      <div class="column2">
+                        <div class="block" v-for="(_floor,_floorIdx) in _lounge.floors" :key="_floor.number">
                           <div class="container">
-                            <div class="column1-f"> <!-- Вторая колонка -->
+                            <div class="column1-f"> 
                                 <v-list class="block">
                                   <template v-for="_subtask in _floor.subtasks" :key="_subtask.number">
                                     <v-list-item class="pa-0">
@@ -47,14 +47,18 @@
                                   </template>
                                 </v-list>
                             </div>
-                            <div class="column2-f bg-blue-sky"> <!-- Первая колонка -->
-                              <div class="floor-title">
-                                {{ _floor.number }} {{ $t('floor-title') }}
+                            <div class="column2-f" :class="{'bg-blue-sky': _floorIdx % 2 !== 0, 'bg-blue-aqua' : _floorIdx % 2 === 0}"> 
+                              <div class="floor-title-container">
+                                <div class="floor-title-label">
+                                    {{ _floor.number }} {{ $t('floor-title') }}
+                                </div>
+                                <div class="floot-title-check">
+                                    <v-checkbox class="vertical-checkbox" @change="selectFloor($event,_floor)"></v-checkbox>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <!-- Другие блоки -->
                       </div>
                     </div>
                   </v-col>
@@ -230,13 +234,30 @@ export default {
         }
     },
     methods: {
+        selectFloor(evt, floor){
+            let selected = evt.target.checked;
+
+            floor.subtasks.forEach(_task => {
+                let _inSelection = this.selectedSubTasks.find(_sT => _sT.subtaskId == _task.subtaskId);
+
+                if(selected && !_inSelection){
+                    this.selectedSubTasks.push(_task);
+                    _task.selected = true;
+                }
+
+                if(!selected && _inSelection){
+                    this.selectedSubTasks.splice(this.selectedSubTasks.indexOf(_inSelection),1);
+                    _task.selected = false;
+                }
+            });
+        },
         async changeSubTaskSelection(subtask){
             let subExist = this.selectedSubTasks.find(_sT => _sT.subtaskId == subtask.subtaskId);
 
             if(subtask.selected && !subExist){
                 this.selectedSubTasks.push(subtask);
             }else{
-                this.selectedSubTasks.splice(this.selectedSubTasks.indexOf(subExist));
+                this.selectedSubTasks.splice(this.selectedSubTasks.indexOf(subExist),1);
             }
         },
         async tryGenerateFloors(){
@@ -337,8 +358,7 @@ export default {
   height: fit-content;
 }
 
-.lounge-title,
-.floor-title {
+.lounge-title {
     writing-mode: vertical-lr;
     text-orientation: mixed;
     transform: rotate(180deg);
@@ -346,6 +366,25 @@ export default {
     position: sticky;
     top: calc(50% - 40px);
     margin: 15px 0px;
+}
+
+.floor-title-container {
+    position: sticky;
+    top: calc(50% - 40px);
+    margin: 15px 0px;
+}
+.floot-title-check {
+    display: inline-block;
+    transform: rotate(90eg);
+    margin-top: -15px;
+}
+.floor-title-label {
+    margin-left: 9px;
+    display: inline-block;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    text-align: center;
 }
 
 .container {
@@ -368,7 +407,7 @@ export default {
 
 .column2-f {
   width: 44px;
-  padding-left: 10px;
+  padding-left: 2px;
 }
 
 .block {
