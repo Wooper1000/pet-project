@@ -1,111 +1,125 @@
 @font-face {
-    font-family: 'pet';
-    src:  url('../fonts/pet.eot?6xhd88');
-    src:  url('../fonts/pet.eot?6xhd88#iefix') format('embedded-opentype'),
-      url('../fonts/pet.ttf?6xhd88') format('truetype'),
-      url('../fonts/pet.woff?6xhd88') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: block;
-  }
-  
-  [class^="pet-icon-"], [class*=" pet-icon-"] {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'pet' !important;
-    speak: never;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-  
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  .pet-icon-alert-circle:before {
-    content: "\e900";
-  }
-  .pet-icon-calendar:before {
-    content: "\e901";
-  }
-  .pet-icon-check:before {
-    content: "\e902";
-  }
-  .pet-icon-check-square:before {
-    content: "\e903";
-  }
-  .pet-icon-chevron-down:before {
-    content: "\e904";
-  }
-  .pet-icon-chevron-left:before {
-    content: "\e905";
-  }
-  .pet-icon-chevron-right:before {
-    content: "\e906";
-  }
-  .pet-icon-chevron-up:before {
-    content: "\e907";
-  }
-  .pet-icon-circle:before {
-    content: "\e908";
-  }
-  .pet-icon-compass:before {
-    content: "\e909";
-  }
-  .pet-icon-edit:before {
-    content: "\e90a";
-  }
-  .pet-icon-edit-2:before {
-    content: "\e90b";
-  }
-  .pet-icon-eye:before {
-    content: "\e90c";
-  }
-  .pet-icon-eye-off:before {
-    content: "\e90d";
-  }
-  .pet-icon-globe:before {
-    content: "\e90e";
-  }
-  .pet-icon-log-out:before {
-    content: "\e90f";
-  }
-  .pet-icon-map-pin:before {
-    content: "\e910";
-  }
-  .pet-icon-minus-circle:before {
-    content: "\e911";
-  }
-  .pet-icon-more-horizontal:before {
-    content: "\e912";
-  }
-  .pet-icon-plus:before {
-    content: "\e913";
-  }
-  .pet-icon-plus-circle:before {
-    content: "\e914";
-  }
-  .pet-icon-search:before {
-    content: "\e915";
-  }
-  .pet-icon-send:before {
-    content: "\e916";
-  }
-  .pet-icon-server:before {
-    content: "\e917";
-  }
-  .pet-icon-settings:before {
-    content: "\e918";
-  }
-  .pet-icon-square:before {
-    content: "\e919";
-  }
-  .pet-icon-user:before {
-    content: "\e91a";
-  }
-  .pet-icon-x:before {
-    content: "\e91b";
-  }
-  
+  font-family: 'pet';
+  src:  url('../fonts/pet.eot?5p2rmm');
+  src:  url('../fonts/pet.eot?5p2rmm#iefix') format('embedded-opentype'),
+    url('../fonts/pet.ttf?5p2rmm') format('truetype'),
+    url('../fonts/pet.woff?5p2rmm') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="pet-"], [class*=" pet-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'pet' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.pet-flag-01:before {
+  content: "\e91c";
+}
+.pet-home:before {
+  content: "\e91d";
+}
+.pet-message-square:before {
+  content: "\e91e";
+}
+.pet-phone:before {
+  content: "\e91f";
+}
+.pet-users:before {
+  content: "\e920";
+}
+.pet-alert-circle:before {
+  content: "\e900";
+}
+.pet-calendar:before {
+  content: "\e901";
+}
+.pet-check:before {
+  content: "\e902";
+}
+.pet-check-square:before {
+  content: "\e903";
+}
+.pet-chevron-down:before {
+  content: "\e904";
+}
+.pet-chevron-left:before {
+  content: "\e905";
+}
+.pet-chevron-right:before {
+  content: "\e906";
+}
+.pet-chevron-up:before {
+  content: "\e907";
+}
+.pet-circle:before {
+  content: "\e908";
+}
+.pet-compass:before {
+  content: "\e909";
+}
+.pet-edit:before {
+  content: "\e90a";
+}
+.pet-edit-2:before {
+  content: "\e90b";
+}
+.pet-eye:before {
+  content: "\e90c";
+}
+.pet-eye-off:before {
+  content: "\e90d";
+}
+.pet-globe:before {
+  content: "\e90e";
+}
+.pet-log-out:before {
+  content: "\e90f";
+}
+.pet-map-pin:before {
+  content: "\e910";
+}
+.pet-minus-circle:before {
+  content: "\e911";
+}
+.pet-more-horizontal:before {
+  content: "\e912";
+}
+.pet-plus:before {
+  content: "\e913";
+}
+.pet-plus-circle:before {
+  content: "\e914";
+}
+.pet-search:before {
+  content: "\e915";
+}
+.pet-send:before {
+  content: "\e916";
+}
+.pet-server:before {
+  content: "\e917";
+}
+.pet-settings:before {
+  content: "\e918";
+}
+.pet-square:before {
+  content: "\e919";
+}
+.pet-user:before {
+  content: "\e91a";
+}
+.pet-x:before {
+  content: "\e91b";
+}
