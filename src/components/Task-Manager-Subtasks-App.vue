@@ -3,7 +3,7 @@
         <TopBarApp></TopBarApp>
         <v-main scrollable>
             <v-skeleton-loader
-                v-if="!fullTask"
+                v-if="!fullTask.subtasks"
                 type="heading,list-item-three-line@20"
             ></v-skeleton-loader>
             <v-container v-else>
@@ -18,20 +18,20 @@
                 <v-row>
                   <v-col>
                     <table>
-                      <tr v-for="(_subtask,_subIdx) in fullTask.subtasks" :key="_subtask">
-                        <td :rowspan="fullTask.subtasks.length" v-if="_subIdx === 0" class="lounge-cell bg-blue-aqua">
+                      <tr v-for="(_subtask,_subIdx) in fullTask.subtasks" :key="_subtask" height="40px">
+                        <td :rowspan="_loungesCount" v-if="_loungesCount = detectNewLevel(_subIdx,fullTask.subtasks,'lounge')" class="lounge-cell bg-blue-aqua">
                           {{ _subtask.lounge }} {{ $t('lounge-title') }}
                         </td>
                         <td class="check-cell">
-                          <v-checkbox-btn></v-checkbox-btn>
+                          <v-checkbox-btn @change="changeSubTaskSelection(_subtask)" v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
                         <td>
                           {{ $t('subtask-title') }} {{ _subtask.number}}
                         </td>
                         <td class="check-cell">
-                          <v-checkbox-btn></v-checkbox-btn>
+                          <v-checkbox-btn @change="changeSubTaskSelection(_subtask)" v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
-                        <td :rowspan="fullTask.subtasks.length" v-if="_subIdx === 0" class="floor-cell bg-blue-sky">
+                        <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
                           {{ _subtask.floor }} {{ $t('floor-title') }}
                         </td>
                       </tr>
@@ -209,6 +209,25 @@ export default {
         }
     },
     methods: {
+        detectNewLevel(_subIdx,allTasks,level){
+            let prevSub = allTasks[_subIdx - 1];
+            let curSub = allTasks[_subIdx];
+
+            //if new level
+            if(!prevSub || prevSub[level] != curSub[level]){
+                let levelCount = allTasks.filter(_sT => {
+                    if(level == 'lounge'){
+                        return _sT.lounge == curSub.lounge;
+                    }else{
+                        return _sT.lounge == curSub.lounge && _sT.floor == curSub.floor;
+                    }
+                }).length;
+
+                return levelCount;
+            }else{
+                return 0;
+            }
+        },
         selectFloor(evt, floor){
             let selected = evt.target.checked;
 
@@ -293,19 +312,18 @@ export default {
         },
         async joinFloorsLounges({floor, lounge}){
             let subTasks = this.selectedSubTasks;
-            let from = subTasks[0].number;
-            let to = subTasks.slice(-1)[0].number;
-            let joinParams = {taskId : this.fullTask.taskId, loungeNumber: lounge, floorNumber: floor};
+            let joinParams = {loungeNumber: lounge, floorNumber: floor};
+            
+            joinParams.subtaskIds = subTasks.map(_t => _t.subtaskId);
 
-            joinParams.subtaskNumFrom = from;
-            joinParams.subtaskNumTo = to;
-
-
-            await api.replaceSubTasks(joinParams);
+            await api.replaceSubTasks(this.fullTask.taskId,joinParams);
             await this.loadTaskInfo();
+            this.showSelectMenu = false;
+            this.showJoinDialog = false;
         },  
         async loadTaskInfo() {
           let promise = await api.getFullTask(this.$route.params.id);
+          promise.subtasks = promise.subtasks.sort((a,b) => a.lounge - b.lounge || a.floor - b.floor);
           this.fullTask = promise
         }
     },

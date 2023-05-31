@@ -102,11 +102,10 @@ export default {
         }
     },
 
-    async replaceSubTasks(params) {
+    async replaceSubTasks(taskId,params) {
         try {
-            const response = await apiClient.patch(`/tasks/${params.taskId}/subtasks/replace`, params, {
-                params
-            });
+            console.log(params);
+            const response = await apiClient.patch(`/tasks/${taskId}/subtasks/replace`, params);
             return response.data;
         } catch (error) {
             return {};
