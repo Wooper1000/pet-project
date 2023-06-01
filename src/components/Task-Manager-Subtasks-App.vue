@@ -32,7 +32,7 @@
                           <v-checkbox-btn @change="changeSubTaskSelection(_subtask)" v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
                         <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
-                          {{ _subtask.floor }} {{ $t('floor-title') }}
+                          <v-checkbox :label="_subtask.floor + ' ' + $t('floor-title')" @click="selectFloor($event,_subtask)"></v-checkbox>
                         </td>
                       </tr>
                     </table>
@@ -174,7 +174,7 @@
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-btn color="primary" block size="x-large" @click="joinFloorsLounges(join)">{{ $t('create') }}</v-btn>
+                        <v-btn color="primary" :loading="join.inProgress" block size="x-large" @click="joinFloorsLounges(join)">{{ $t('create') }}</v-btn>
                     </v-col>
                 </v-row>
             </v-container>
@@ -203,7 +203,8 @@ export default {
             showFloorGenerateDialog: false,
             join: {
                 floor: null,
-                lounge: null
+                lounge: null,
+                inProgress: false
             },
             selectedSubTasks: []
         }
@@ -228,10 +229,11 @@ export default {
                 return 0;
             }
         },
-        selectFloor(evt, floor){
+        selectFloor(evt, subtask){
             let selected = evt.target.checked;
+            let floor = this.fullTask.subtasks.filter(_t => _t.floor == subtask.floor);
 
-            floor.subtasks.forEach(_task => {
+            floor.forEach(_task => {
                 let _inSelection = this.selectedSubTasks.find(_sT => _sT.subtaskId == _task.subtaskId);
 
                 if(selected && !_inSelection){
@@ -316,7 +318,9 @@ export default {
             
             joinParams.subtaskIds = subTasks.map(_t => _t.subtaskId);
 
+            this.join.inProgress = true;
             await api.replaceSubTasks(this.fullTask.taskId,joinParams);
+            this.join.inProgress = false;
             await this.loadTaskInfo();
             this.showSelectMenu = false;
             this.showJoinDialog = false;
