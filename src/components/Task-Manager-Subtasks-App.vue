@@ -41,62 +41,25 @@
             </v-container>
         </v-main>
         <BottomBarApp @item-clicked="onMenuClicked"></BottomBarApp>
-        <v-dialog v-model="showSelectMenu" scrollable width="auto" transition="dialog-bottom-transition">
+        <v-dialog v-model="showSelectMenu" scrollable width="100%" transition="dialog-bottom-transition">
             <v-card rounded="xl">
-                <v-card-title class="text-center">{{ $t('select') }}</v-card-title>
-                <v-card-text style="height: 350px;">
+                <v-card-title class="text-center text-h6">{{ $t('select') }}</v-card-title>
+                <v-card-text style="max-height: 350px; padding-top: 0px;">
                     <v-list>
-<!--                         <v-list-item>-->
-<!--                            <v-list-item-title @click="tryGenerateFloors()">-->
-<!--                                {{ $t('generate-floors') }}-->
-<!--                            </v-list-item-title>-->
-<!--                        </v-list-item>-->
-                        <v-divider></v-divider>
-                        <v-list-item>
-                            <v-list-item-title @click="showJoinDialog = true">
-                                {{ $t('join-floors-lounge') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title @click="showMarkDialog = true">
-                                {{ $t('add-mark') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>
-                                {{ $t('change-priority') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>
-                                {{ $t('show-on-map') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>
-                                {{ $t('set-signal') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>
-                                {{ $t('paste') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>
-                                {{ $t('copy') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>
-                                {{ $t('edit') }}
-                            </v-list-item-title>
-                        </v-list-item>
-                        <v-list-item>
-                            <v-list-item-title>
-                                {{ $t('setup') }}
-                            </v-list-item-title>
-                        </v-list-item>
+                        <template v-for="(_menuItem,_idx) in menuList" :key="_idx">
+                            <v-list-item density="compact">
+                                <template v-slot:prepend v-if="_menuItem.icon">
+                                    <v-icon :icon="_menuItem.icon.i" :color="_menuItem.icon.color"/>
+                                </template>
+                                <v-list-item-title @click="_menuItem.click()">
+                                    {{ _menuItem.title }}
+                                </v-list-item-title>
+                                <v-divider
+                                    v-if="_idx < menuList.length - 1"
+                                    :key="`${index}-divider`"
+                                ></v-divider>
+                            </v-list-item>
+                        </template>
                     </v-list>
                 </v-card-text>
             </v-card>
@@ -256,10 +219,36 @@ export default {
                 inProgress: false
             },
             selectedSubTasks: [],
-            showMarkDialog: false
+            showMarkDialog: false,
+            menuList: [],
+            priorityMenuItems: [
+                {icon: {i:'pet:flag-01',color:'red'}, title: `${this.$t('priority-title')} 4`, click: ()=> { this.setPriority(); }},
+                {icon: {i:'pet:flag-01',color:'orange'}, title: `${this.$t('priority-title')} 3`, click: ()=> { this.setPriority(); }},
+                {icon: {i:'pet:flag-01',color:'green'}, title: `${this.$t('priority-title')} 2`, click: ()=> { this.setPriority(); }},
+                {icon: {i:'pet:flag-01',color:'black'}, title: `${this.$t('priority-title')} 1`, click: ()=> { this.setPriority(); }},
+            ],
+            selectItems: [
+                // {title: this.$t('generate-floors'), click: () => { this.tryGenerateFloors() }},
+                {title: this.$t('join-floors-lounge'), click: () => { this.showJoinDialog = true; }},
+                {title: this.$t('add-mark'), click: () => { this.showMarkDialog = true; }},
+                {title: this.$t('change-priority'), click: () => { this.menuList = this.priorityMenuItems; }},
+                {title: this.$t('show-on-map'), click: () => {}},
+                {title: this.$t('set-signal'), click: () => {}},
+                {title: this.$t('paste'), click: () => {}},
+                {title: this.$t('copy'), click: () => {}},
+                {title: this.$t('edit'), click: () => {}},
+                {title: this.$t('setup'), click: () => {}},
+            ]
         }
     },
+    mounted(){
+        this.menuList = [...this.selectItems];
+    },
     methods: {
+        setPriority(){
+            this.showSelectMenu = false;
+            this.menuList = this.selectItems;
+        },
         addMarksToSelected(markData){
             console.log(markData);
             this.showMarkDialog = false;
