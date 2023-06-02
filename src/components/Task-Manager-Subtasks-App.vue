@@ -258,12 +258,12 @@ export default {
             let curSub = allTasks[_subIdx];
 
             //if new level
-            if(!prevSub || prevSub[level] != curSub[level]){
+            if(!prevSub || prevSub[level] !== curSub[level]){
                 let levelCount = allTasks.filter(_sT => {
-                    if(level == 'lounge'){
-                        return _sT.lounge == curSub.lounge;
+                    if(level === 'lounge'){
+                        return _sT.lounge === curSub.lounge;
                     }else{
-                        return _sT.lounge == curSub.lounge && _sT.floor == curSub.floor;
+                        return _sT.lounge === curSub.lounge && _sT.floor === curSub.floor;
                     }
                 }).length;
 
@@ -274,10 +274,10 @@ export default {
         },
         selectFloor(evt, subtask){
             let selected = evt.target.checked;
-            let floor = this.fullTask.subtasks.filter(_t => _t.floor == subtask.floor);
+            let floor = this.fullTask.subtasks.filter(_t => _t.floor === subtask.floor);
 
             floor.forEach(_task => {
-                let _inSelection = this.selectedSubTasks.find(_sT => _sT.subtaskId == _task.subtaskId);
+                let _inSelection = this.selectedSubTasks.find(_sT => _sT.subtaskId === _task.subtaskId);
 
                 if(selected && !_inSelection){
                     this.selectedSubTasks.push(_task);
