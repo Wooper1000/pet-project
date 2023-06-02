@@ -43,7 +43,7 @@ export default {
         return apiClient.post('/auth/register', user);
     },
     async loginUser(user) {
-        localStorage.clear()
+        localStorage.removeItem('token')
         const response = await apiClient.post('/auth', user)
         try {
             const token = response.data.token;

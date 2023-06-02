@@ -229,7 +229,7 @@ export default {
                 {icon: {i:'pet:flag-01',color:'black'}, title: `${this.$t('priority-title')} 1`, click: ()=> { this.setPriority(); }},
             ],
             selectItems: [
-                // {title: this.$t('generate-floors'), click: () => { this.tryGenerateFloors() }},
+                {title: this.$t('generate-floors'), click: () => { this.tryGenerateFloors() }},
                 {title: this.$t('join-floors-lounge'), click: () => { this.showJoinDialog = true; }},
                 {title: this.$t('add-mark'), click: () => { this.showMarkDialog = true; }},
                 {title: this.$t('change-priority'), click: () => { this.menuList = this.priorityMenuItems; }},
@@ -329,30 +329,34 @@ export default {
             }
 
             for (let _lIdx = 0; _lIdx < structResp.lounges.length; _lIdx++){
-                let _l = structResp[_lIdx]
-                let joinParams = {taskId: this.fullTask.taskId}
+                let _l = structResp.lounges[_lIdx]
+                let joinParams = {}
                 let msg = {text: '', inProgress: true};
                 let floors = _l.floors.length;
 
                 msg.text = `Группируем этажи по подъезду ${_l.number} [1/${floors.length}]`;
                 joinParams.loungeNumber  = _l.number;
+                this.generate.messages.push(msg);
                 for(let _fIdx = 0; _fIdx < _l.floors.length; _fIdx++){
-                  let _f = _l.floors[_fIdx];
-                  let _arr = _l.floors;
+                    let _f = _l.floors[_fIdx];
+                    let _arr = _l.floors;
+                    let subIds = _f.apparts.map(_ap => this.fullTask.subtasks.find(_sT => _sT.number == _ap).subtaskId);
+
                     joinParams.floorNumber = _f.number;
-                    joinParams.subtaskNumFrom = _f.apparts[0];
-                    joinParams.subtaskNumTo  = _f.apparts[_f.apparts.length-1];
+                    joinParams.subtaskIds = subIds;
 
                     msg.text = `Группируем этажи по подъезду ${_l.number} [${_fIdx+1}/${_l.floors.length}]`;
-                    await api.replaceSubTasks(joinParams);
-                    if(_fIdx === _arr.length){
+                    await api.replaceSubTasks(this.fullTask.taskId,joinParams);
+                    if(_fIdx === _arr.length-1){
                       msg.text = `Группируем этажи по подъезду ${_l.number} [${_fIdx+1}/${_l.floors.length}][Готово]`;
                       msg.inProgress = false;
                       msg.success = true;
                     }
                 }
 
-                this.generate.messages.push(msg);
+                await this.loadTaskInfo();
+                this.showSelectMenu = false;
+                this.showJoinDialog = false;
             }
 
             console.log(structResp);
