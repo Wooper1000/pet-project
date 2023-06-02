@@ -20,17 +20,15 @@
                 <div v-for="_task in tasks" :key="_task.title">
                     <v-card 
                             class="rounded-xl mb-2 mt-2"
-                            v-on:pointerdown="onTaskPointerDown"
-                            v-on:pointerup="onTaskPointerUp(_task)"
                         >
                         <v-card-text>
-                            <v-container class="pa-0">
+                            <v-container class="pa-0" style="user-select: none;">
                                     <v-row>
                                         <v-col cols="1" class="py-0">
                                             <v-checkbox-btn v-model="_task.selected" @click.stop></v-checkbox-btn>
                                         </v-col>
                                         <v-col cols="6" class="py-0">
-                                            <v-banner class="py-0" lines="two" :text="_task.title" :stacked="false" border="0"></v-banner>
+                                            <v-banner v-on:pointerdown="onTaskPointerDown" v-on:pointerup="onTaskPointerUp(_task)" class="py-0" lines="two" :text="_task.title" :stacked="false" border="0"></v-banner>
                                         </v-col>
                                         <v-col cols="3" class="py-0">
                                             <div v-if="!_task.info">
