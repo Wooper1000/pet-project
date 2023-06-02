@@ -63,7 +63,7 @@
                     </v-list>
                 </v-card-text>
             </v-card>
-            <v-btn variant="outlined" color="primary" class="bg-white mt-2" size="large" @click="showSelectMenu = false;">
+            <v-btn variant="outlined" color="primary" class="bg-white mt-2" size="large" @click="closeSelectMenu()">
                 {{ $t('cancel') }}
             </v-btn>
         </v-dialog>
@@ -248,6 +248,10 @@ export default {
         this.taskId = this.$route.params.id;
           },
     methods: {
+        closeSelectMenu(){
+          this.showSelectMenu = false;
+          this.menuList = this.selectItems;
+        },
         setPriority(){
             this.showSelectMenu = false;
             this.menuList = this.selectItems;
