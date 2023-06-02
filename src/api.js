@@ -72,6 +72,15 @@ export default {
         }
     },
 
+    async getTaskInfo(id){
+        try {
+            const response = await apiClient.get(`/tasks/${id}`);
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
+
     async getFullTask(id) {
         try {
             const response = await apiClient.get(`/tasks/${id}/subtasks`);
