@@ -147,7 +147,7 @@ export default {
             addTaskDialogShow: false,
             tasks: [],
             holdTimer: null,
-            holdPause: 800,
+            holdPause: 500,
             isPointerDown:false,
             pointerDownTaskId:null,
             holded: 0,
@@ -171,7 +171,7 @@ export default {
             if(this.holded >= this.holdPause){
                 let taskData = await api.getTaskInfo(id);
                 task.info = taskData;
-              if (this.holded >= 800 && 'vibrate' in navigator) {
+              if ('vibrate' in navigator) {
                 // Выполнять вибрацию, если holded больше 800 и поддерживается Vibration API
                 navigator.vibrate(200); // Задать продолжительность вибрации в миллисекундах
               }

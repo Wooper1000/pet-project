@@ -14,6 +14,7 @@ import SettingsGeoPermissionsApp from "@/components/Settings-Geo-Permissions-App
 import UserProfileNotificationsApp from "@/components/User-Profile-Notifications-App";
 import TaskManagerApp from '@/components/Task-Manager-App';
 import TaskManagerSubtasksApp from '@/components/Task-Manager-Subtasks-App';
+import SubtaskEditApp from "@/components/Subtask-Edit-App";
 
 const routes = [
     { path: '/', name: 'WelcomeScreen', component: WelcomeScreenApp },
@@ -30,7 +31,8 @@ const routes = [
     { path: '/settings/geo/permissions', name: 'User-Profile-Settings-Geo-Permission', component: SettingsGeoPermissionsApp,meta: { requiresAuth: true } },
     { path: '/profile/notifications', name: 'User-Profile-Notifications', component: UserProfileNotificationsApp,meta: { requiresAuth: true } },
     { path: '/task-manager', name: 'Task-Manager', component: TaskManagerApp,meta: { requiresAuth: true } },
-    { path: '/task-manager/tasks/:id', name: 'Task-Manager-Subtsks', component: TaskManagerSubtasksApp,meta: { requiresAuth: true } },
+    { path: '/task-manager/tasks/:id', name: 'Task-Manager-Subtasks', component: TaskManagerSubtasksApp,meta: { requiresAuth: true } },
+    { path: '/task-manager/tasks/:id/:subtaskId/edit', name: 'Subtask-Edit', component: SubtaskEditApp,meta: { requiresAuth: true } },
     {path: '/task-manager',name: 'Task-Manager',component: TaskManagerApp,meta: { requiresAuth: true }},
     { path: '/logout', redirect: '/login' }
 ]

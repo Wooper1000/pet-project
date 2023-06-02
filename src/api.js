@@ -89,7 +89,14 @@ export default {
             return {};
         }
     },
-
+    async getSubtask(id){
+        try {
+            const response = await apiClient.get(`/Ссылка на бэк/`+id);
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
     async addTask(task) {
         try {
             const response = await apiClient.post('/tasks', task);

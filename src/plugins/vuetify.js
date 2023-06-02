@@ -28,6 +28,11 @@ const vuetify = createVuetify({
             color: "primary",
             class: "pet-input "
         },
+        VTextarea: {
+            variant: "solo",
+            color: "primary",
+            class: "pet-input "
+        },
         VBtn:{
             class:'pet-btn'
         },

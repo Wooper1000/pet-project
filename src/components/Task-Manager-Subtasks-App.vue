@@ -25,7 +25,7 @@
                         <td class="check-cell">
                           <v-checkbox-btn @change="changeSubTaskSelection(_subtask)" v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
-                        <td>
+                        <td @click="$router.push(`/task-manager/tasks/${taskId}/${_subtask.subtaskId}/edit`)">
                           {{ $t('subtask-title') }} {{ _subtask.number}}
                         </td>
                         <td class="check-cell">
@@ -44,7 +44,7 @@
         <v-dialog v-model="showSelectMenu" scrollable width="100%" transition="dialog-bottom-transition">
             <v-card rounded="xl">
                 <v-card-title class="text-center text-h6">{{ $t('select') }}</v-card-title>
-                <v-card-text style="max-height: 350px; padding-top: 0px;">
+                <v-card-text style="max-height: 350px; padding-top: 0;">
                     <v-list>
                         <template v-for="(_menuItem,_idx) in menuList" :key="_idx">
                             <v-list-item density="compact">
@@ -56,7 +56,7 @@
                                 </v-list-item-title>
                                 <v-divider
                                     v-if="_idx < menuList.length - 1"
-                                    :key="`${index}-divider`"
+                                    :key="`${_idx}-divider`"
                                 ></v-divider>
                             </v-list-item>
                         </template>
@@ -203,6 +203,7 @@ export default {
     created() {
         this.loadTaskInfo();
     },
+
     data() {
         return {
             fullTask: {},
@@ -243,7 +244,9 @@ export default {
     },
     mounted(){
         this.menuList = [...this.selectItems];
-    },
+        // Получение параметра 'id' из объекта $route
+        this.taskId = this.$route.params.id;
+          },
     methods: {
         setPriority(){
             this.showSelectMenu = false;
@@ -291,7 +294,7 @@ export default {
             });
         },
         async changeSubTaskSelection(subtask){
-            let subExist = this.selectedSubTasks.find(_sT => _sT.subtaskId == subtask.subtaskId);
+            let subExist = this.selectedSubTasks.find(_sT => _sT.subtaskId === subtask.subtaskId);
 
             if(subtask.selected && !subExist){
                 this.selectedSubTasks.push(subtask);
@@ -302,7 +305,7 @@ export default {
         async tryGenerateFloors(){
             let structResp = null;
             let tasks = await api.getUserTasks();
-            let targetTask = tasks.find(_t => _t.taskId == this.fullTask.taskId);
+            let targetTask = tasks.find(_t => _t.taskId === this.fullTask.taskId);
             let start = targetTask.subtasksFrom;
             let end = targetTask.subtasksTo;
 
@@ -358,7 +361,7 @@ export default {
         async joinFloorsLounges({floor, lounge}){
             let subTasks = this.selectedSubTasks;
             let joinParams = {loungeNumber: lounge, floorNumber: floor};
-            
+
             joinParams.subtaskIds = subTasks.map(_t => _t.subtaskId);
 
             this.join.inProgress = true;
@@ -367,7 +370,7 @@ export default {
             await this.loadTaskInfo();
             this.showSelectMenu = false;
             this.showJoinDialog = false;
-        },  
+        },
         async loadTaskInfo() {
           let promise = await api.getFullTask(this.$route.params.id);
           promise.subtasks = promise.subtasks.sort((a,b) => a.lounge - b.lounge || a.floor - b.floor);
