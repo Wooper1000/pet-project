@@ -58,7 +58,7 @@
                             </v-list-item-title>
                         </v-list-item>
                         <v-list-item>
-                            <v-list-item-title>
+                            <v-list-item-title @click="showMarkDialog = true">
                                 {{ $t('add-mark') }}
                             </v-list-item-title>
                         </v-list-item>
@@ -181,6 +181,54 @@
         </v-card-text>
       </v-card>
     </V-dialog>
+    <v-dialog v-model="showMarkDialog">
+        <v-card class="rounded-xl">
+            <v-card-title class="text-center pb-0">
+                <span class="text-h6">{{ $t('add-mark') }}</span>
+            </v-card-title>
+            <v-card-text class="pt-0">
+                <v-container>
+                <v-row>
+                    <v-col>
+                        {{ $t('enter-mark') }}
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-text-field
+                            :label="$t('mark-title')"
+                            v-model="addMark.newMark"
+                            type="text"
+                            hide-details
+                            @keypress.enter="addMark.all.push({text: addMark.newMark}); addMark.newMark = ''"
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col
+                        v-for="(_mark, i) in addMark.all"
+                        :key="_mark.text"
+                        cols="auto"
+                        class="py-1 pe-0 text-white"
+                        >
+                        <v-chip
+                            class="bg-blue-dark"
+                            style="color:white"
+                            @click:close="addMark.all.splice(i, 1)"
+                        >
+                            @{{ _mark.text }}
+                        </v-chip>
+                        </v-col>
+                </v-row>
+                <v-row>
+                    <v-col>
+                        <v-btn color="primary" :loading="addMark.inProgress" block size="x-large" @click="addMarksToSelected(addMark)">{{ $t('add') }}</v-btn>
+                    </v-col>
+                </v-row>
+            </v-container>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -198,6 +246,7 @@ export default {
             generate: {
                 messages: []
             },
+            addMark: {all: []},
             showSelectMenu: false,
             showJoinDialog: false,
             showFloorGenerateDialog: false,
@@ -206,10 +255,15 @@ export default {
                 lounge: null,
                 inProgress: false
             },
-            selectedSubTasks: []
+            selectedSubTasks: [],
+            showMarkDialog: false
         }
     },
     methods: {
+        addMarksToSelected(markData){
+            console.log(markData);
+            this.showMarkDialog = false;
+        },
         detectNewLevel(_subIdx,allTasks,level){
             let prevSub = allTasks[_subIdx - 1];
             let curSub = allTasks[_subIdx];

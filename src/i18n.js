@@ -5,6 +5,9 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'enter-mark': 'Введите метку',
+            'mark-title': 'Метка',
+            'add': 'Добавить',
             'home': 'Главная',
             'add-mark': 'Добавить метку',
             'change-priority': 'Изменить приоритет',
