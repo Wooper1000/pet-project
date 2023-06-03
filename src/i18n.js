@@ -33,7 +33,7 @@ const i18n = new createI18n({
             'setup': 'Настроить',
             'cancel': 'Отмена',
             'generate-title': 'Генерация',
-            'generate-floors': 'Попататься сформировать этажи и подъезды автоматически',
+            'generate-floors': 'Сформировать этажи и подъезды',
             'enter-floor': 'Введите этаж',
             'enter-lounge': 'Введите подъезд',
             'join': 'Объединить',

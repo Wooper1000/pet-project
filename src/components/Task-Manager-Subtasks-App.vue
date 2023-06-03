@@ -73,31 +73,31 @@
             <v-card-title class="text-center">
                 <span class="text-h5">{{ $t('generate-title') }}</span>
             </v-card-title>
-        <v-card-text>
-            <v-container>
-                <v-row>
-                    <v-col>
-                        <v-list>
-                            <v-list-item v-for="_m in generate.messages" :key="_m">
-                                <template v-slot:prepend>
-                                    <v-progress-circular
-                                    indeterminate
-                                    color="primary"
-                                    :size="16"
-                                    v-if="_m.inProgress"
-                                    ></v-progress-circular>
-                                    <v-icon icon="mdi-check" color="success" v-if="_m.success"/>
-                                    <v-icon icon="mdi-close" color="danger" v-if="_m.fail"/>
-                                </template>
-                                <template v-slot:title>
-                                    {{ _m.text }}
-                                </template>
-                            </v-list-item>
-                        </v-list>
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-card-text>
+            <v-card-text class="pa-0">
+                <v-container class="pa-1">
+                    <v-row>
+                        <v-col>
+                            <v-list>
+                                <v-list-item v-for="_m in generate.messages" :key="_m" :subtitle="_m.info">
+                                    <template v-slot:prepend>
+                                        <v-progress-circular
+                                        indeterminate
+                                        color="primary"
+                                        :size="16"
+                                        v-if="_m.inProgress"
+                                        ></v-progress-circular>
+                                        <v-icon icon="mdi-check mr-2" color="success" v-if="_m.success"/>
+                                        <v-icon icon="mdi-close mr-2" color="danger" v-if="_m.fail"/>
+                                    </template>
+                                    <template v-slot:title>
+                                        {{ _m.text }}
+                                    </template>
+                                </v-list-item>
+                            </v-list>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card-text>
       </v-card>
     </V-dialog>
     <V-dialog v-model="showJoinDialog">
@@ -317,14 +317,13 @@ export default {
             this.showFloorGenerateDialog = true;
             this.generate.messages.push({text: 'Ищем информацию по зданию', inProgress: true});
             structResp = await api.getStructureOnAddress(this.fullTask.title, start, end);
-            console.log(structResp);
             this.generate.messages[0].inProgress = false;
             if(structResp.status === "ok" && structResp.lounges.length){
                 this.generate.messages[0].success = true;
-                this.generate.messages[0].info = `Информация получена: для задач ${start} - ${end} надено ${structResp.lounges.length} подъездов`;
+                this.generate.messages[0].info = `[${start} - ${end}] | ${structResp.lounges.length} подъездов`;
             }else{
                 this.generate.messages[0].fail = true;
-                this.generate.messages[0].info = `К сожалению неудалось найти информация по думаю, нажмите в любое место вне окна что бы выйти.`;
+                this.generate.messages[0].info = `Не удалось найти информацию.`;
                 return;
             }
 
@@ -332,34 +331,36 @@ export default {
                 let _l = structResp.lounges[_lIdx]
                 let joinParams = {}
                 let msg = {text: '', inProgress: true};
-                let floors = _l.floors.length;
 
-                msg.text = `Группируем этажи по подъезду ${_l.number} [1/${floors.length}]`;
+                msg.text = `Подъезд ${_l.number}`;
                 joinParams.loungeNumber  = _l.number;
                 this.generate.messages.push(msg);
                 for(let _fIdx = 0; _fIdx < _l.floors.length; _fIdx++){
                     let _f = _l.floors[_fIdx];
                     let _arr = _l.floors;
                     let subIds = _f.apparts.map(_ap => this.fullTask.subtasks.find(_sT => _sT.number == _ap).subtaskId);
+                    let _msgObj = this.generate.messages[_lIdx+1];
 
                     joinParams.floorNumber = _f.number;
                     joinParams.subtaskIds = subIds;
 
-                    msg.text = `Группируем этажи по подъезду ${_l.number} [${_fIdx+1}/${_l.floors.length}]`;
+                    _msgObj.info = `Этажи [${_fIdx+1}/${_l.floors.length}] `;
                     await api.replaceSubTasks(this.fullTask.taskId,joinParams);
                     if(_fIdx === _arr.length-1){
-                      msg.text = `Группируем этажи по подъезду ${_l.number} [${_fIdx+1}/${_l.floors.length}][Готово]`;
-                      msg.inProgress = false;
-                      msg.success = true;
+                        _msgObj.info = `Этажи [${_fIdx+1}/${_l.floors.length}][Готово]`;
+                        _msgObj.inProgress = false;
+                        _msgObj.success = true;
+                    }else{
+                        await this.sleep(100);
                     }
                 }
-
-                await this.loadTaskInfo();
-                this.showSelectMenu = false;
-                this.showJoinDialog = false;
             }
 
-            console.log(structResp);
+            await this.loadTaskInfo();
+            this.showSelectMenu = false;
+        },
+        async sleep(time){
+            return new Promise(resolve => setTimeout(()=> {resolve()},time));
         },
         onMenuClicked(item){
             if(item == 'select'){
@@ -463,7 +464,7 @@ export default {
 .floor-cell {
   width: 44px;
   writing-mode: vertical-lr;
-  padding-top: 50%;
+  padding: 15px 0px;
 }
 
 table {
