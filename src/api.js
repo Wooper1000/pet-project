@@ -80,7 +80,6 @@ export default {
             return {};
         }
     },
-
     async getFullTask(id) {
         try {
             const response = await apiClient.get(`/tasks/${id}/subtasks`);
@@ -91,7 +90,15 @@ export default {
     },
     async getSubtask(id){
         try {
-            const response = await apiClient.get(`/Ссылка на бэк/`+id);
+            const response = await apiClient.get(`/tasks/subtasks/`+id,);
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
+    async saveSubtask(id,subtask){
+        try {
+            const response = await apiClient.patch(`/tasks/subtasks/`+id,subtask);
             return response.data;
         } catch (error) {
             return {};

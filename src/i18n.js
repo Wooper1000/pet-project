@@ -5,6 +5,11 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'subtask-saved-success': 'Сохранено успешно',
+            'status-new': 'Новая',
+            'status-in-work': 'В работе',
+            'status-done': 'Завершенная',
+            'status-canceled': 'Отменена',
             'contact-face-title': 'Контактное лицо',
             'fio-placeholder': 'ФИО',
             'phone-title': 'Телефон контактного лица',
