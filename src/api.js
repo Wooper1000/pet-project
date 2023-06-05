@@ -97,6 +97,7 @@ export default {
         }
     },
     async saveSubtask(id,subtask){
+        console.log(subtask)
         try {
             const response = await apiClient.patch(`/tasks/subtasks/`+id,subtask);
             return response.data;

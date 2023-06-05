@@ -28,6 +28,9 @@
                         <td @click="$router.push(`/task-manager/tasks/${taskId}/${_subtask.subtaskId}/edit`)">
                           {{ $t('subtask-title') }} {{ _subtask.number}}
                         </td>
+                        <td >
+                          <v-icon :class="getFlagColor(_subtask.priority) ? 'text-' + getFlagColor(_subtask.priority) : 'd-none'">mdi-flag-variant</v-icon>
+                        </td>
                         <td class="check-cell">
                           <v-checkbox-btn @change="changeSubTaskSelection(_subtask)" v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
@@ -198,6 +201,8 @@
 import TopBarApp from '@/components/Top-Bar-App.vue';
 import BottomBarApp from '@/components/Bottom-Bar-App.vue';
 import api from '@/api';
+import subtaskRemodeler from "@/utils/subtaskRemodeler";
+
 
 export default {
     created() {
@@ -223,10 +228,10 @@ export default {
             showMarkDialog: false,
             menuList: [],
             priorityMenuItems: [
-                {icon: {i:'pet:flag-01',color:'red'}, title: `${this.$t('priority-title')} 4`, click: ()=> { this.setPriority(); }},
-                {icon: {i:'pet:flag-01',color:'orange'}, title: `${this.$t('priority-title')} 3`, click: ()=> { this.setPriority(); }},
-                {icon: {i:'pet:flag-01',color:'green'}, title: `${this.$t('priority-title')} 2`, click: ()=> { this.setPriority(); }},
-                {icon: {i:'pet:flag-01',color:'black'}, title: `${this.$t('priority-title')} 1`, click: ()=> { this.setPriority(); }},
+                {icon: {i:'pet:flag-01',color:'red'},value:"URGENT_HARD", title: `${this.$t('priority-urgent-hard')}`, click: ()=> { this.setPriority("URGENT_HARD"); }},
+                {icon: {i:'pet:flag-01',color:'orange'},value:"URGENT_EASY", title: `${this.$t('priority-urgent-easy')}`, click: ()=> { this.setPriority("URGENT_EASY"); }},
+                {icon: {i:'pet:flag-01',color:'green'},value:"NON_URGENT_HARD", title: `${this.$t('priority-non-urgent-hard')}`, click: ()=> { this.setPriority("NON_URGENT_HARD"); }},
+                {icon: {i:'pet:flag-01',color:'black'},value:"NON_URGENT_EASY", title: `${this.$t('priority-non-urgent-easy')}`, click: ()=> { this.setPriority("NON_URGENT_EASY"); }},
             ],
             selectItems: [
                 {title: this.$t('generate-floors'), click: () => { this.tryGenerateFloors() }},
@@ -248,14 +253,37 @@ export default {
         this.taskId = this.$route.params.id;
           },
     methods: {
+      getFlagColor(priority){
+        if(priority) {
+          return this.priorityMenuItems.find(item => item.value === priority)?.icon.color;
+        }
+        else return null
+      },
         closeSelectMenu(){
           this.showSelectMenu = false;
           this.menuList = this.selectItems;
         },
-        setPriority(){
-            this.showSelectMenu = false;
-            this.menuList = this.selectItems;
-        },
+      setPriority(priority) {
+        const savePromises = this.selectedSubTasks.map(item => {
+          return new Promise(resolve => {
+            const updatedItem = { ...item, priority: priority };
+            api.saveSubtask(item.subtaskId, subtaskRemodeler(updatedItem))
+                .then(response => {
+                  resolve(response);
+                })
+                .catch(error => {
+                  console.log(error)
+                  resolve(null); // Resolve with null in case of an error
+                });
+          });
+        });
+        Promise.all(savePromises).then(result=>{
+         if(result) {
+           this.closeSelectMenu();
+           this.loadTaskInfo();
+         }
+        })
+      },
         addMarksToSelected(markData){
             console.log(markData);
             this.showMarkDialog = false;
@@ -281,25 +309,21 @@ export default {
         },
         selectFloor(evt, subtask){
             let selected = evt.target.checked;
-            let floor = this.fullTask.subtasks.filter(_t => _t.floor === subtask.floor);
-
+            let floor = this.fullTask.subtasks.filter(_t =>_t.floor === subtask.floor && _t.lounge === subtask.lounge)
             floor.forEach(_task => {
                 let _inSelection = this.selectedSubTasks.find(_sT => _sT.subtaskId === _task.subtaskId);
-
                 if(selected && !_inSelection){
                     this.selectedSubTasks.push(_task);
                     _task.selected = true;
                 }
-
                 if(!selected && _inSelection){
                     this.selectedSubTasks.splice(this.selectedSubTasks.indexOf(_inSelection),1);
                     _task.selected = false;
                 }
             });
         },
-        async changeSubTaskSelection(subtask){
+        changeSubTaskSelection(subtask){
             let subExist = this.selectedSubTasks.find(_sT => _sT.subtaskId === subtask.subtaskId);
-
             if(subtask.selected && !subExist){
                 this.selectedSubTasks.push(subtask);
             }else{
@@ -363,7 +387,7 @@ export default {
             return new Promise(resolve => setTimeout(()=> {resolve()},time));
         },
         onMenuClicked(item){
-            if(item == 'select'){
+            if(item === 'select'){
                 this.showSelectMenu = true;
             }
         },

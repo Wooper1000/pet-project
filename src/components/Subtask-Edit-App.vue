@@ -120,6 +120,7 @@
 import TopBarApp from '@/components/Top-Bar-App.vue';
 import BottomBarApp from '@/components/Bottom-Bar-App.vue';
 import api from "@/api";
+import subtaskRemodeler from "@/utils/subtaskRemodeler";
 
 
 export default {
@@ -168,27 +169,16 @@ export default {
 
   methods: {
     async saveSubtask(subtask){
-      let fields = {
-        contact: subtask.contact,
-        phone: subtask.phone,
-        status: subtask.status,
-        description: subtask.description,
-        lounge: subtask.lounge,
-        floor: subtask.floor,
-        priority: subtask.priority
-      }
-      await api.saveSubtask(subtask.id, fields);
+      await api.saveSubtask(subtask.id, subtaskRemodeler(subtask));
       this.apiMessage.text = this.$t('subtask-saved-success');
       this.apiMessage.visible = true;
       setTimeout(()=> this.$router.go(-1),this.apiMessage.timeout);
-
     },
     onMenuClicked(item){
       if(item === 'select'){
         this.showSelectMenu = true;
       }
     },
-
   },
   components: {
     TopBarApp,
