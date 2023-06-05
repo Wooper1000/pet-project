@@ -169,6 +169,10 @@ export default {
       this.longPressTriggered = false; // Reset the long press flag
     },
     async onLongPress(task) {
+      if(task.info) {
+        task.info=null
+        return
+      }
       let id = task.taskId;
       let taskData = await api.getTaskInfo(id);
       task.info = taskData;

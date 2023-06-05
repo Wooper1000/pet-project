@@ -1,4 +1,3 @@
-
 export default {
     async mounted(el, binding) {
         const duration = 500; // Продолжительность в миллисекундах (по умолчанию 500)
@@ -6,7 +5,7 @@ export default {
 
         const start = async () => {
             if (pressTimer === null) {
-                pressTimer = setTimeout( () => {
+                pressTimer = setTimeout(() => {
                     if (pressTimer !== null) {
                         binding.value(); // Дождаться выполнения промиса
                     }
@@ -25,6 +24,9 @@ export default {
         el.addEventListener('mouseout', end);
         el.addEventListener('touchend', end);
         el.addEventListener('touchcancel', end);
+        el.addEventListener('contextmenu', (event) => {
+            event.preventDefault(); // Предотвращаем открытие контекстного меню
+        });
 
         const cleanup = () => {
             el.removeEventListener('mousedown', start);
@@ -33,6 +35,7 @@ export default {
             el.removeEventListener('mouseout', end);
             el.removeEventListener('touchend', end);
             el.removeEventListener('touchcancel', end);
+            el.removeEventListener('contextmenu', () => {});
         };
 
         // При уничтожении элемента очищаем обработчики событий
