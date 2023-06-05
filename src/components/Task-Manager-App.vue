@@ -29,7 +29,7 @@
                     <v-checkbox-btn v-model="_task.selected" @click.stop></v-checkbox-btn>
                   </v-col>
                   <v-col cols="6" class="py-0 ">
-                    <v-banner v-longpress="onLongPress.bind(null, _task)" @click="handleClick(_task)" class="py-0"
+                    <v-banner v-longpress="onLongPress.bind(null, _task)" @click="handleClick(_task.taskId)" class="py-0"
                               lines="two" :text="_task.title" :stacked="false" border="0"></v-banner>
                   </v-col>
                   <v-col cols="3" class="py-0">

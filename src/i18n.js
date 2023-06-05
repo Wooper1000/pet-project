@@ -5,6 +5,11 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'priority-urgent-easy': 'Срочно и Легко',
+            'priority-urgent-hard': 'Срочно и Сложно',
+            'priority-non-urgent-easy': 'Не Срочно и Легко',
+            'priority-non-urgent-hard': 'Не Срочно и Сложно',
+            'priority-placeholder': 'Выберите приоритет',
             'subtask-saved-success': 'Сохранено успешно',
             'status-new': 'Новая',
             'status-in-work': 'В работе',

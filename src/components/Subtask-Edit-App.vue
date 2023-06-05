@@ -105,6 +105,15 @@
     <BottomBarApp @item-clicked="onMenuClicked"></BottomBarApp>
   </v-layout>
 
+  <v-snackbar
+      v-model="apiMessage.visible"
+      color="success"
+      :timeout="apiMessage.timeout"
+  >
+    {{ apiMessage.text }}
+
+  </v-snackbar>
+
 </template>
 
 <script>
@@ -118,7 +127,7 @@ export default {
     let id = this.$route.params.subtaskId;
     let promise = await api.getSubtask(id); 
     let userTasks = await api.getUserTasks();
-    let mainTask = userTasks.find(_t => _t.taskId == this.$route.params.id);
+    let mainTask = userTasks.find(_t => _t.taskId === +this.$route.params.id);
     let floors = [];
     let lounges = [];
 
@@ -141,11 +150,18 @@ export default {
   data() {
     return {
       subtask:{},
+      loungesRange: [],
+      floorRange: [],
+      apiMessage: {
+        visible: false,
+        timeout: 1500,
+        text: ''
+      },
       statusValues: [
-        {value:'NEW',title: this.$t('status-new')},
-        {value:'IN_WORK', title: this.$t('status-in-work')},
-        {value:'DONE', title: this.$t('status-done')},
-        {value:'CANCELED', title: this.$t('status-canceled')},
+        {value:'URGENT_EASY',title: this.$t('priority-urgent-easy')},
+        {value:'URGENT_HARD', title: this.$t('priority-urgent-hard')},
+        {value:'NON_URGENT_EASY', title: this.$t('priority-non-urgent-easy')},
+        {value:'NON_URGENT_HARD', title: this.$t('priority-non-urgent-hard')},
       ]
     }
   },
@@ -158,9 +174,14 @@ export default {
         status: subtask.status,
         description: subtask.description,
         lounge: subtask.lounge,
-        floor: subtask.floor
+        floor: subtask.floor,
+        priority: subtask.priority
       }
       await api.saveSubtask(subtask.id, fields);
+      this.apiMessage.text = this.$t('subtask-saved-success');
+      this.apiMessage.visible = true;
+      setTimeout(()=> this.$router.go(-1),this.apiMessage.timeout);
+
     },
     onMenuClicked(item){
       if(item === 'select'){
