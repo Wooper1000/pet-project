@@ -267,6 +267,7 @@ export default {
         const savePromises = this.selectedSubTasks.map(item => {
           return new Promise(resolve => {
             const updatedItem = { ...item, priority: priority };
+            this.fullTask.subtasks = null
             api.saveSubtask(item.subtaskId, subtaskRemodeler(updatedItem))
                 .then(response => {
                   resolve(response);
@@ -331,7 +332,8 @@ export default {
             }
         },
         async tryGenerateFloors(){
-            let structResp = null;
+          this.showSelectMenu = false;
+          let structResp = null;
             let tasks = await api.getUserTasks();
             let targetTask = tasks.find(_t => _t.taskId === this.fullTask.taskId);
             let start = targetTask.subtasksFrom;
@@ -379,9 +381,10 @@ export default {
                     }
                 }
             }
-
+          this.fullTask.subtasks = null
+          this.showFloorGenerateDialog = false;
             await this.loadTaskInfo();
-            this.showSelectMenu = false;
+
         },
         async sleep(time){
             return new Promise(resolve => setTimeout(()=> {resolve()},time));

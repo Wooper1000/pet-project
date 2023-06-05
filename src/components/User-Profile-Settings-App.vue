@@ -48,7 +48,7 @@
                         <v-btn color="grey-lighten-1" icon="pet:chevron-right" variant="text"></v-btn>
                     </template>
                 </v-list-item>
-                <v-list-item title="Выйти">
+                <v-list-item title="Выйти" @click="logout">
                     <template v-slot:prepend>
                         <v-icon icon="pet:log-out" class="settings-icon" color="blue"></v-icon>
                     </template>
@@ -95,9 +95,12 @@ export default {
         },
         async getUser(){
             let user = await api.getUser();
-
             return user;
-        }
+        },
+      logout(){
+          api.logout()
+          this.$router.push('/login')
+      }
     },
     components: {
         TopBarApp,

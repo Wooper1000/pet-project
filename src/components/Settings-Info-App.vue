@@ -10,7 +10,7 @@
       </v-row>
       <v-row>
         <v-col cols="12" class="text-center">
-          <v-avatar color="surface-variant" rounded="xl" size="80"></v-avatar>
+          <v-avatar :image="require('../assets/imgs/logo-letterless.png')" rounded="xl" size="80"></v-avatar>
         </v-col>
       </v-row>
       <v-row>

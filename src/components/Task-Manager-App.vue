@@ -29,7 +29,8 @@
                     <v-checkbox-btn v-model="_task.selected" @click.stop></v-checkbox-btn>
                   </v-col>
                   <v-col cols="6" class="py-0 ">
-                    <v-banner v-longpress="onLongPress.bind(null, _task)" @click="handleClick(_task.taskId)" class="py-0"
+                    <v-banner v-longpress="onLongPress.bind(null, _task)" @click="handleClick(_task.taskId)"
+                              class="py-0"
                               lines="two" :text="_task.title" :stacked="false" border="0"></v-banner>
                   </v-col>
                   <v-col cols="3" class="py-0">
@@ -135,6 +136,32 @@
       </v-card-text>
     </v-card>
   </V-dialog>
+  <v-dialog v-model="showSelectMenu" scrollable width="100%" transition="dialog-bottom-transition">
+    <v-card rounded="xl">
+      <v-card-title class="text-center text-h6">{{ $t('select') }}</v-card-title>
+      <v-card-text style="max-height: 350px; padding-top: 0;">
+        <v-list>
+          <template v-for="(_menuItem,_idx) in menuList" :key="_idx">
+            <v-list-item density="compact">
+              <template v-slot:prepend v-if="_menuItem.icon">
+                <v-icon :icon="_menuItem.icon.i" :color="_menuItem.icon.color"/>
+              </template>
+              <v-list-item-title @click="_menuItem.click()">
+                {{ _menuItem.title }}
+              </v-list-item-title>
+              <v-divider
+                  v-if="_idx < menuList.length - 1"
+                  :key="`${_idx}-divider`"
+              ></v-divider>
+            </v-list-item>
+          </template>
+        </v-list>
+      </v-card-text>
+    </v-card>
+    <v-btn variant="outlined" color="primary" class="bg-white mt-2" size="large" @click="showSelectMenu=false">
+      {{ $t('cancel') }}
+    </v-btn>
+  </v-dialog>
 </template>
 
 <script>
@@ -144,14 +171,24 @@ import api from '@/api';
 
 export default {
   created() {
-    this.laodTasks();
+    this.loadTasks();
+  },
+  mounted() {
+    this.menuList = [...this.selectItems]
   },
   data() {
     return {
+      showSelectMenu: false,
+      menuList: [],
       addTaskDialogShow: false,
       tasks: [],
-
-
+      selectItems: [
+        {
+          title: this.$t('delete'), click: () => {
+            this.deleteTasks()
+          }
+        }
+      ],
       longPressTriggered: false,
       newTask: {
         title: '',
@@ -161,6 +198,14 @@ export default {
     }
   },
   methods: {
+    async deleteTasks() {
+      const deletePromises = this.tasks
+          .filter(task => task.selected)
+          .map(task => api.deleteTask(task.taskId));
+      await Promise.all(deletePromises);
+      this.showSelectMenu = false
+      await this.loadTasks();
+    },
     handleClick(taskId) {
       if (!this.longPressTriggered) {
         // Handle the click event only if the long press event was not triggered
@@ -169,8 +214,8 @@ export default {
       this.longPressTriggered = false; // Reset the long press flag
     },
     async onLongPress(task) {
-      if(task.info) {
-        task.info=null
+      if (task.info) {
+        task.info = null
         return
       }
       let id = task.taskId;
@@ -185,13 +230,16 @@ export default {
       if (item === 'create') {
         this.addTaskDialogShow = true;
       }
+      if (item === 'select') {
+        this.showSelectMenu = true
+      }
     },
     async addTask(task) {
       await api.addTask(task);
       this.addTaskDialogShow = false;
-      this.laodTasks();
+      await this.loadTasks();
     },
-    async laodTasks() {
+    async loadTasks() {
       let tasks = await api.getUserTasks();
       this.tasks = tasks;
     }

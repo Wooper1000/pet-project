@@ -39,6 +39,11 @@ apiClient.interceptors.response.use(
 )
 
 export default {
+    logout(){
+        localStorage.removeItem('token');
+        apiClient.defaults.headers.common['Authorization'] = null
+    },
+
     registerUser(user) {
         return apiClient.post('/auth/register', user);
     },
@@ -88,6 +93,15 @@ export default {
             return {};
         }
     },
+    async deleteTask(id){
+        try {
+            const response = await apiClient.delete(`/tasks/${id}`);
+            return response.data;
+        } catch (error) {
+            console.log(error)
+            return {};
+        }
+    },
     async getSubtask(id){
         try {
             const response = await apiClient.get(`/tasks/subtasks/`+id,);
@@ -125,7 +139,6 @@ export default {
             return {};
         }
     },
-
     async replaceSubTasks(taskId,params) {
         try {
             const response = await apiClient.patch(`/tasks/${taskId}/subtasks/replace`, params);
