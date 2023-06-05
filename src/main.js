@@ -2,6 +2,7 @@ import './assets/css/main.css'
 import './assets/css/pet-icons.css'
 import { createApp } from 'vue'
 import App from './App.vue'
+import longpressDirective from "@/directives/longpressDirective";
 
 import router from './router'
 
@@ -22,6 +23,7 @@ import i18n from "@/i18n";
 
 
 createApp(App)
+    .directive('longpress', longpressDirective)
     .use(router)
     .use(store)
     .use(i18n)

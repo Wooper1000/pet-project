@@ -28,7 +28,7 @@
                                             <v-checkbox-btn v-model="_task.selected" @click.stop></v-checkbox-btn>
                                         </v-col>
                                         <v-col cols="6" class="py-0 ">
-                                            <v-banner :class="isPointerDown && pointerDownTaskId ===_task.taskId? 'text-blue-jeans':null" @pointerdown="onTaskPointerDown(_task.taskId)" @pointerup="onTaskPointerUp(_task)" class="py-0 " lines="two" :text="_task.title" :stacked="false" border="0"></v-banner>
+                                          <v-banner v-longpress="onLongPress.bind(null, _task)" @click.stop="onShortPress(_task.taskId)" class="py-0" lines="two" :text="_task.title" :stacked="false" border="0"></v-banner>
                                         </v-col>
                                         <v-col cols="3" class="py-0">
                                             <div v-if="!_task.info">
@@ -159,27 +159,18 @@ export default {
         }
     },
     methods: {
-        onTaskPointerDown(taskId){
-          this.isPointerDown=true
-          this.pointerDownTaskId = taskId
-            this.holdTimer = setInterval(()=>{ this.holded += 100 },100);
-        },
-        async onTaskPointerUp(task){
-          this.isPointerDown=false
-            let id = task.taskId;
-            clearInterval(this.holdTimer);
-            if(this.holded >= this.holdPause){
-                let taskData = await api.getTaskInfo(id);
-                task.info = taskData;
-              if ('vibrate' in navigator) {
-                // Выполнять вибрацию, если holded больше 800 и поддерживается Vibration API
-                navigator.vibrate(200); // Задать продолжительность вибрации в миллисекундах
-              }
-            }else{
-                this.$router.push('/task-manager/tasks/' + id);
-            }
-            this.holded = 0;
-        },
+      onShortPress(id){
+        this.$router.push('/task-manager/tasks/' + id);
+      },
+      async onLongPress(task) {
+         let id = task.taskId;
+        let taskData = await api.getTaskInfo(id);
+         task.info = taskData;
+        if ('vibrate' in navigator) {
+          // Выполнять вибрацию, если holded больше 800 и поддерживается Vibration API
+          navigator.vibrate(200); // Задать продолжительность вибрации в миллисекундах
+        }
+      },
         onMenuClicked(item){
             if(item === 'create'){
                 this.addTaskDialogShow = true;
@@ -196,6 +187,7 @@ export default {
             this.tasks = tasks;
         }
     },
+
     components: {
         TopBarApp,
         BottomBarApp
