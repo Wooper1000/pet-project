@@ -16,6 +16,7 @@
                 class="py-0"
                 hide-details
                 :placeholder="$t('fio-placeholder')"
+                v-model="subtask.contact"
                 type="text"
             ></v-text-field>
           </v-col>
@@ -27,6 +28,7 @@
                 class="py-0"
                 hide-details
                 :placeholder="$t('phone-placeholder')"
+                v-model="subtask.phone"
                 type="text"
             ></v-text-field>
           </v-col>
@@ -37,7 +39,8 @@
             <v-combobox
                 hide-details
                 :placeholder="$t('floor-placeholder')"
-                :items="[1,2,3,4,5]"
+                :items="floorRange"
+                v-model="subtask.floor"
             ></v-combobox>
           </v-col>
         </v-row>
@@ -47,17 +50,20 @@
             <v-combobox
                 hide-details
                 :placeholder="$t('lounge-placeholder')"
-                :items="[1,2,3,4,5]"
+                :items="loungesRange"
+                v-model="subtask.lounge"
             ></v-combobox>
           </v-col>
         </v-row>
         <v-row>
           <v-col>
-            <span>{{$t('status-title')}}</span>
+            <span>{{$t('priority-title')}}</span>
             <v-combobox
                 hide-details
-                :placeholder="$t('status-placeholder')"
-                :items="['Новая','В работе','Окончена']"
+                :placeholder="$t('priority-placeholder')"
+                :return-object="false"
+                v-model="subtask.priority"
+                :items="statusValues"
             ></v-combobox>
           </v-col>
         </v-row>
@@ -85,7 +91,13 @@
                 :placeholder="$t('comment-placeholder')"
                 :counter="3000"
                 :maxlength="3000"
+                v-model="subtask.description"
             ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-btn color="primary" block size="x-large" @click="saveSubtask(subtask)">{{ $t('save') }}</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -98,36 +110,58 @@
 <script>
 import TopBarApp from '@/components/Top-Bar-App.vue';
 import BottomBarApp from '@/components/Bottom-Bar-App.vue';
-// import api from "@/api";
+import api from "@/api";
 
 
 export default {
-  // async created() {
-  //   let promise = await api.getSubtask(this.subtaskId);                После реализации бэком эндпоинта получения subtask по id
-  //   this.subtask = promise
-  // },
+  async created() {
+    let id = this.$route.params.subtaskId;
+    let promise = await api.getSubtask(id); 
+    let userTasks = await api.getUserTasks();
+    let mainTask = userTasks.find(_t => _t.taskId == this.$route.params.id);
+    let floors = [];
+    let lounges = [];
+
+    for(let _i = mainTask.loungesFrom; _i <= mainTask.loungesTo; _i++){
+      lounges.push(_i);
+    }
+
+    for(let _i = mainTask.floorsFrom; _i <= mainTask.floorsTo; _i++){
+      floors.push(_i);
+    }
+
+    this.loungesRange = lounges;
+    this.floorRange = floors;
+    this.subtask = promise;
+
+  },
   mounted() {
     this.subtaskId = this.$route.params.subtaskId;
-    console.log(this.subtaskId)
   },
   data() {
     return {
-      comment: '',
-    subtask:{
-      "number": 1,
-      "subtaskId": 41,
-      "priority": null,
-      "status": "NEW",
-      "floor": 1,
-      "lounge": 1
-    },
-
+      subtask:{},
+      statusValues: [
+        {value:'NEW',title: this.$t('status-new')},
+        {value:'IN_WORK', title: this.$t('status-in-work')},
+        {value:'DONE', title: this.$t('status-done')},
+        {value:'CANCELED', title: this.$t('status-canceled')},
+      ]
     }
   },
 
   methods: {
-
-
+    async saveSubtask(subtask){
+      let fields = {
+        contact: subtask.contact,
+        phone: subtask.phone,
+        status: subtask.status,
+        description: subtask.description,
+        lounge: subtask.lounge,
+        floor: subtask.floor
+      }
+      await api.saveSubtask(subtask.id, fields);
+    },
     onMenuClicked(item){
       if(item === 'select'){
         this.showSelectMenu = true;
