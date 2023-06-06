@@ -54,31 +54,30 @@
                   <td>
                     <v-icon icon="pet:flag-01" color="red"/>
                   </td>
-                  <td> 1-2344 кв</td>
-                  <td> 1-122 эт</td>
-                  <td> 1-34 под</td>
+                  <td> {{ _task.subtasksFrom }} - {{ _task.subtasksTo }} {{ $t('kv') }}</td>
+                  <td> {{ _task.info.floorsFrom }}-{{ _task.info.floorsTo }} {{ $t('floor') }}</td>
+                  <td> {{ _task.info.loungesFrom }}-{{ _task.info.loungesTo }} {{ $t('lounge-short') }}</td>
                 </tr>
               </table>
               <v-list class="bg-gray-light">
-                <v-list-item title="Иванов Иван">
+                <v-list-item :title="_task.info.creator.fullname || '-'">
                   <template v-slot:prepend>
                     <v-icon icon="pet:users" class="mr-2"/>
                   </template>
                 </v-list-item>
-                <v-list-item title="+74562342233">
+                <v-list-item :title="_task.info.creator.phone || '-'">
                   <template v-slot:prepend>
                     <v-icon icon="pet:phone" class="mr-2"/>
                   </template>
                 </v-list-item>
-                <v-list-item title="позвонить за час до прихода">
+                <v-list-item :title="_task.info.description || '-'">
                   <template v-slot:prepend>
                     <v-icon icon="pet:message-square" class="mr-2"/>
                   </template>
                 </v-list-item>
                 <v-list-item>
                   <v-list-item-title>
-                    <v-chip style="color:white !important;" class="bg-blue-aqua mr-2">@ремонт</v-chip>
-                    <v-chip style="color:white !important;" class="bg-blue-aqua">@собака</v-chip>
+                    <v-chip style="color:white !important;" class="bg-blue-aqua mr-2" v-for="_mark in _task.marks" :key="_mark.id">@{{ _mark.context }}</v-chip>
                   </v-list-item-title>
                 </v-list-item>
               </v-list>

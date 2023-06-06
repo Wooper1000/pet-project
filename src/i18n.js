@@ -5,6 +5,7 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'lounge-short': 'под',
             'delete':'Удалить',
             'priority-urgent-easy': 'Срочно и Легко',
             'priority-urgent-hard': 'Срочно и Сложно',
