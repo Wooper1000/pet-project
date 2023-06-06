@@ -47,41 +47,43 @@
               </v-container>
             </v-card-text>
           </v-card>
-          <v-sheet class="bg-gray-light task-info" v-if="_task.info" rounded="xl">
-            <table class="task-info-table">
-              <tr>
-                <td>
-                  <v-icon icon="pet:flag-01" color="red"/>
-                </td>
-                <td> 1-2344 кв</td>
-                <td> 1-122 эт</td>
-                <td> 1-34 под</td>
-              </tr>
-            </table>
-            <v-list class="bg-gray-light">
-              <v-list-item title="Иванов Иван">
-                <template v-slot:prepend>
-                  <v-icon icon="pet:users" class="mr-2"/>
-                </template>
-              </v-list-item>
-              <v-list-item title="+74562342233">
-                <template v-slot:prepend>
-                  <v-icon icon="pet:phone" class="mr-2"/>
-                </template>
-              </v-list-item>
-              <v-list-item title="позвонить за час до прихода">
-                <template v-slot:prepend>
-                  <v-icon icon="pet:message-square" class="mr-2"/>
-                </template>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title>
-                  <v-chip style="color:white !important;" class="bg-blue-aqua mr-2">@ремонт</v-chip>
-                  <v-chip style="color:white !important;" class="bg-blue-aqua">@собака</v-chip>
-                </v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-sheet>
+          <v-expand-transition>
+            <v-sheet class="bg-gray-light task-info" v-if="_task.info" rounded="xl">
+              <table class="task-info-table">
+                <tr>
+                  <td>
+                    <v-icon icon="pet:flag-01" color="red"/>
+                  </td>
+                  <td> 1-2344 кв</td>
+                  <td> 1-122 эт</td>
+                  <td> 1-34 под</td>
+                </tr>
+              </table>
+              <v-list class="bg-gray-light">
+                <v-list-item title="Иванов Иван">
+                  <template v-slot:prepend>
+                    <v-icon icon="pet:users" class="mr-2"/>
+                  </template>
+                </v-list-item>
+                <v-list-item title="+74562342233">
+                  <template v-slot:prepend>
+                    <v-icon icon="pet:phone" class="mr-2"/>
+                  </template>
+                </v-list-item>
+                <v-list-item title="позвонить за час до прихода">
+                  <template v-slot:prepend>
+                    <v-icon icon="pet:message-square" class="mr-2"/>
+                  </template>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>
+                    <v-chip style="color:white !important;" class="bg-blue-aqua mr-2">@ремонт</v-chip>
+                    <v-chip style="color:white !important;" class="bg-blue-aqua">@собака</v-chip>
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-sheet>
+          </v-expand-transition>
         </div>
       </div>
     </v-main>
