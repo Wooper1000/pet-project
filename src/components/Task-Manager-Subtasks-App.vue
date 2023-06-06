@@ -20,7 +20,13 @@
                     <table>
                       <tr v-for="(_subtask,_subIdx) in fullTask.subtasks" :key="_subtask" height="40px">
                         <td :rowspan="_loungesCount" v-if="_loungesCount = detectNewLevel(_subIdx,fullTask.subtasks,'lounge')" class="lounge-cell bg-blue-aqua">
-                          {{ _subtask.lounge }} {{ $t('lounge-title') }}
+                            <div class="title-scroll-container">
+                                <div class="sticky-lounge">
+                                    <div class="vertical-title">
+                                        {{ _subtask.lounge }} {{ $t('lounge-title') }}
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                         <td class="check-cell">
                           <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
@@ -35,7 +41,12 @@
                           <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
                         <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
-                          <v-checkbox :label="_subtask.floor + ' ' + $t('floor-title')" @click="selectFloor($event,_subtask)"></v-checkbox>
+                            <div class="title-scroll-container">
+                                <div class="sticky-floor">
+                                    <div class="vertical-title">{{ _subtask.floor + ' ' + $t('floor-title') }}</div>
+                                    <v-checkbox @click="selectFloor($event,_subtask)" density="compact" class="floor-check"></v-checkbox>
+                                </div>
+                            </div>
                         </td>
                       </tr>
                     </table>
@@ -400,71 +411,39 @@ export default {
     z-index: 99;
     background: white;
 }
-.sub-cotainer {
-    padding: 0px;
-}
-
-.lounge-container {
-  width: 100%;
-  display: block;
-  height: fit-content;
-}
-
-.lounge-title {
-    writing-mode: vertical-lr;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-    text-align: center;
-    position: sticky;
-    top: calc(50% - 40px);
-    margin: 15px 0px;
-}
-
-.floot-title-check {
-    display: inline-block;
-    transform: rotate(90deg);
-    margin-top: -15px;
-}
-.floor-title-label {
-    margin-left: 9px;
-    display: inline-block;
-    writing-mode: vertical-lr;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-    text-align: center;
-}
-.container {
-  display: flex;
-}
-
-.column1 {
-  width: 44px;
-  padding-left: 10px;
-}
-
-.column2 {
-  flex-grow: 1;
-}
-
-.column1-f {
-  flex-grow: 1;
-
-}
-
-.column2-f {
-  width: 44px;
-  padding-left: 2px;
-}
-
-.block {
-  margin-bottom: 10px;
-}
 
 .lounge-cell,
 .floor-cell {
-  width: 44px;
-  writing-mode: vertical-lr;
   padding: 15px 0px;
+  width: 44px;
+  height: 1px;
+}
+
+.title-scroll-container {
+    width: 44px;
+    height: 100%;
+    padding-bottom: 50px;
+    padding-top: 15px;
+}
+
+.sticky-lounge {
+    position: sticky;
+    top: 45vh;
+}
+
+.sticky-floor {
+    position: sticky;
+    top: 44vh;
+}
+
+.vertical-title {
+    transform: rotate(90deg);
+    white-space:nowrap;
+}
+
+.floor-check {
+    margin-left: 8px;
+    margin-top: 15px;
 }
 
 table {
