@@ -264,26 +264,12 @@ export default {
         },
       setPriority(priority) {
         const selectedTasks = this.getSelectedSubs();
-        const savePromises = selectedTasks.map(item => {
-          return new Promise(resolve => {
-            const updatedItem = { ...item, priority: priority };
-            this.fullTask.subtasks = null
-            api.saveSubtask(item.subtaskId, subtaskRemodeler(updatedItem))
-                .then(response => {
-                  resolve(response);
-                })
-                .catch(error => {
-                  console.log(error)
-                  resolve(null); // Resolve with null in case of an error
-                });
-          });
+
+        this.closeSelectMenu();
+        selectedTasks.forEach(async _subTask => {
+            _subTask.priority = priority;
+            api.saveSubtask(_subTask.subtaskId, subtaskRemodeler(_subTask))
         });
-        Promise.all(savePromises).then(result=>{
-         if(result) {
-           this.closeSelectMenu();
-           this.loadTaskInfo();
-         }
-        })
       },
         addMarksToSelected(markData){
             console.log(markData);
