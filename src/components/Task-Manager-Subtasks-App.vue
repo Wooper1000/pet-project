@@ -23,7 +23,7 @@
                           {{ _subtask.lounge }} {{ $t('lounge-title') }}
                         </td>
                         <td class="check-cell">
-                          <v-checkbox-btn @change="changeSubTaskSelection(_subtask)" v-model="_subtask.selected"></v-checkbox-btn>
+                          <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
                         <td @click="$router.push(`/task-manager/tasks/${taskId}/${_subtask.subtaskId}/edit`)">
                           {{ $t('subtask-title') }} {{ _subtask.number}}
@@ -32,7 +32,7 @@
                           <v-icon :class="getFlagColor(_subtask.priority) ? 'text-' + getFlagColor(_subtask.priority) : 'd-none'">mdi-flag-variant</v-icon>
                         </td>
                         <td class="check-cell">
-                          <v-checkbox-btn @change="changeSubTaskSelection(_subtask)" v-model="_subtask.selected"></v-checkbox-btn>
+                          <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
                         </td>
                         <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
                           <v-checkbox :label="_subtask.floor + ' ' + $t('floor-title')" @click="selectFloor($event,_subtask)"></v-checkbox>
@@ -224,7 +224,6 @@ export default {
                 lounge: null,
                 inProgress: false
             },
-            selectedSubTasks: [],
             showMarkDialog: false,
             menuList: [],
             priorityMenuItems: [
@@ -264,7 +263,8 @@ export default {
           this.menuList = this.selectItems;
         },
       setPriority(priority) {
-        const savePromises = this.selectedSubTasks.map(item => {
+        const selectedTasks = this.getSelectedSubs();
+        const savePromises = selectedTasks.map(item => {
           return new Promise(resolve => {
             const updatedItem = { ...item, priority: priority };
             this.fullTask.subtasks = null
@@ -312,24 +312,8 @@ export default {
             let selected = evt.target.checked;
             let floor = this.fullTask.subtasks.filter(_t =>_t.floor === subtask.floor && _t.lounge === subtask.lounge)
             floor.forEach(_task => {
-                let _inSelection = this.selectedSubTasks.find(_sT => _sT.subtaskId === _task.subtaskId);
-                if(selected && !_inSelection){
-                    this.selectedSubTasks.push(_task);
-                    _task.selected = true;
-                }
-                if(!selected && _inSelection){
-                    this.selectedSubTasks.splice(this.selectedSubTasks.indexOf(_inSelection),1);
-                    _task.selected = false;
-                }
+                _task.selected = selected;
             });
-        },
-        changeSubTaskSelection(subtask){
-            let subExist = this.selectedSubTasks.find(_sT => _sT.subtaskId === subtask.subtaskId);
-            if(subtask.selected && !subExist){
-                this.selectedSubTasks.push(subtask);
-            }else{
-                this.selectedSubTasks.splice(this.selectedSubTasks.indexOf(subExist),1);
-            }
         },
         async tryGenerateFloors(){
           this.showSelectMenu = false;
@@ -394,8 +378,11 @@ export default {
                 this.showSelectMenu = true;
             }
         },
+        getSelectedSubs(){
+            return this.fullTask.subtasks.filter(_sub => _sub.selected);
+        },
         async joinFloorsLounges({floor, lounge}){
-            let subTasks = this.selectedSubTasks;
+            let subTasks = this.getSelectedSubs();
             let joinParams = {loungeNumber: lounge, floorNumber: floor};
 
             joinParams.subtaskIds = subTasks.map(_t => _t.subtaskId);
