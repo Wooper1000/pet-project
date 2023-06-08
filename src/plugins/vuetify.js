@@ -43,6 +43,11 @@ const vuetify = createVuetify({
         VCheckboxBtn: {
             falseIcon: "mdi-checkbox-blank-outline",
             trueIcon: "mdi-checkbox-marked-outline"
+        },
+        VChip: {
+            class: 'bg-blue-aqua mr-2',
+            size: 'large',
+            style: 'color:white !important'
         }
     },
     icons: {

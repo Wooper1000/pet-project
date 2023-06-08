@@ -146,5 +146,21 @@ export default {
         } catch (error) {
             return {};
         }
-    }
+    },
+    async getUserMarks() {
+        try {
+            const response = await apiClient.get(`/marks`);
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
+    async createNewMark(context) {
+        try {
+            const response = await apiClient.post(`/marks`, {context});
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
 };

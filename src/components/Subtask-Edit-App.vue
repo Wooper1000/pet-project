@@ -80,8 +80,18 @@
             <v-combobox
                 hide-details
                 :placeholder="$t('mark-placeholder')"
-                :items="[1,2,3,4,5]"
-            ></v-combobox>
+                item-title="context"
+                chips
+                multiple
+                :items="userMarks"
+                :return-object="true"
+                v-model="subtask.marks"
+                @update:model-value="onMarksChanged"
+            >
+              <template v-slot:chip="data">
+                <v-chip>@{{ data.item.title }}</v-chip>
+              </template>
+            </v-combobox>
           </v-col>
         </v-row>
         <v-row>
@@ -143,7 +153,8 @@ export default {
     this.loungesRange = lounges;
     this.floorRange = floors;
     this.subtask = promise;
-
+    this.userMarks = await api.getUserMarks();
+    this.userMarks = this.userMarks.map(_m => { return {id: _m.id, context: _m.context} });
   },
   mounted() {
     this.subtaskId = this.$route.params.subtaskId;
@@ -153,6 +164,7 @@ export default {
       subtask:{},
       loungesRange: [],
       floorRange: [],
+      userMarks: [],
       apiMessage: {
         visible: false,
         timeout: 1500,
@@ -168,11 +180,22 @@ export default {
   },
 
   methods: {
+    async onMarksChanged(marks){
+      let text = marks.find(_m => typeof _m == 'string');
+
+      if(text){
+        let newMark = await api.createNewMark(text);
+        let oldVIdx = marks.indexOf(text);
+
+        marks[oldVIdx] = newMark;
+        this.userMarks.push(newMark);
+      }
+    },
     async saveSubtask(subtask){
       await api.saveSubtask(subtask.id, subtaskRemodeler(subtask));
       this.apiMessage.text = this.$t('subtask-saved-success');
       this.apiMessage.visible = true;
-      setTimeout(()=> this.$router.go(-1),this.apiMessage.timeout);
+      // setTimeout(()=> this.$router.go(-1),this.apiMessage.timeout);
     },
     onMenuClicked(item){
       if(item === 'select'){
