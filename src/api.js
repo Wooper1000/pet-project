@@ -6,7 +6,9 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-const baseURL = 'http://91.122.48.173:9090/api/v1';
+const host = process.env.HOST || '5.188.88.26';
+const port = process.env.PORT || '9090';
+const baseURL = `http://${host}:${port}/api/v1`;
 
 const apiClient = axios.create({
     baseURL,
