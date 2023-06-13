@@ -8,7 +8,7 @@ const headers = {
 
 const host = process.env.HOST || '5.188.88.26';
 const port = process.env.PORT || '9090';
-const baseURL = `http://${host}:${port}/api/v1`;
+const baseURL = `//${host}:${port}/api/v1`;
 
 const apiClient = axios.create({
     baseURL,
