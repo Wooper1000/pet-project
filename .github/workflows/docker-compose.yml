@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Deploy front
 
 on:
   push:
@@ -27,6 +27,7 @@ jobs:
 
     steps:
       - name: deploying
+        if: contains(github.event.head_commit.message, '--deploy-test')
         run: |
           which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )
           mkdir -p ~/.ssh
