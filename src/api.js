@@ -130,8 +130,8 @@ export default {
     },
 
     async getStructureOnAddress(addr, start, end) {
-        const url = 'http://188.143.130.20:3000/';
-        const params = `?address=${addr}&start=${start}&end=${end}`;
+        const url = '//gis.electronos.ru/getAddrInfo';
+        const params = `?addr=${addr}&start=${start}&end=${end}`;
 
         try {
             const response = await axios.get(url + params);
