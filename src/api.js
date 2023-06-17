@@ -6,7 +6,7 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-const host = process.env.HOST || '5.188.88.26:9090';
+const host = process.env.HOST || 'api.electronos.ru';
 const baseURL = `//${host}/api/v1`;
 
 const apiClient = axios.create({
