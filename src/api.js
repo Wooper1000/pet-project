@@ -1,12 +1,13 @@
 import axios from 'axios';
 import router from '@/router';
+import config from '../local.config'
 
 const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json'
 };
 
-const host = process.env.HOST || 'api.electronos.ru';
+const host = config.apiHost || 'api.electronos.ru';
 const baseURL = `//${host}/api/v1`;
 
 const apiClient = axios.create({
@@ -130,7 +131,7 @@ export default {
     },
 
     async getStructureOnAddress(addr, start, end) {
-        const url = '//gis.electronos.ru/getAddrInfo';
+        const url = '//' + config.gisUrl;
         const params = `?addr=${addr}&start=${start}&end=${end}`;
 
         try {
