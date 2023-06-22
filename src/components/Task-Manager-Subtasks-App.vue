@@ -16,40 +16,47 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                  <v-col>
-                    <table>
-                      <tr v-for="(_subtask,_subIdx) in fullTask.subtasks" :key="_subtask" height="40px">
-                        <td :rowspan="_loungesCount" v-if="_loungesCount = detectNewLevel(_subIdx,fullTask.subtasks,'lounge')" class="lounge-cell bg-blue-aqua">
-                            <div class="title-scroll-container">
-                                <div class="sticky-lounge">
-                                    <div class="vertical-title">
-                                        {{ _subtask.lounge }} {{ $t('lounge-title') }}
+                  <v-col class="pa-0">
+                    <div class="subs-container" v-scroll.self="onScrollSubs">
+                        <table>
+                            <tr v-for="(_subtask,_subIdx) in fullTask.subtasks" :key="_subtask" height="40px">
+                                <td :rowspan="_loungesCount" v-if="_loungesCount = detectNewLevel(_subIdx,fullTask.subtasks,'lounge')" class="lounge-cell bg-blue-aqua">
+                                    <div class="title-scroll-container">
+                                        <div class="sticky-lounge">
+                                            <div class="vertical-title">
+                                                {{ _subtask.lounge }} {{ $t('lounge-title') }}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="check-cell">
-                          <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
-                        </td>
-                        <td @click="$router.push(`/task-manager/tasks/${taskId}/${_subtask.subtaskId}/edit`)">
-                          {{ $t('subtask-title') }} {{ _subtask.number}}
-                        </td>
-                        <td >
-                          <v-icon :class="getFlagColor(_subtask.priority) ? 'text-' + getFlagColor(_subtask.priority) : 'd-none'">mdi-flag-variant</v-icon>
-                        </td>
-                        <td class="check-cell">
-                          <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
-                        </td>
-                        <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
-                            <div class="title-scroll-container">
-                                <div class="sticky-floor">
-                                    <div class="vertical-title">{{ _subtask.floor + ' ' + $t('floor-title') }}</div>
-                                    <v-checkbox @click="selectFloor($event,_subtask)" density="compact" class="floor-check"></v-checkbox>
-                                </div>
-                            </div>
-                        </td>
-                      </tr>
-                    </table>
+                                </td>
+                                <td class="check-cell">
+                                <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
+                                </td>
+                                <td @click="$router.push(`/task-manager/tasks/${taskId}/${_subtask.subtaskId}/edit`)">
+                                {{ $t('subtask-title') }} {{ _subtask.number}}
+                                </td>
+                                <td >
+                                <v-icon :class="getFlagColor(_subtask.priority) ? 'text-' + getFlagColor(_subtask.priority) : 'd-none'">mdi-flag-variant</v-icon>
+                                </td>
+                                <td class="check-cell">
+                                <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
+                                </td>
+                                <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
+                                    <div class="title-scroll-container">
+                                        <div class="sticky-floor">
+                                            <div class="vertical-title">{{ _subtask.floor + ' ' + $t('floor-title') }}</div>
+                                            <v-checkbox @click="selectFloor($event,_subtask)" density="compact" class="floor-check"></v-checkbox>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr v-if="loadMoreInProgress">
+                                <td colspan="6" class="text-center">
+                                    <v-progress-circular indeterminate color="primary"></v-progress-circular>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                   </v-col>
                 </v-row>
             </v-container>
@@ -237,6 +244,8 @@ export default {
             },
             showMarkDialog: false,
             menuList: [],
+            loadMoreInProgress: false,
+            subsPerPage: 20,
             priorityMenuItems: [
                 {icon: {i:'pet:flag-01',color:'red'},value:"URGENT_HARD", title: `${this.$t('priority-urgent-hard')}`, click: ()=> { this.setPriority("URGENT_HARD"); }},
                 {icon: {i:'pet:flag-01',color:'orange'},value:"URGENT_EASY", title: `${this.$t('priority-urgent-easy')}`, click: ()=> { this.setPriority("URGENT_EASY"); }},
@@ -263,6 +272,23 @@ export default {
         this.taskId = this.$route.params.id;
           },
     methods: {
+        async loadMoreSubsIfNeed(){
+            if(this.loadMoreInProgress){ return; }
+            this.loadMoreInProgress = true;
+
+            let from = this.fullTask.subtasks.length;
+            let promise = await api.getFullTask(this.$route.params.id, from, this.subsPerPage);
+            
+            this.fullTask.subtasks = this.fullTask.subtasks.concat(promise.subtasks);
+            this.loadMoreInProgress = false;
+        },
+        onScrollSubs(e){
+            let container = e.target;
+
+            if (container.offsetHeight + container.scrollTop >= container.scrollHeight - 150) {
+                this.loadMoreSubsIfNeed();
+            }
+        },
       getFlagColor(priority){
         if(priority) {
           return this.priorityMenuItems.find(item => item.value === priority)?.icon.color;
@@ -452,5 +478,10 @@ table {
 
 .check-cell {
   width: 40px;
+}
+
+.subs-container {
+    height: calc(100vh - 180px);
+    overflow: auto;
 }
 </style>
