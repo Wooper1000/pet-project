@@ -2,7 +2,13 @@
   <v-layout>
     <TopBarApp></TopBarApp>
     <v-main scrollable class="main-content">
-      <div class="text-center d-flex flex-column h-100" v-if="!tasks.length">
+      <div v-if="loadTaksInProgress" class="text-center">
+          <v-progress-circular
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+      </div>
+      <div class="text-center d-flex flex-column h-100" v-if="!tasks.length && !loadTaksInProgress">
         <v-sheet class="mt-4">
           <v-img :src="require('@/assets/imgs/no-tasks.png')"></v-img>
         </v-sheet>
@@ -183,6 +189,7 @@ export default {
       menuList: [],
       addTaskDialogShow: false,
       tasks: [],
+      loadTaksInProgress: true,
       selectItems: [
         {
           title: this.$t('delete'), click: () => {
@@ -241,8 +248,10 @@ export default {
       await this.loadTasks();
     },
     async loadTasks() {
+      this.loadTaksInProgress = true;
       let tasks = await api.getUserTasks();
       this.tasks = tasks;
+      this.loadTaksInProgress = false;
     }
   },
 
