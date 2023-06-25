@@ -38,7 +38,7 @@ jobs:
           ssh-keyscan -t rsa ${{ secrets.SERVER }} > ~/.ssh/known_hosts
           echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
           chmod 644 ~/.ssh/known_hosts
-          ssh ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER}} "docker login -u ${{secrets.DOCKER_USER_DEV}} -p ${{secrets.DOCKER_PASSWORD_DEV}} docker.io; docker stop ${{secrets.DEV_APP_NAME}}; docker system prune -a -f; docker pull ${{secrets.DOCKER_REPO_DEV}}:latest; docker-compose -f ~/apps/reports/docker-compose.yml up -d; docker logout"
+          ssh ${{secrets.SERVER_USERNAME}}@${{secrets.SERVER}} "cd ~/apps/reports;git clone https://github.com/Wooper1000/pet-project;cp ./prod-conf/.env.local ./pet-project;cd ./pet-project;docker build . -t front-app;docker login -u ${{secrets.DOCKER_USER_DEV}} -p ${{secrets.DOCKER_PASSWORD_DEV}} docker.io; docker stop ${{secrets.DEV_APP_NAME}}; docker system prune -a -f; docker pull ${{secrets.DOCKER_REPO_DEV}}:latest; docker-compose -f ~/apps/reports/docker-compose.yml up -d; docker logout"
   deploy-prod:
     runs-on: ubuntu-latest
 
