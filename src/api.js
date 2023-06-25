@@ -120,6 +120,14 @@ export default {
             return {};
         }
     },
+    async upadteSubtasks(data){
+        try {
+            const response = await apiClient.patch('/tasks/subtasks', data);
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
     async addTask(task) {
         try {
             const response = await apiClient.post('/tasks', task);

@@ -24,6 +24,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pet-hash:before {
+  content: "\e921";
+}
+.pet-trash:before {
+  content: "\e922";
+}
+.pet-trash-2:before {
+  content: "\e923";
+}
 .pet-flag-01:before {
   content: "\e91c";
 }

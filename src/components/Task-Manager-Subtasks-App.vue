@@ -33,10 +33,19 @@
                                 <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
                                 </td>
                                 <td @click="$router.push(`/task-manager/tasks/${taskId}/${_subtask.subtaskId}/edit`)">
-                                {{ $t('subtask-title') }} {{ _subtask.number}}
+                                {{ _subtask.number}}
+                                </td>
+                                <td>
+                                    <v-icon :color="flagColors[_subtask.status]" class="text-green">pet:flag-01</v-icon>
                                 </td>
                                 <td >
-                                <v-icon :class="getFlagColor(_subtask.priority) ? 'text-' + getFlagColor(_subtask.priority) : 'd-none'">mdi-flag-variant</v-icon>
+                                    <v-icon icon="pet:message-square" :color="_subtask.description ? 'primary' : 'gray'"/>
+                                </td>
+                                <td>
+                                    <span>{{ priorityShorts[_subtask.priority] }}</span>
+                                </td>
+                                <td>
+                                    <v-icon icon="pet:hash"  :color="_subtask.marks ? 'primary' : 'gray'"/>
                                 </td>
                                 <td class="check-cell">
                                 <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
@@ -51,7 +60,7 @@
                                 </td>
                             </tr>
                             <tr v-if="loadMoreInProgress">
-                                <td colspan="6" class="text-center">
+                                <td colspan="7" class="text-center">
                                     <v-progress-circular indeterminate color="primary"></v-progress-circular>
                                 </td>
                             </tr>
@@ -66,8 +75,11 @@
             <v-card rounded="xl">
                 <v-card-title class="text-center text-h6">{{ $t('select') }}</v-card-title>
                 <v-card-text style="max-height: 350px; padding-top: 0;">
-                    <v-list>
-                        <template v-for="(_menuItem,_idx) in menuList" :key="_idx">
+                    <v-radio-group v-if="menuList.type == 'radio'" class="text-black" @update:model-value="menuList.onValueUpdate">
+                        <v-radio :label="_menuItem.title" :value="_menuItem.value" v-for="(_menuItem,_idx) in menuList.items" :key="_idx"></v-radio>
+                    </v-radio-group>
+                    <v-list v-if="menuList.type == 'list'">
+                        <template v-for="(_menuItem,_idx) in menuList.items" :key="_idx">
                             <v-list-item density="compact">
                                 <template v-slot:prepend v-if="_menuItem.icon">
                                     <v-icon :icon="_menuItem.icon.i" :color="_menuItem.icon.color"/>
@@ -219,7 +231,6 @@
 import TopBarApp from '@/components/Top-Bar-App.vue';
 import BottomBarApp from '@/components/Bottom-Bar-App.vue';
 import api from '@/api';
-import subtaskRemodeler from "@/utils/subtaskRemodeler";
 
 
 export default {
@@ -232,6 +243,18 @@ export default {
             fullTask: {},
             generate: {
                 messages: []
+            },
+            flagColors: {
+                'CANCELED': 'red',
+                'DONE': 'green',
+                'NEW': 'gray',
+                'IN_WORK': 'yellow'
+            },
+            priorityShorts: {
+                "URGENT_HARD": this.$t("priority-urgent-hard-short"),
+                "URGENT_EASY": this.$t("priority-urgent-easy-short"),
+                "NON_URGENT_HARD": this.$t("priority-non-urgent-hard-short"),
+                "NON_URGENT_EASY": this.$t("priority-non-urgent-easy-short")
             },
             addMark: {all: []},
             showSelectMenu: false,
@@ -246,28 +269,45 @@ export default {
             menuList: [],
             loadMoreInProgress: false,
             subsPerPage: 20,
-            priorityMenuItems: [
-                {icon: {i:'pet:flag-01',color:'red'},value:"URGENT_HARD", title: `${this.$t('priority-urgent-hard')}`, click: ()=> { this.setPriority("URGENT_HARD"); }},
-                {icon: {i:'pet:flag-01',color:'orange'},value:"URGENT_EASY", title: `${this.$t('priority-urgent-easy')}`, click: ()=> { this.setPriority("URGENT_EASY"); }},
-                {icon: {i:'pet:flag-01',color:'green'},value:"NON_URGENT_HARD", title: `${this.$t('priority-non-urgent-hard')}`, click: ()=> { this.setPriority("NON_URGENT_HARD"); }},
-                {icon: {i:'pet:flag-01',color:'black'},value:"NON_URGENT_EASY", title: `${this.$t('priority-non-urgent-easy')}`, click: ()=> { this.setPriority("NON_URGENT_EASY"); }},
-            ],
-            selectItems: [
-                {title: this.$t('generate-floors'), click: () => { this.tryGenerateFloors() }},
-                {title: this.$t('join-floors-lounge'), click: () => { this.showJoinDialog = true; }},
-                {title: this.$t('add-mark'), click: () => { this.showMarkDialog = true; }},
-                {title: this.$t('change-priority'), click: () => { this.menuList = this.priorityMenuItems; }},
-                {title: this.$t('show-on-map'), click: () => {}},
-                {title: this.$t('set-signal'), click: () => {}},
-                {title: this.$t('paste'), click: () => {}},
-                {title: this.$t('copy'), click: () => {}},
-                {title: this.$t('edit'), click: () => {}},
-                {title: this.$t('setup'), click: () => {}},
-            ]
+            priorityMenuItems: {
+                items: [
+                    {value:"URGENT_HARD", title: `${this.$t('priority-urgent-hard')}`},
+                    {value:"URGENT_EASY", title: `${this.$t('priority-urgent-easy')}`},
+                    {value:"NON_URGENT_HARD", title: `${this.$t('priority-non-urgent-hard')}`},
+                    {value:"NON_URGENT_EASY", title: `${this.$t('priority-non-urgent-easy')}`},
+                ],
+                type: 'radio',
+                onValueUpdate: this.setPriority
+            },
+            statusItems: {
+                items: [
+                    {icon: {i:'pet:flag-01',color:'red'},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
+                    {icon: {i:'pet:flag-01',color:'orange'},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
+                    {icon: {i:'pet:flag-01',color:'green'},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
+                    {icon: {i:'pet:flag-01',color:'black'},value:"NEW", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
+                ],
+                type: 'list'
+            },
+            selectItems: {
+                items: [
+                    {title: this.$t('generate-floors'), click: () => { this.tryGenerateFloors() }},
+                    {title: this.$t('join-floors-lounge'), click: () => { this.showJoinDialog = true; }},
+                    {title: this.$t('add-mark'), click: () => { this.showMarkDialog = true; }},
+                    {title: this.$t('change-status'), click: () => { this.menuList = this.statusItems; }},
+                    {title: this.$t('change-priority'), click: () => { this.menuList = this.priorityMenuItems; }},
+                    {title: this.$t('show-on-map'), click: () => {}},
+                    {title: this.$t('set-signal'), click: () => {}},
+                    {title: this.$t('paste'), click: () => {}},
+                    {title: this.$t('copy'), click: () => {}},
+                    {title: this.$t('edit'), click: () => {}},
+                    {title: this.$t('setup'), click: () => {}},
+                ],
+                type: 'list'
+            }
         }
     },
     mounted(){
-        this.menuList = [...this.selectItems];
+        this.menuList = this.selectItems;
         // Получение параметра 'id' из объекта $route
         this.taskId = this.$route.params.id;
           },
@@ -289,24 +329,33 @@ export default {
                 this.loadMoreSubsIfNeed();
             }
         },
-      getFlagColor(priority){
-        if(priority) {
-          return this.priorityMenuItems.find(item => item.value === priority)?.icon.color;
-        }
-        else return null
-      },
         closeSelectMenu(){
           this.showSelectMenu = false;
           this.menuList = this.selectItems;
         },
       setPriority(priority) {
         const selectedTasks = this.getSelectedSubs();
+        let updateData = {subtaskIds: [],priority};
 
         this.closeSelectMenu();
         selectedTasks.forEach(async _subTask => {
             _subTask.priority = priority;
-            api.saveSubtask(_subTask.subtaskId, subtaskRemodeler(_subTask))
+            updateData.subtaskIds.push(_subTask.subtaskId);
         });
+
+        api.upadteSubtasks(updateData);
+      },
+      setStatus(status){
+        const selectedTasks = this.getSelectedSubs();
+        let updateData = {subtaskIds: [],status};
+
+        this.closeSelectMenu();
+        selectedTasks.forEach(async _subTask => {
+            _subTask.status = status;
+            updateData.subtaskIds.push(_subTask.subtaskId);
+        });
+
+        api.upadteSubtasks(updateData);
       },
         addMarksToSelected(markData){
             console.log(markData);
