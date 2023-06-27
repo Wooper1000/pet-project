@@ -42,7 +42,7 @@
                                     <v-icon icon="pet:message-square" :color="_subtask.description ? 'primary' : 'gray'"/>
                                 </td>
                                 <td>
-                                    <span>{{ priorityShorts[_subtask.priority] }}</span>
+                                    <span :class="'text-' + priorityShorts[_subtask.priority].color">{{ priorityShorts[_subtask.priority].text }}</span>
                                 </td>
                                 <td>
                                     <v-icon icon="pet:hash"  :color="_subtask.marks ? 'primary' : 'gray'"/>
@@ -251,10 +251,11 @@ export default {
                 'IN_WORK': 'yellow'
             },
             priorityShorts: {
-                "URGENT_HARD": this.$t("priority-urgent-hard-short"),
-                "URGENT_EASY": this.$t("priority-urgent-easy-short"),
-                "NON_URGENT_HARD": this.$t("priority-non-urgent-hard-short"),
-                "NON_URGENT_EASY": this.$t("priority-non-urgent-easy-short")
+                "null": {},
+                "URGENT_HARD": {text:this.$t("priority-urgent-hard-short"),color: 'red'},
+                "URGENT_EASY": {text:this.$t("priority-urgent-easy-short"),color: 'orange'},
+                "NON_URGENT_HARD": {text:this.$t("priority-non-urgent-hard-short"),color: 'blue'},
+                "NON_URGENT_EASY": {text:this.$t("priority-non-urgent-easy-short"),color: 'green'}
             },
             addMark: {all: []},
             showSelectMenu: false,
@@ -490,12 +491,12 @@ export default {
 .lounge-cell,
 .floor-cell {
   padding: 15px 0px;
-  width: 44px;
+  width: 36px;
   height: 1px;
 }
 
 .title-scroll-container {
-    width: 44px;
+    width: 36px;
     height: 100%;
     padding-bottom: 50px;
     padding-top: 15px;
@@ -517,7 +518,7 @@ export default {
 }
 
 .floor-check {
-    margin-left: 8px;
+    margin-left: 6px;
     margin-top: 15px;
 }
 
