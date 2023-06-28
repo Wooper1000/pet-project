@@ -36,7 +36,7 @@
                                 {{ _subtask.number}}
                                 </td>
                                 <td>
-                                    <v-icon :color="flagColors[_subtask.status]" class="text-green">pet:flag-01</v-icon>
+                                    <v-icon :color="flagColors[_subtask.status]" class="text-green">mdi-flag-variant</v-icon>
                                 </td>
                                 <td >
                                     <v-icon icon="pet:message-square" :color="_subtask.description ? 'primary' : 'gray'"/>
@@ -248,7 +248,7 @@ export default {
                 'CANCELED': 'red',
                 'DONE': 'green',
                 'NEW': 'gray',
-                'IN_WORK': 'yellow'
+                'IN_WORK': 'yellow',
             },
             priorityShorts: {
                 "null": {},
@@ -276,16 +276,18 @@ export default {
                     {value:"URGENT_EASY", title: `${this.$t('priority-urgent-easy')}`},
                     {value:"NON_URGENT_HARD", title: `${this.$t('priority-non-urgent-hard')}`},
                     {value:"NON_URGENT_EASY", title: `${this.$t('priority-non-urgent-easy')}`},
+                    {value: null, title: `${this.$t('priority-none')}`},
                 ],
                 type: 'radio',
                 onValueUpdate: this.setPriority
             },
             statusItems: {
                 items: [
-                    {icon: {i:'pet:flag-01',color:'red'},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
-                    {icon: {i:'pet:flag-01',color:'orange'},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
-                    {icon: {i:'pet:flag-01',color:'green'},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
-                    {icon: {i:'pet:flag-01',color:'black'},value:"NEW", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
+                    {icon: {i:'mdi-flag-variant',color:'red'},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
+                    {icon: {i:'mdi-flag-variant',color:'orange'},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
+                    {icon: {i:'mdi-flag-variant',color:'green'},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
+                    {icon: {i:'mdi-flag-variant',color:'primary'},value:"NEW", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
+                    {icon: {i:'mdi-flag-variant-outline',color:'gray'},value:null, title: `${this.$t('status-none')}`, click: ()=> { this.setStatus(null); }},
                 ],
                 type: 'list'
             },
