@@ -290,8 +290,8 @@ export default {
                     {icon: {i:'pet:flag-full',color:flagColors.CANCELED},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
                     {icon: {i:'pet:flag-full',color:flagColors.IN_WORK},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
                     {icon: {i:'pet:flag-full',color:flagColors.DONE},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
-                    {icon: {i:'pet:flag-full',color:flagColors.DEFAULT},value:"DEFAULT", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
-                    {icon: {i:'pet:flag-01',color:flagColors.NEW},value:"NEW", title: `${this.$t('status-none')}`, click: ()=> { this.setStatus("DEFAULT"); }},
+                    {icon: {i:'pet:flag-full',color:flagColors.DEFAULT},value:"DEFAULT", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("DEFAULT"); }},
+                    {icon: {i:'pet:flag-01',color:flagColors.NEW},value:"NEW", title: `${this.$t('status-none')}`, click: ()=> { this.setStatus("NEW"); }},
                 ],
                 type: 'list'
             },
