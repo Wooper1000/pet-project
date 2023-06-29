@@ -36,8 +36,8 @@
                                 {{ _subtask.number}}
                                 </td>
                                 <td>
-                                    <v-icon v-if="_subtask.status == 'NEW'" :color="flagColors[_subtask.status]" class="text-green">pet:flag-01</v-icon>
-                                    <v-icon v-else :color="flagColors[_subtask.status]" class="text-green">pet:flag-full</v-icon>
+                                    <v-icon v-if="_subtask.status == 'NEW'" :color="flagColors[_subtask.status]">pet:flag-01</v-icon>
+                                    <v-icon v-else :color="flagColors[_subtask.status]">pet:flag-full</v-icon>
                                 </td>
                                 <td >
                                     <v-icon icon="pet:message-square" :color="_subtask.isDescribed ? 'primary' : 'gray'"/>
@@ -240,18 +240,20 @@ export default {
     },
 
     data() {
+        const flagColors = {
+                'CANCELED': 'red',
+                'DONE': 'green',
+                'DEFAULT': 'primary',
+                'IN_WORK': 'yellow',
+                'NEW': 'gray'
+            }
+
         return {
             fullTask: {},
             generate: {
                 messages: []
             },
-            flagColors: {
-                'CANCELED': 'red',
-                'DONE': 'orange',
-                'DEFAULT': 'green',
-                'IN_WORK': 'primary',
-                'NEW': 'gray'
-            },
+            flagColors,
             priorityShorts: {
                 "null": {},
                 "URGENT_HARD": {text:this.$t("priority-urgent-hard-short"),color: 'red'},
@@ -285,11 +287,11 @@ export default {
             },
             statusItems: {
                 items: [
-                    {icon: {i:'pet:flag-full',color:'red'},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
-                    {icon: {i:'pet:flag-full',color:'orange'},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
-                    {icon: {i:'pet:flag-full',color:'green'},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
-                    {icon: {i:'pet:flag-full',color:'primary'},value:"NEW", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
-                    {icon: {i:'pet:flag-01',color:'gray'},value:"DEFAULT", title: `${this.$t('status-none')}`, click: ()=> { this.setStatus("DEFAULT"); }},
+                    {icon: {i:'pet:flag-full',color:flagColors.CANCELED},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
+                    {icon: {i:'pet:flag-full',color:flagColors.IN_WORK},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
+                    {icon: {i:'pet:flag-full',color:flagColors.DONE},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
+                    {icon: {i:'pet:flag-full',color:flagColors.DEFAULT},value:"DEFAULT", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
+                    {icon: {i:'pet:flag-01',color:flagColors.NEW},value:"NEW", title: `${this.$t('status-none')}`, click: ()=> { this.setStatus("DEFAULT"); }},
                 ],
                 type: 'list'
             },
