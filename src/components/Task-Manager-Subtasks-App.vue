@@ -538,4 +538,8 @@ table {
     height: calc(100vh - 180px);
     overflow: auto;
 }
+
+.s {
+    height: 100px;
+}
 </style>
