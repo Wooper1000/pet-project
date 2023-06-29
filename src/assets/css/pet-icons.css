@@ -24,6 +24,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.pet-flag-full:before {
+  content: "\e924";
+}
 .pet-hash:before {
   content: "\e921";
 }

@@ -36,16 +36,17 @@
                                 {{ _subtask.number}}
                                 </td>
                                 <td>
-                                    <v-icon :color="flagColors[_subtask.status]" class="text-green">mdi-flag-variant</v-icon>
+                                    <v-icon v-if="_subtask.status == 'NEW'" :color="flagColors[_subtask.status]" class="text-green">pet:flag-01</v-icon>
+                                    <v-icon v-else :color="flagColors[_subtask.status]" class="text-green">pet:flag-full</v-icon>
                                 </td>
                                 <td >
-                                    <v-icon icon="pet:message-square" :color="_subtask.description ? 'primary' : 'gray'"/>
+                                    <v-icon icon="pet:message-square" :color="_subtask.isDescribed ? 'primary' : 'gray'"/>
                                 </td>
                                 <td>
                                     <span :class="'text-' + priorityShorts[_subtask.priority].color">{{ priorityShorts[_subtask.priority].text }}</span>
                                 </td>
                                 <td>
-                                    <v-icon icon="pet:hash"  :color="_subtask.marks ? 'primary' : 'gray'"/>
+                                    <v-icon icon="pet:hash"  :color="_subtask.isMarked ? 'primary' : 'gray'"/>
                                 </td>
                                 <td class="check-cell">
                                 <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
@@ -246,9 +247,10 @@ export default {
             },
             flagColors: {
                 'CANCELED': 'red',
-                'DONE': 'green',
-                'NEW': 'gray',
-                'IN_WORK': 'yellow',
+                'DONE': 'orange',
+                'DEFAULT': 'green',
+                'IN_WORK': 'primary',
+                'NEW': 'gray'
             },
             priorityShorts: {
                 "null": {},
@@ -283,11 +285,11 @@ export default {
             },
             statusItems: {
                 items: [
-                    {icon: {i:'mdi-flag-variant',color:'red'},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
-                    {icon: {i:'mdi-flag-variant',color:'orange'},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
-                    {icon: {i:'mdi-flag-variant',color:'green'},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
-                    {icon: {i:'mdi-flag-variant',color:'primary'},value:"NEW", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
-                    {icon: {i:'mdi-flag-variant-outline',color:'gray'},value:null, title: `${this.$t('status-none')}`, click: ()=> { this.setStatus(null); }},
+                    {icon: {i:'pet:flag-full',color:'red'},value:"CANCELED", title: `${this.$t('status-canceled')}`, click: ()=> { this.setStatus("CANCELED"); }},
+                    {icon: {i:'pet:flag-full',color:'orange'},value:"IN_WORK", title: `${this.$t('status-in-work')}`, click: ()=> { this.setStatus("IN_WORK"); }},
+                    {icon: {i:'pet:flag-full',color:'green'},value:"DONE", title: `${this.$t('status-done')}`, click: ()=> { this.setStatus("DONE"); }},
+                    {icon: {i:'pet:flag-full',color:'primary'},value:"NEW", title: `${this.$t('status-new')}`, click: ()=> { this.setStatus("NEW"); }},
+                    {icon: {i:'pet:flag-01',color:'gray'},value:"DEFAULT", title: `${this.$t('status-none')}`, click: ()=> { this.setStatus("DEFAULT"); }},
                 ],
                 type: 'list'
             },
