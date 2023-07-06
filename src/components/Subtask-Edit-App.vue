@@ -207,10 +207,10 @@ export default {
         {value:"NEW", title: `${this.$t('state-placeholder')}`},
       ],
       statusValues: [
-        {value:'URGENT_EASY',title: this.$t('priority-urgent-easy')},
-        {value:'URGENT_HARD', title: this.$t('priority-urgent-hard')},
-        {value:'NON_URGENT_EASY', title: this.$t('priority-non-urgent-easy')},
-        {value:'NON_URGENT_HARD', title: this.$t('priority-non-urgent-hard')},
+        {num: 0, value:'URGENT_HARD', title: this.$t('priority-urgent-hard')},
+        {num: 1, value:'URGENT_EASY',title: this.$t('priority-urgent-easy')},
+        {num: 2, value:'NON_URGENT_HARD', title: this.$t('priority-non-urgent-hard')},
+        {num: 3, value:'NON_URGENT_EASY', title: this.$t('priority-non-urgent-easy')},
       ]
     }
   },
