@@ -23,9 +23,8 @@
                                 <td :rowspan="_loungesCount" v-if="_loungesCount = detectNewLevel(_subIdx,fullTask.subtasks,'lounge')" class="lounge-cell bg-blue-aqua">
                                     <div class="title-scroll-container">
                                         <div class="sticky-lounge">
-                                            <div class="vertical-title">
-                                                {{ _subtask.lounge }} {{ $t('lounge-title') }}
-                                            </div>
+                                            <div class="vertical-title"> {{ _subtask.lounge }} {{ $t('lounge-title') }}</div>
+                                            <v-checkbox @click="selectLounge($event,_subtask)" density="compact" class="floor-check"></v-checkbox>
                                         </div>
                                     </div>
                                 </td>
@@ -49,7 +48,7 @@
                                     <v-icon icon="pet:hash"  :color="_subtask.isMarked ? 'primary' : 'gray'"/>
                                 </td>
                                 <td class="check-cell">
-                                <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
+                                    <v-checkbox-btn v-model="_subtask.selected"></v-checkbox-btn>
                                 </td>
                                 <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
                                     <div class="title-scroll-container">
@@ -411,6 +410,13 @@ export default {
                 return 0;
             }
         },
+        selectLounge(evt, subtask){
+            let selected = evt.target.checked;
+            let floor = this.fullTask.subtasks.filter(_t =>_t.lounge === subtask.lounge)
+            floor.forEach(_task => {
+                _task.selected = selected;
+            });
+        },
         selectFloor(evt, subtask){
             let selected = evt.target.checked;
             let floor = this.fullTask.subtasks.filter(_t =>_t.floor === subtask.floor && _t.lounge === subtask.lounge)
@@ -538,21 +544,21 @@ export default {
 
 .sticky-lounge {
     position: sticky;
-    top: 45vh;
+    top: 38vh;
 }
 
 .sticky-floor {
     position: sticky;
-    top: 44vh;
+    top: 38vh;
 }
 
 .vertical-title {
-    transform: rotate(90deg);
+    transform: rotate(-90deg);
     white-space:nowrap;
 }
 
 .floor-check {
-    margin-left: 6px;
+    margin-left: 4px;
     margin-top: 15px;
 }
 
