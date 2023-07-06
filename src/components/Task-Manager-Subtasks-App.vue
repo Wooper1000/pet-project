@@ -330,11 +330,12 @@ export default {
             this.loadMoreInProgress = false;
         },
         onScrollSubs(e){
-            let container = e.target;
+            return e;
+            // let container = e.target;
 
-            if (container.offsetHeight + container.scrollTop >= container.scrollHeight - 150) {
-                this.loadMoreSubsIfNeed();
-            }
+            // if (container.offsetHeight + container.scrollTop >= container.scrollHeight - 150) {
+            //     this.loadMoreSubsIfNeed();
+            // }
         },
         closeSelectMenu(){
           this.showSelectMenu = false;
@@ -394,11 +395,22 @@ export default {
         detectNewLevel(_subIdx,allTasks,level){
             let prevSub = allTasks[_subIdx - 1];
             let curSub = allTasks[_subIdx];
+            let newLevel = false;
+            let isLounge = level === 'lounge';
 
+            if(!prevSub){ newLevel = true; }
+            else {
+                if(isLounge){
+                    if(prevSub[level] !== curSub[level]){ newLevel = true; }
+                }else{
+                    if(prevSub[level] !== curSub[level] || prevSub.lounge != curSub.lounge){ newLevel = true; }
+                }
+            }
+        
             //if new level
-            if(!prevSub || prevSub[level] !== curSub[level]){
+            if(newLevel){
                 let levelCount = allTasks.filter(_sT => {
-                    if(level === 'lounge'){
+                    if(isLounge){
                         return _sT.lounge === curSub.lounge;
                     }else{
                         return _sT.lounge === curSub.lounge && _sT.floor === curSub.floor;
@@ -409,6 +421,7 @@ export default {
             }else{
                 return 0;
             }
+
         },
         selectLounge(evt, subtask){
             let selected = evt.target.checked;

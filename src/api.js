@@ -86,7 +86,7 @@ export default {
             return {};
         }
     },
-    async getFullTask(id,from = 0, size = 20) {
+    async getFullTask(id,from = 0, size = 4000) {
         try {
             const response = await apiClient.get(`/tasks/${id}/subtasks?from=${from}&size=${size}`);
             return response.data;
