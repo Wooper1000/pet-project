@@ -69,9 +69,31 @@
         </v-row>
         <v-row>
           <v-col>
-            <span>{{$t('executor-title')}}</span>
-            <v-spacer></v-spacer>
-            <span class="text-primary"><v-icon icon="pet:plus"/> {{$t('add-executor')}}</span>
+            <span>{{$t('state-title')}}</span>
+            <v-combobox
+                hide-details
+                :placeholder="$t('state-placeholder')"
+                :items="stateList"
+                :return-object="false"
+                v-model="subtask.status"
+            >
+            <template #prepend-inner>
+              <v-icon :icon="subtask.status == 'NEW' ? 'pet:flag-01' : 'pet:flag-full'" :color="flagColors[subtask.status]"/>
+            </template>
+            <template v-slot:item="data">
+              <v-list-item
+                :key="JSON.stringify(data.item)"
+                v-bind="data.props"
+                :model-value="data.selected"
+                :disabled="data.disabled"
+                @click:close="data.parent.selectItem(data.item)"
+              >
+                <template v-slot:prepend>
+                  <v-icon :icon="data.props.value == 'NEW' ? 'pet:flag-01' : 'pet:flag-full'" :color="flagColors[data.props.value]" />
+                </template>
+              </v-list-item>
+            </template>
+          </v-combobox>
           </v-col>
         </v-row>
         <v-row>
@@ -170,6 +192,20 @@ export default {
         timeout: 1500,
         text: ''
       },
+      flagColors: {
+          'CANCELED': 'red',
+          'DONE': 'green',
+          'DEFAULT': 'primary',
+          'IN_WORK': 'yellow',
+          'NEW': 'gray'
+      },
+      stateList: [
+        {value:"CANCELED", title: `${this.$t('status-canceled')}`},
+        {value:"IN_WORK", title: `${this.$t('status-in-work')}`},
+        {value:"DONE", title: `${this.$t('status-done')}`},
+        {value:"DEFAULT", title: `${this.$t('status-new')}`},
+        {value:"NEW", title: `${this.$t('state-placeholder')}`},
+      ],
       statusValues: [
         {value:'URGENT_EASY',title: this.$t('priority-urgent-easy')},
         {value:'URGENT_HARD', title: this.$t('priority-urgent-hard')},

@@ -5,6 +5,8 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'state-title': 'Состояние',
+            'state-placeholder': 'Выбрать состояние',
             'lounge-short': 'под',
             'delete':'Удалить',
             'priority-urgent-easy-short': 'СиЛ',
