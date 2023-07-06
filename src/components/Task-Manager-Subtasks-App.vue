@@ -191,35 +191,34 @@
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col>
+                    <v-col class="py-0">
                         <v-text-field
                             :label="$t('mark-title')"
-                            v-model="addMark.newMark"
-                            type="text"
+                            v-model="addMark.new"
                             hide-details
-                            @keypress.enter="addMark.all.push({text: addMark.newMark}); addMark.newMark = ''"
+                            @keydown.enter="addNewMark(addMark.new)"
                         ></v-text-field>
                     </v-col>
                 </v-row>
                 <v-row>
-                    <v-col
-                        v-for="(_mark, i) in addMark.all"
-                        :key="_mark.text"
-                        cols="auto"
-                        class="py-1 pe-0 text-white"
-                        >
-                        <v-chip
-                            class="bg-blue-dark"
-                            style="color:white"
-                            @click:close="addMark.all.splice(i, 1)"
-                        >
-                            @{{ _mark.text }}
-                        </v-chip>
-                        </v-col>
+                    <v-col class="pt-0 pb-1">
+                        <v-list :items="userMarks" item-title="context" item-value="id" select-strategy="classic" v-model:selected="addMark.all" height="250">
+                            <template v-slot:prepend="{ isSelected }">
+                                <v-list-item-action start>
+                                    <v-checkbox-btn :model-value="isSelected"></v-checkbox-btn>
+                                </v-list-item-action>
+                            </template>
+                            <template v-slot:append="{item}">
+                                <v-list-item-action end>
+                                    <v-icon color="red" icon="pet:x" @click.stop="removeMark(item)"/>
+                                </v-list-item-action>
+                            </template>
+                        </v-list>
+                    </v-col>
                 </v-row>
                 <v-row>
                     <v-col>
-                        <v-btn color="primary" :loading="addMark.inProgress" block size="x-large" @click="addMarksToSelected(addMark)">{{ $t('add') }}</v-btn>
+                        <v-btn color="primary" :loading="addMark.inProgress" block size="x-large" @click="addMarksToSelected(addMark.all)">{{ $t('add') }}</v-btn>
                     </v-col>
                 </v-row>
             </v-container>
@@ -237,6 +236,7 @@ import api from '@/api';
 export default {
     created() {
         this.loadTaskInfo();
+        this.loadUserInfo();
     },
 
     data() {
@@ -261,7 +261,7 @@ export default {
                 "NON_URGENT_HARD": {text:this.$t("priority-non-urgent-hard-short"),color: 'blue'},
                 "NON_URGENT_EASY": {text:this.$t("priority-non-urgent-easy-short"),color: 'green'}
             },
-            addMark: {all: []},
+            addMark: {all: [],new: ''},
             showSelectMenu: false,
             showJoinDialog: false,
             showFloorGenerateDialog: false,
@@ -272,6 +272,7 @@ export default {
             },
             showMarkDialog: false,
             menuList: [],
+            userMarks: [],
             loadMoreInProgress: false,
             subsPerPage: 20,
             priorityMenuItems: {
@@ -364,9 +365,32 @@ export default {
 
         api.upadteSubtasks(updateData);
       },
-        addMarksToSelected(markData){
-            console.log(markData);
+        async addNewMark(text){
+            let mark = await api.createNewMark(text);
+
+            this.addMark.all.push(mark.id);
+            this.addMark.new = '';
+            this.userMarks.push(mark);
+        },
+        async removeMark(mark){
+            let idx = this.userMarks.findIndex(_m => _m.id == mark.id);
+            
+            await api.removeMark([mark.id]);
+            this.userMarks.splice(idx,1);
+        },
+        async updateLocalSubsData(){
+            let task = await api.getFullTask(this.fullTask.taskId);
+
+            this.fullTask = task;
+        },
+        async addMarksToSelected(markIds){
+            let subtasks = this.getSelectedSubs();
+            let subtaskIds = subtasks.map(_s => _s.subtaskId);
+
             this.showMarkDialog = false;
+            this.closeSelectMenu();
+            await api.upadteSubtasks({subtaskIds, markIds});
+            this.updateLocalSubsData();
         },
         detectNewLevel(_subIdx,allTasks,level){
             let prevSub = allTasks[_subIdx - 1];
@@ -477,6 +501,10 @@ export default {
           let promise = await api.getFullTask(this.$route.params.id);
           promise.subtasks = promise.subtasks.sort((a,b) => a.lounge - b.lounge || a.floor - b.floor);
           this.fullTask = promise
+        },
+        async loadUserInfo(){
+            this.userMarks = await api.getUserMarks();
+            this.userMarks = this.userMarks.map(_m => { return {id: _m.id, context: _m.context} });
         }
     },
     components: {

@@ -172,4 +172,12 @@ export default {
             return {};
         }
     },
+    async removeMark(markIds) {
+        try {
+            const response = await apiClient.delete(`/marks`, {data: {markIds}});
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
 };
