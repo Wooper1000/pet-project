@@ -231,7 +231,7 @@ export default {
       await api.saveSubtask(subtask.id, subtaskRemodeler(subtask));
       this.apiMessage.text = this.$t('subtask-saved-success');
       this.apiMessage.visible = true;
-      // setTimeout(()=> this.$router.go(-1),this.apiMessage.timeout);
+      setTimeout(()=> this.$router.go(-1),this.apiMessage.timeout);
     },
     onMenuClicked(item){
       if(item === 'select'){
