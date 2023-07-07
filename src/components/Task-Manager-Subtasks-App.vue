@@ -444,6 +444,7 @@ export default {
             let targetTask = tasks.find(_t => _t.taskId === this.fullTask.taskId);
             let start = targetTask.subtasksFrom;
             let end = targetTask.subtasksTo;
+            let allAparts = [];
 
             this.generate.messages = [];
             this.showFloorGenerateDialog = true;
@@ -470,8 +471,17 @@ export default {
                 for(let _fIdx = 0; _fIdx < _l.floors.length; _fIdx++){
                     let _f = _l.floors[_fIdx];
                     let _arr = _l.floors;
-                    let subIds = _f.apparts.map(_ap => this.fullTask.subtasks.find(_sT => _sT.number == _ap).subtaskId);
+                    let subIds = [];
                     let _msgObj = this.generate.messages[_lIdx+1];
+
+                    _f.apparts.map(_apNum => {
+                        let subExsist = this.fullTask.subtasks.find(_sT => _sT.number == _apNum);
+
+                        if(subExsist){
+                            subIds.push(subExsist.subtaskId);
+                        }
+                        allAparts.push(_apNum);
+                    });
 
                     joinParams.floorNumber = _f.number;
                     joinParams.subtaskIds = subIds;
@@ -487,10 +497,24 @@ export default {
                     }
                 }
             }
+            let replaceToZero = [];
+            let joinParams = {};
+
+            this.fullTask.subtasks.forEach(_sub => {
+                if(!~allAparts.indexOf(_sub.number)){
+                    replaceToZero.push(_sub.subtaskId);
+                }
+            });
+            if(replaceToZero.length){
+                joinParams.floorNumber = 0;
+                joinParams.loungeNumber = 0;
+                joinParams.subtaskIds = replaceToZero;
+                await api.replaceSubTasks(this.fullTask.taskId,joinParams);
+            }
+            
           this.fullTask.subtasks = null
           this.showFloorGenerateDialog = false;
-            await this.loadTaskInfo();
-
+          await this.loadTaskInfo();
         },
         async sleep(time){
             return new Promise(resolve => setTimeout(()=> {resolve()},time));
