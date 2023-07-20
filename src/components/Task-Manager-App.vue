@@ -349,7 +349,7 @@ export default {
 }
 
 .guess-map {
-  height: 400px;
+  height: 250px;
   position: relative;
   margin: auto;
 }
