@@ -5,6 +5,7 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'guess-help': 'Введите адрес',
             'state-title': 'Состояние',
             'state-placeholder': 'Выбрать состояние',
             'lounge-short': 'под',

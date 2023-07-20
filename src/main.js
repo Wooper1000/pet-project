@@ -13,6 +13,9 @@ import vuetify from "@/plugins/vuetify";
 
 import '@mdi/font/css/materialdesignicons.css'
 
+import OpenLayersMap from 'vue3-openlayers'
+import "vue3-openlayers/styles.css"
+
 
 
 import store from './store'
@@ -27,5 +30,6 @@ createApp(App)
     .use(router)
     .use(store)
     .use(i18n)
+    .use(OpenLayersMap,{debug:true})
     .use(vuetify)
     .mount('#app')

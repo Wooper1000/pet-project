@@ -180,4 +180,12 @@ export default {
             return {};
         }
     },
+    async guessAddress(address,from = 0, size = 20){
+        try {
+            const response = await apiClient.get(`/gis/address`, {params: {address,from,size}});
+            return response.data;
+        } catch (error) {
+            return {};
+        }
+    },
 };
