@@ -314,8 +314,8 @@ export default {
     },
     async loadTasks() {
       this.loadTaksInProgress = true;
-      let tasks = await api.getUserTasks();
-      this.tasks = tasks;
+      let tasksInfo = await api.getUserTasks();
+      this.tasks = tasksInfo.tasks;
       this.loadTaksInProgress = false;
     }
   },
