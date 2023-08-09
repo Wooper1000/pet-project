@@ -542,7 +542,7 @@ export default {
         },
         async loadTaskInfo() {
           let promise = await api.getFullTask(this.$route.params.id);
-          promise.subtasks = promise.subtasks.sort((a,b) => a.lounge - b.lounge || a.floor - b.floor);
+          promise.subtasks = promise.subtasks.filter(_sub => _sub.floor != 0 && _sub.lounge != 0).sort((a,b) => a.lounge - b.lounge || a.floor - b.floor);
           this.fullTask = promise
         },
         async loadUserInfo(){

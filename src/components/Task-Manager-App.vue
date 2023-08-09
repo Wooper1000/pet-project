@@ -160,7 +160,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-btn color="primary" block size="x-large" @click="addTask(newTask)">{{ $t('create') }}</v-btn>
+              <v-btn color="primary" :loading="generateTaskInProgress" block size="x-large" @click="addTask(newTask)">{{ $t('create') }}</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -206,6 +206,7 @@ export default {
   },
   data() {
     return {
+      generateTaskInProgress: false,
       showSelectMenu: false,
       menuList: [],
       addTaskDialogShow: false,
@@ -308,9 +309,65 @@ export default {
       }
     },
     async addTask(task) {
-      await api.addTask(task);
+      this.generateTaskInProgress = true;
+      let taksCreated = await api.addTask(task);
+      let floorsGenerated = await this.tryGenerateFloors(task,taksCreated.taskId);
+
+      if(floorsGenerated.status == "fail"){
+        let subIds = floorsGenerated.fullTask.subtasks.map(_sT => _sT.subtaskId);
+        let joinParams = {};
+
+        joinParams.loungeNumber = 1;
+        joinParams.floorNumber = 1;
+        joinParams.subtaskIds = subIds;
+
+        await api.replaceSubTasks(taksCreated.taskId,joinParams);
+      }
       this.addTaskDialogShow = false;
-      await this.loadTasks();
+      // await this.loadTasks();
+      this.generateTaskInProgress = false;
+      this.$router.push("/task-manager/tasks/" + taksCreated.taskId);
+    },
+    async tryGenerateFloors(task, id){
+      let structResp = null;
+      let start = task.from;
+      let end = task.to;
+      let addr = task.title;
+      let fullTask = await api.getFullTask(id);
+
+      structResp = await api.getStructureOnAddress(addr, start, end);
+
+      if(structResp.status !== "ok" || !structResp.lounges.length){
+          return {status: "fail", fullTask};
+      }
+
+      for (let _lIdx = 0; _lIdx < structResp.lounges.length; _lIdx++){
+          let _l = structResp.lounges[_lIdx]
+          let joinParams = {}
+
+          joinParams.loungeNumber  = _l.number;
+          for(let _fIdx = 0; _fIdx < _l.floors.length; _fIdx++){
+              let _f = _l.floors[_fIdx];
+              let subIds = [];
+
+              _f.apparts.map(_apNum => {
+                  let subExsist = fullTask.subtasks.find(_sT => _sT.number == _apNum);
+
+                  if(subExsist){
+                      subIds.push(subExsist.subtaskId);
+                  }
+              });
+
+              if(subIds.length){
+                joinParams.floorNumber = _f.number;
+                joinParams.subtaskIds = subIds;
+
+                await api.replaceSubTasks(id,joinParams);
+              }
+          }
+      }
+
+      return {status: "ok"};
     },
     async loadTasks() {
       this.loadTaksInProgress = true;
