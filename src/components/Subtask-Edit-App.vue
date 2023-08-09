@@ -160,7 +160,7 @@ export default {
     let id = this.$route.params.subtaskId;
     let promise = await api.getSubtask(id); 
     let userTasks = await api.getUserTasks();
-    let mainTask = userTasks.find(_t => _t.taskId === +this.$route.params.id);
+    let mainTask = userTasks.tasks.find(_t => _t.taskId === +this.$route.params.id);
     let floors = [];
     let lounges = [];
 

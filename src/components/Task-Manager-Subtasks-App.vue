@@ -441,7 +441,7 @@ export default {
           this.showSelectMenu = false;
           let structResp = null;
             let tasks = await api.getUserTasks();
-            let targetTask = tasks.find(_t => _t.taskId === this.fullTask.taskId);
+            let targetTask = tasks.tasks.find(_t => _t.taskId === this.fullTask.taskId);
             let start = targetTask.subtasksFrom;
             let end = targetTask.subtasksTo;
             let allAparts = [];

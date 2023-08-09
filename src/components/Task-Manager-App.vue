@@ -104,17 +104,17 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-text-field :label="$t('address')" @update:model-value="addressType"
+              <v-text-field :label="$t('address')"
                 v-model="newTask.title"></v-text-field>
             </v-col>
           </v-row>
-          <v-row class="mt-0">
+          <!-- <v-row class="mt-0">
             <v-col class="py-0">
 
               <ol-map :loadTilesWhileAnimating="true" :loadTilesWhileInteracting="true" class="guess-map">
-                <!-- <div class="guess-list">
+                <div class="guess-list">
                   test
-                </div> -->
+                </div> 
                 <ol-view ref="view" :center="map.center" :rotation="map.rotation" :zoom="map.zoom"
                   :projection="map.projection">
                 </ol-view>
@@ -144,7 +144,7 @@
                 </ol-overlay>
               </ol-map>
             </v-col>
-          </v-row>
+          </v-row> -->
           <v-row>
             <v-col>
               {{ $t('enter-apartment') }}
