@@ -5,6 +5,7 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'required': 'Обязательное поле',
             'guess-help': 'Введите адрес',
             'state-title': 'Состояние',
             'state-placeholder': 'Выбрать состояние',

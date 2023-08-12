@@ -96,74 +96,76 @@
         <span class="text-h5">{{ $t('new-task-create-title') }}</span>
       </v-card-title>
       <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col>
-              {{ $t('enter-address') }}
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field :label="$t('address')"
-                v-model="newTask.title"></v-text-field>
-            </v-col>
-          </v-row>
-          <!-- <v-row class="mt-0">
-            <v-col class="py-0">
+        <v-form ref="newTaskForm">
+          <v-container>
+            <v-row>
+              <v-col>
+                {{ $t('enter-address') }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field :label="$t('address')"
+                  v-model="newTask.title" :rules="[v => !!v || $t('required')]"></v-text-field>
+              </v-col>
+            </v-row>
+            <!-- <v-row class="mt-0">
+              <v-col class="py-0">
 
-              <ol-map :loadTilesWhileAnimating="true" :loadTilesWhileInteracting="true" class="guess-map">
-                <div class="guess-list">
-                  test
-                </div> 
-                <ol-view ref="view" :center="map.center" :rotation="map.rotation" :zoom="map.zoom"
-                  :projection="map.projection">
-                </ol-view>
-                <ol-tile-layer>
-                  <ol-source-osm :attributions="false" />
-                </ol-tile-layer>
-                <ol-vector-layer>
-                  <ol-source-vector>
-                    <ol-feature>
-                      <ol-geom-point :coordinates="map.guessPoint.coordinate"></ol-geom-point>
-                      <ol-style>
-                        <ol-style-circle :radius="map.guessPoint.radius">
-                          <ol-style-fill :color="map.guessPoint.fillColor"></ol-style-fill>
-                          <ol-style-stroke :color="map.guessPoint.strokeColor" :width="map.guessPoint.strokeWidth"></ol-style-stroke>
-                        </ol-style-circle>
-                      </ol-style>
-                    </ol-feature>
-                  </ol-source-vector>
-                </ol-vector-layer>
+                <ol-map :loadTilesWhileAnimating="true" :loadTilesWhileInteracting="true" class="guess-map">
+                  <div class="guess-list">
+                    test
+                  </div> 
+                  <ol-view ref="view" :center="map.center" :rotation="map.rotation" :zoom="map.zoom"
+                    :projection="map.projection">
+                  </ol-view>
+                  <ol-tile-layer>
+                    <ol-source-osm :attributions="false" />
+                  </ol-tile-layer>
+                  <ol-vector-layer>
+                    <ol-source-vector>
+                      <ol-feature>
+                        <ol-geom-point :coordinates="map.guessPoint.coordinate"></ol-geom-point>
+                        <ol-style>
+                          <ol-style-circle :radius="map.guessPoint.radius">
+                            <ol-style-fill :color="map.guessPoint.fillColor"></ol-style-fill>
+                            <ol-style-stroke :color="map.guessPoint.strokeColor" :width="map.guessPoint.strokeWidth"></ol-style-stroke>
+                          </ol-style-circle>
+                        </ol-style>
+                      </ol-feature>
+                    </ol-source-vector>
+                  </ol-vector-layer>
 
-                <ol-overlay :position="map.guessOverlay.coordinate" :positioning="map.guessOverlay.positioning" :offset="map.guessOverlay.offset"> 
-                  <template v-slot>
-                    <v-sheet :elevation="12" class="pa-4 rounded-xl">
-                      {{ map.guessOverlay.text }}
-                    </v-sheet>
-                  </template> 
-                </ol-overlay>
-              </ol-map>
-            </v-col>
-          </v-row> -->
-          <v-row>
-            <v-col>
-              {{ $t('enter-apartment') }}
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col cols="6">
-              <v-text-field :label="$t('from')" v-model="newTask.from"></v-text-field>
-            </v-col>
-            <v-col cols="6">
-              <v-text-field :label="$t('to')" v-model="newTask.to"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-btn color="primary" :loading="generateTaskInProgress" block size="x-large" @click="addTask(newTask)">{{ $t('create') }}</v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
+                  <ol-overlay :position="map.guessOverlay.coordinate" :positioning="map.guessOverlay.positioning" :offset="map.guessOverlay.offset"> 
+                    <template v-slot>
+                      <v-sheet :elevation="12" class="pa-4 rounded-xl">
+                        {{ map.guessOverlay.text }}
+                      </v-sheet>
+                    </template> 
+                  </ol-overlay>
+                </ol-map>
+              </v-col>
+            </v-row> -->
+            <v-row>
+              <v-col>
+                {{ $t('enter-apartment') }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field :label="$t('from')" v-model="newTask.from" :rules="[v => !!v || $t('required')]"></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field :label="$t('to')" v-model="newTask.to" :rules="[v => !!v || $t('required')]"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-btn color="primary" :loading="generateTaskInProgress" block size="x-large" @click="addTask(newTask)">{{ $t('create') }}</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
       </v-card-text>
     </v-card>
   </V-dialog>
@@ -309,6 +311,11 @@ export default {
       }
     },
     async addTask(task) {
+      const { valid } = await this.$refs.newTaskForm.validate();
+
+      if(!valid){    
+        return;
+      }
       this.generateTaskInProgress = true;
       let taksCreated = await api.addTask(task);
       let floorsGenerated = await this.tryGenerateFloors(task,taksCreated.taskId);
