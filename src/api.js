@@ -6,7 +6,9 @@ const headers = {
     'Content-Type': 'application/json'
 };
 
-const host = process.env.VUE_APP_HOST || 'api.electronos.ru';
+let configResp = await fetch('config.json');
+const config = await configResp.json();
+const host = config.VUE_APP_HOST || 'api.electronos.ru';
 const baseURL = `//${host}/api/v1`;
 
 const apiClient = axios.create({
@@ -138,7 +140,7 @@ export default {
     },
 
     async getStructureOnAddress(addr, start, end) {
-        const gisHost = process.env.VUE_APP_GISURL || '//gis.electronos.ru/getAddrInfo';
+        const gisHost = config.VUE_APP_GISURL || '//gis.electronos.ru/getAddrInfo';
         const params = `?addr=${addr}&start=${start}&end=${end}`;
         
         try {
