@@ -1,5 +1,5 @@
 # Этап сборки
-FROM node:lts-alpine AS build-stage
+FROM node:16.13.2 AS build-stage
 
 # make the 'app' folder the current working directory
 WORKDIR /app
