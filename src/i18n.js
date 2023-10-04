@@ -5,6 +5,8 @@ const i18n = new createI18n({
     legacy: false,
     messages: {
         ru: {
+            'no-lounge-title': 'Не распределено',
+            'no-floor-title': 'Не распределено',
             'required': 'Обязательное поле',
             'guess-help': 'Введите адрес',
             'state-title': 'Состояние',
@@ -180,6 +182,8 @@ const i18n = new createI18n({
             'old-notifications': 'Прочитанные'
         },
         en: {
+            'no-lounge-title': 'Не распределено',
+            'no-floor-title': 'Не распределено',
             'today': 'Today',
             'new-task-create-title': 'Creating a new address',
             'enter-address': 'Enter an address ',
@@ -294,6 +298,8 @@ const i18n = new createI18n({
             'old-notifications': 'Read'
         },
         by: {
+            'no-lounge-title': 'Не распределено',
+            'no-floor-title': 'Не распределено',
             'today': 'Сёння',
             'new-task-create-title': 'Стварэнне новага адраса',
             'enter-address': 'Увядзіце адрас ',
@@ -408,6 +414,8 @@ const i18n = new createI18n({
             'old-notifications': 'Прачытаныя'
         },
         ua:{
+            'no-lounge-title': 'Не распределено',
+            'no-floor-title': 'Не распределено',
             'today': 'Сьогодні',
             'new-task-create-title': 'Створення нової адреси',
             'enter-address': 'Введіть адресу',

@@ -23,7 +23,10 @@
                                 <td :rowspan="_loungesCount" v-if="_loungesCount = detectNewLevel(_subIdx,fullTask.subtasks,'lounge')" class="lounge-cell bg-blue-aqua">
                                     <div class="title-scroll-container">
                                         <div class="sticky-lounge">
-                                            <div class="vertical-title"> {{ _subtask.lounge }} {{ $t('lounge-title') }}</div>
+                                            <div class="vertical-title">
+                                                <span v-if="_subtask.lounge != 0">{{ _subtask.lounge }} {{ $t('lounge-title') }}</span>
+                                                <span v-if="_subtask.lounge == 0">{{ $t('no-lounge-title') }}</span>
+                                            </div>
                                             <v-checkbox @click="selectLounge($event,_subtask)" density="compact" class="floor-check"></v-checkbox>
                                         </div>
                                     </div>
@@ -53,7 +56,11 @@
                                 <td :rowspan="_floorsCount" v-if="_floorsCount = detectNewLevel(_subIdx,fullTask.subtasks,'floor')" class="floor-cell bg-blue-sky">
                                     <div class="title-scroll-container">
                                         <div class="sticky-floor">
-                                            <div class="vertical-title">{{ _subtask.floor + ' ' + $t('floor-title') }}</div>
+                                            <div class="vertical-title">
+                                                <span v-if="_subtask.floor != 0">{{ _subtask.floor + ' ' + $t('floor-title') }}</span>
+                                                <span v-if="_subtask.floor == 0">{{ $t('no-floor-title') }}</span>
+                                                
+                                            </div>
                                             <v-checkbox @click="selectFloor($event,_subtask)" density="compact" class="floor-check"></v-checkbox>
                                         </div>
                                     </div>
@@ -542,7 +549,7 @@ export default {
         },
         async loadTaskInfo() {
           let promise = await api.getFullTask(this.$route.params.id);
-          promise.subtasks = promise.subtasks.filter(_sub => _sub.floor != 0 && _sub.lounge != 0).sort((a,b) => a.lounge - b.lounge || a.floor - b.floor);
+          promise.subtasks = promise.subtasks.sort((a,b) => a.lounge - b.lounge || a.floor - b.floor);
           this.fullTask = promise
         },
         async loadUserInfo(){

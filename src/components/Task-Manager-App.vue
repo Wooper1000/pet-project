@@ -318,18 +318,8 @@ export default {
       }
       this.generateTaskInProgress = true;
       let taksCreated = await api.addTask(task);
-      let floorsGenerated = await this.tryGenerateFloors(task,taksCreated.taskId);
+      // let floorsGenerated = await this.tryGenerateFloors(task,taksCreated.taskId);
 
-      if(floorsGenerated.status == "fail"){
-        let subIds = floorsGenerated.fullTask.subtasks.map(_sT => _sT.subtaskId);
-        let joinParams = {};
-
-        joinParams.loungeNumber = 1;
-        joinParams.floorNumber = 1;
-        joinParams.subtaskIds = subIds;
-
-        await api.replaceSubTasks(taksCreated.taskId,joinParams);
-      }
       this.addTaskDialogShow = false;
       // await this.loadTasks();
       this.generateTaskInProgress = false;
